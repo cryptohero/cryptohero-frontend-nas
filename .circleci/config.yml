@@ -1,0 +1,120 @@
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8.11.1
+
+
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}
+            - yarn-packages-master
+            - yarn-packages-
+
+      - run:
+          name: Install Dependencies
+          command: yarn install
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules/
+        
+      # run builds!
+      - run: 
+          name: Build
+          command: yarn run build
+
+      - store_artifacts:
+          path: ~/repo/dist
+
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory
+          root: ~/repo/
+          paths:
+            - dist
+  deploy:
+    <<: *defaults
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "dd:6e:c3:a5:8a:ac:50:27:de:df:ee:71:0c:bb:00:2c"
+      - attach_workspace: 
+          at: ~/repo/dist
+      - run:
+          name: Keyscan Github (HACK)
+          command: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+      - run:
+          name: Deploy to Github Pages
+          command: |
+            cd ./dist/dist 
+            git config --global user.email "bot@frankwei.xyz"
+            git config --global user.name "Circle CI Deploy Bot"
+            echo "nas.cryptohero.pro" >> CNAME # add custom domain
+            git init
+            git add .
+            git commit -m "Update website"
+            git push --force --quiet git@github.com:Andoromeda-Foundation/cryptohero-nas-site.git master:master
+  deploy-testing:
+    <<: *defaults
+    steps:
+      - attach_workspace: 
+          at: ~/repo/dist
+      - run:
+          # I don't want to bother with Github Page Deployment again. 
+          # I am a front end hipster after all. ~_^
+          name: Deploy to Surge.sh
+          command: |
+            sudo npm i -g surge          
+            cd ./dist/dist/
+            # echo "testing.cryptohero.pro" >> CNAME # add custom domain
+            surge --project ./ --domain nas-test.cryptohero.pro      
+
+
+workflows:
+  version: 2
+  build-test:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore:
+                - /master/
+                - /testing/
+  build-and-deploy-testing:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: /testing/
+      - deploy-testing:
+          requires:
+            - build
+          filters:
+            branches:
+              only: /testing/
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: /master/
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: /master/
