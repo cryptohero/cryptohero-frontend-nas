@@ -24,7 +24,7 @@ module.exports = {
   BUY_FAIL_MSG: '失敗しました、リフレッシュしてもう一度試しましょう。',
   'Edit Slogan': 'スローガン編集',
   User: 'ユーザー',
-  'His Cards': '彼・彼女のカード',
+  'His Cards': 'コレクションカード',
   BUY_BTN: '購入',
   PREMIUM_BUY_BTN: '{rate}プレミアム購入',
   BUY_PRICE_TIP: '課金の総額が高くなると、カードの獲得率が一方になる。 トランザクション毎に100以上のガスを投入してこれ以上のスピードで確認される！',

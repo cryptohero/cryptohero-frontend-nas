@@ -22,7 +22,7 @@
         </router-link>
 
         <router-link class="navbar-item"
-                     :to="{ name: 'FAQ'}">
+                     :to="{ name: 'InviteVie'}">
           <div class="transform">{{$t('FAQs')}}</div>
         </router-link>
 
