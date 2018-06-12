@@ -3,11 +3,12 @@ const PRIVACY_CONTENT = require('raw-loader!./privacy.html');
 const TERMS_CONTENT = require('raw-loader!./terms.html');
 
 module.exports = {
-  CryptoHero: '以太水浒',
+  CryptoHero: '首页',
   'My Cards': '我的卡牌',
-  'Sign In': '登录游戏',
+  'Sign In': '我的收藏',
   Home: '首页',
-  FAQs: '常见问题',
+  FAQs: '推荐计划',
+  Rinking: '排行榜',
   Owner: '拥有者',
   'Current Price': '当前价格',
   Buy: '购买',

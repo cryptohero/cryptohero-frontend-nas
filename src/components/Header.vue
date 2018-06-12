@@ -1,27 +1,34 @@
 <template>
   <header>
+    <img class="logo_big" src="/static/assets/big_logo.png">
     <nav class="navbar is-light">
       <div class="navbar-brand">
+         <img  class="logo" src="/static/assets/logo.png">
         <router-link class="navbar-item"
                      :to="{ name: 'Home'}">
-          <img src="/static/assets/logo.png">&nbsp;&nbsp;{{$t('CryptoHero')}}
+         <div class="transform">{{$t('CryptoHero')}}</div>
         </router-link>
 
         <router-link v-if="!me"
                      class="navbar-item"
                      :to="{ name: 'Login'}">
-          {{$t('Sign In')}}
+          <div class="transform">{{$t('Sign In')}}</div>
         </router-link>
 
         <router-link v-else
                      class="navbar-item"
                      :to="{ name: 'User', params:{address: me.address}}">
-          {{$t('My Cards')}}
+          <div class="transform">{{$t('My Cards')}}</div>
         </router-link>
 
         <router-link class="navbar-item"
                      :to="{ name: 'FAQ'}">
-          {{$t('FAQs')}}
+          <div class="transform">{{$t('FAQs')}}</div>
+        </router-link>
+
+        <router-link class="navbar-item"
+                     :to="{ name: 'FAQ'}">
+          <div class="transform">{{$t('Rinking')}}</div>
         </router-link>
 
         <!-- <router-link class="navbar-item"
@@ -31,13 +38,13 @@
       </div>
 
       <div class="navbar-end">
-        <div class="navbar-item">
+        <!-- <div class="navbar-item">
           <div class="field is-grouped">
             <p class="control">
               {{network.name}}
             </p>
           </div>
-        </div>
+        </div> -->
         <div class="navbar-item">
           <div class="field is-grouped">
 
@@ -124,5 +131,38 @@ export default {
 </script>
 
 <style>
+.navbar.is-light, .navbar {
+    background-color: transparent;
+}
+.navbar.is-light .navbar-brand .navbar-link, .navbar.is-light .navbar-brand>.navbar-item {
+    color: floralwhite;
+    margin-top: 26px;
+    margin-left: 20px;
+    height: 31px;
+    width: 85px;
+    transform: skew(-20deg);
+    background: linear-gradient(#dcb84f, #89540d);
+    font-size: 12px;
+}
+.transform{
+  transform: skew(20deg);
+}
+@media screen and (min-width: 414px){
+  
+.logo_big{
+  display: none;
+}
+}
+@media screen and (max-width: 414px){
+  .navbar-brand{
+    flex-wrap: wrap;
+  }
+.logo{
+  display:none;
 
+}
+.logo_big{
+  display: block;
+}
+}
 </style>
