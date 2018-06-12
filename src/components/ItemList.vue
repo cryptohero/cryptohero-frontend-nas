@@ -19,8 +19,10 @@
           </div>
           <div class="card-content">
             <div class="content is-small">
-              <h4>{{item.nickname}} · {{item.name}}</h4>
-              <ul>
+              <h4>{{item.nickname}} · {{item.name}}
+                <div class="btnn">查看详情</div>
+              </h4>
+              <!-- <ul>
                 <li>{{$t('Owner')}}：
                   <router-link v-if="item.owner"
                                :to="{ name: 'User', params:{address: item.owner}}">
@@ -28,8 +30,8 @@
                   </router-link>
                 </li>
                 <li>{{$t('Current Price')}}: {{toDisplayedPrice(item.price)}}</li>
-              </ul>
-              <p class="item-slogan">{{$t('Slogan')}}: {{toDisplayedAd(item.id)}}</p>
+              </ul> 
+              <p class="item-slogan">{{$t('Slogan')}}: {{toDisplayedAd(item.id)}}</p>-->
             </div>
           </div>
         </div>
@@ -86,6 +88,28 @@ export default {
 };
 </script>
  <style scoped>
+ .image {
+    border: 8px solid #ecdaa8;
+    border-radius: 8px;
+}
+.content h4 {
+  color: #ffc627;
+}
+.card{
+  font-size: 1.2em;
+  background-color: initial;
+}
+.cardcount {
+	color: #5495c6;
+	font-size: 20px;
+}
+.btnn{
+padding: 3px;
+float: right;
+background-color: red;
+flex-wrap: wrap;
+
+}
 .item-slogan {
   overflow-wrap: break-word;
   word-wrap: break-word;
