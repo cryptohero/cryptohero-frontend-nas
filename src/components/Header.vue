@@ -31,6 +31,11 @@
           <div class="transform">{{$t('Rinking')}}</div>
         </router-link>
 
+        <router-link class="navbar-item"
+                     :to="{ name: 'LuckyDraw'}">
+          <div class="transform"> 幸运抽奖 </div>
+        </router-link>
+
         <!-- <router-link class="navbar-item"
                      :to="{ name: 'BirthdayGift'}">
           {{$t('BirthdayGift')}}
@@ -147,7 +152,7 @@ export default {
   transform: skew(20deg);
 }
 @media screen and (min-width: 414px){
-  
+
 .logo_big{
   display: none;
 }

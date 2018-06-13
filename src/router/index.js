@@ -10,6 +10,8 @@ import PrivacyView from '@/views/PrivacyView';
 import BirthdayGiftView from '@/views/BirthdayGiftView';
 import InviteVie from '@/views/InviteView';
 import RankingList from '@/views/RankingList';
+import LuckyDraw from '@/views/LuckyDraw';
+
 Vue.use(Router);
 
 export default new Router({
@@ -19,6 +21,11 @@ export default new Router({
       name: 'Home',
       path: '/',
       component: ListView,
+    },
+    {
+      name: 'LuckyDraw',
+      path: '/draw',
+      component: LuckyDraw,
     },
     {
       name: 'Login',
@@ -55,16 +62,16 @@ export default new Router({
       name: 'BirthdayGift',
       path: '/birthday-gift',
       component: BirthdayGiftView,
-    },    
+    },
     {
       name: 'InviteVie',
       path: '/InviteVie',
       component: InviteVie,
-    },  
+    },
     {
       name: 'RankingList',
       path: '/RankingList',
       component: RankingList,
-    },  
+    },
   ],
 });
