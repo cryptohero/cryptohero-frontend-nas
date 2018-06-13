@@ -19,8 +19,9 @@
                   a.button.is-primary(@click="setQty(9)")|抽 9 张
                   a.button.is-primary(@click="setQty(12)")|抽 12 张
                   a.button.is-primary(@click="setQty(16)")|抽 16 张
-                  a.button.is-primary(@click="setQty(20)")|抽 20 张
-                  a.button.is-primary(@click="setQty(120)")|抽 120 张
+                  a.button.is-primary(@click="setQty(32)")|抽 32 张
+                  a.button.is-primary(@click="setQty(64)")|抽 64 张
+                  a.button.is-primary(@click="setQty(128)")|抽 128 张
                   a.button.is-primary(@click="setQty(1024)")|抽 1024 张
             //- .container
               .columns
@@ -51,7 +52,7 @@ export default {
     async getCardsLeft() {
       const contract = new Contract();
       console.log(contract);
-      const result = await contract.getDrawPrice();
+      const result = await contract.getDrawCardsLeft();
       return result;
     },
     async getPrice() {
