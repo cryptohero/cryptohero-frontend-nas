@@ -9,18 +9,16 @@
     </div>
     <div class="ranking-ul"> 
      <ul style=" background-color:#97ceea; height: 50px; border: 3px solid #a48554;border-radius: 40px;background-color: #e8cc97;">
-        <li class="rank1" style=" line-height: 25px;">名次</li> 
-        <li class="id1" > ID</li>
+        <li class="rank1" style=" line-height: 25px;">名次</li>
         <li class="key1" > 钱包地址</li>
         <li class="time1" > 合成时间</li>   
     </ul>
      </div>
     <div  v-for="( item, index ) in items" :key="item.id" class="ranking-ul"> 
       <ul>
-        <li v-bind:id="'ranking'+index" class="rank"> <b>{{ index+1 }}</b></li> 
-        <li class="id"> {{ item.ID }}</li>
-        <li class="key"> {{ item.key }}</li>
-        <li class="time"> {{ item.time }}</li>   
+        <li v-bind:id="'ranking'+index" class="rank"> <b>{{ index+1 }}</b></li>
+        <li class="key"> {{ item.address }}</li>
+        <li class="time"> {{ item.collecttime }}</li>   
       </ul>
    </div>
    </div>
@@ -30,41 +28,23 @@
 
 export default {
   name: 'RankingList',
-
-   data(){
-       return{
-        title:"排行榜",
-        methods :{
-         ranking: function(index){
-             return "rank_"+ index
-         }
-     },
-       items: [
-      {   ID: 'DanielYang',
-      key:'1Eb84h8LnKncKjKLVRztDP2FXE1ixAbXQq',
-      time:'2018.0524.18:32' },
-      { ID: 'DanielYang',
-      key:'1Eb84h8LnKncKjKLVRztDP2FXE1ixAbXQq',
-      time:'2018.0524.18:32' },
-      { ID: 'DanielYang',
-      key:'1Eb84h8LnKncKjKLVRztDP2FXE1ixAbXQq',
-      time:'2018.0524.18:32' },
-       { ID: 'DanielYang',
-      key:'1Eb84h8LnKncKjKLVRztDP2FXE1ixAbXQq',
-      time:'2018.0524.18:32' },
-       { ID: 'DanielYang',
-      key:'1Eb84h8LnKncKjKLVRztDP2FXE1ixAbXQq',
-      time:'2018.0524.18:32' },
-       { ID: 'DanielYang',
-      key:'1Eb84h8LnKncKjKLVRztDP2FXE1ixAbXQq',
-      time:'2018.0524.18:32' },
-      { ID: 'DanielYang',
-      key:'1Eb84h8LnKncKjKLVRztDP2FXE1ixAbXQq',
-      time:'2018.0524.18:32' }
-    ],
-     
+  data(){
+    return{
+      title:"排行榜",
+      methods :{
+        ranking: function(index){
+          return "rank_"+ index
+        }
+      },
+      items: []
    }
- }
+  },
+  async mounted() {
+    this.$http.get('http://35.200.102.240/getranklistshuihunas.php')
+      .then((response) => {
+        this.items = response.body;
+      });
+  }
 }
 
 </script>
@@ -178,7 +158,70 @@ export default {
 
 }
 
- @media screen and (max-width: 1060px) {
+@media screen and (max-width: 1000px) {
+    .time1 {
+        width: 20vw;
+    }
+    .rank1 {
+        width: 10vw;
+    }
+    .key1 {
+        width: 40vw;
+    }
+    .time {
+        width: 20vw;
+        font-size: 12px;
+    }
+    .ranking {
+        width: 20vw;
+    }
+    .key {
+        width: 40vw;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .time1 {
+        width: 30vw;
+    }
+    .rank1 {
+        width: 10vw;
+    }
+    .key1 {
+        width: 30vw;
+    }
+    .time {
+        width: 30vw;
+        font-size: 12px;
+    }
+    .ranking {
+        width: 20vw;
+    }
+    .key {
+        width: 30vw;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}
+
+@media screen and (max-width: 660px) {
+    .time1 {
+        width: 20vw;
+    }
+    .time {
+        width: 20vw;
+        font-size: 12px;
+    }
+    .ranking {
+        width: 10vw;
+    }
+}
+
+/* @media screen and (max-width: 1060px) {
      .time, .time1{
          display: none;
 }
@@ -207,5 +250,5 @@ export default {
 .line{
      width: 14%;     
 }
-}
+}*/
 </style>
