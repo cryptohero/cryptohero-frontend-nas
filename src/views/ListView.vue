@@ -4,6 +4,20 @@
          class="loader-wrapper">
       <pulse-loader></pulse-loader>
     </div>
+    <div class="logo_btn">
+  	 <section>
+		  <div class="cardContainer">
+			 <div class="cardcharas">
+				 <img class="charaimg" alt="" srcset="/static/assets/big_logo.png"/>
+			 </div>
+		 	<div class="btnContainer">
+				 <div class="cardbtn">
+				  	<img class="btnimg" width="150" alt="" srcset="/static/assets/btn.png"/>
+				  </div>
+			  </div>
+		  </div>
+     </section>
+    </div>
     <ItemList :itemIds='itemIds' />
   </div>
 </template>
@@ -48,6 +62,53 @@ export default {
 };
 </script>
 <style scoped>
+.cardContainer {
+	background-size: 100%;
+	background-repeat: no-repeat;
+	width: 100%;
+	/*padding-top: 43.5%;*/
+	padding-top: 50%;
+	position: relative;
+	text-align: center;
+}
+.cardcharas {
+  position: absolute;
+  top: 0;
+  left: 0;
+	width: 100%;
+  
+}
+
+
+.charaimg{
+  width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.btnContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+	padding-top: 33%;
+  /*background-color: #ccc;*/
+}
+.cardbtn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 414px){
+  .cardcharas{
+    display: none;
+  }
+  .btnContainer {
+	padding-top: 17%;
+  /*background-color: #ccc;*/
+}
+}
 .loader-wrapper {
   display: flex;
   align-items: center;
@@ -55,4 +116,3 @@ export default {
   height: 100vh;
 }
 </style>
-

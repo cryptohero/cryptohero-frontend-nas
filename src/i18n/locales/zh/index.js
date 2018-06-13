@@ -27,7 +27,7 @@ module.exports = {
   UPDATE_SLOGAN_FAIL_TOO_LOOG_MSG: '标语最长只能100个字符',
   UPDATE_SLOGAN_FAIL_MSG: '失败了，刷新网页再试试.',
   User: '用户',
-  'His Cards': 'TA的卡牌',
+  'His Cards': '我的收藏',
   BUY_BTN: '正价买入',
   PREMIUM_BUY_BTN: '溢价{rate}买入',
   BUY_PRICE_TIP: '出价越高，抢到的几率越大! 推荐使用100+gas，提高交易确认速度！',

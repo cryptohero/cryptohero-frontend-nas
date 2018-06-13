@@ -53,3 +53,9 @@
     </div>
   </footer>
 </template>
+<style scoped>
+.footer {
+    background-color: #ecdaa8;
+    color: #2d120ee0;
+}
+</style>

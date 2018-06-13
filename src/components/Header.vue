@@ -22,7 +22,7 @@
         </router-link>
 
         <router-link class="navbar-item"
-                     :to="{ name: 'FAQ'}">
+                     :to="{ name: 'InviteVie'}">
           <div class="transform">{{$t('FAQs')}}</div>
         </router-link>
 
@@ -139,7 +139,6 @@ export default {
     margin-top: 26px;
     margin-left: 20px;
     height: 31px;
-    width: 85px;
     transform: skew(-20deg);
     background: linear-gradient(#dcb84f, #89540d);
     font-size: 12px;

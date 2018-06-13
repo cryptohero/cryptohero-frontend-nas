@@ -4,15 +4,19 @@
     <div class="card">
   <div class="card-content">
     <div class="media">
-      <div class="media-left">
-        <figure class="image is-64x64">
+      <div class="media-content">
+        <figure>
           <img :src="getAvatar" alt="Identicon" style="border-radius: 50%;">
         </figure>
       </div>
       <div class="media-content">
         <p class="title is-4"> {{$t('User')}}: {{address}} </p>
-        <p class="subtitle is-6">的卡片</p>
-        <p class="subtitle is-6"><a class="button" :href="getEtherScanURL"> 查看TA的交易记录 </a></p>
+        <br>
+        <!-- <p class="subtitle is-6">的卡片</p> -->
+        <!-- <p class="subtitle is-6"><a class="button" :href="getEtherScanURL"> 查看TA的交易记录 </a></p> -->
+      </div>
+      <div class="media-content">
+        卡片：100张
       </div>
     </div>
 
@@ -20,12 +24,10 @@
     </div>
     <!-- end of rewrite -->
     <div class="tabs">
-      <ul>
-        <li class="is-active">
+      <div class="title11">
           <a v-if="me && me.address.toUpperCase() === address">{{$t('My Cards')}}</a>
           <a v-else>{{$t('His Cards')}}</a>
-        </li>
-      </ul>
+      </div>
     </div>
     <ItemList :itemIds='itemIds' />
   </div>
@@ -74,6 +76,41 @@ export default {
 <style scoped>
 .user-info-wrapper {
   border-radius: 5px;
+}.media {
+  display:block;
+    height: 439px;
+    margin-top: 122px;
+}
+.card {
+  color: blanchedalmond;
+    background-color:inherit;
+}
+.media-content {
+    display: flex;
+    justify-content: center;
+}
+.title11{
+ 
+  font-size: 43px;
+}
+.title{
+  color: blanchedalmond;
+}
+.tabs a{
+   color: blanchedalmond;
+}
+.tabs{
+  
+  justify-content: center;
+}
+@media screen and (max-width: 414px){
+figure{
+  height: 152px;
+    width: 144px;
+}
+.media[data-v-4d74474a] {
+    height: 289px;
+    margin-top: 29px;
+}
 }
 </style>
-

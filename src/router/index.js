@@ -8,7 +8,7 @@ import UserView from '@/views/UserView';
 import TermView from '@/views/TermView';
 import PrivacyView from '@/views/PrivacyView';
 import BirthdayGiftView from '@/views/BirthdayGiftView';
-
+import InviteVie from '@/views/InviteView';
 Vue.use(Router);
 
 export default new Router({
@@ -55,5 +55,10 @@ export default new Router({
       path: '/birthday-gift',
       component: BirthdayGiftView,
     },    
+    {
+      name: 'InviteVie',
+      path: '/InviteVie',
+      component: InviteVie,
+    },  
   ],
 });
