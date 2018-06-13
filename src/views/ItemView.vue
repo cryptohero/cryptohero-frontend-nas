@@ -4,8 +4,8 @@
       <div class="back_img">
         <div class="title">
          <div class="line1">卡牌详情</div>
-    </div> 
-       <div class="back_color"> 
+    </div>
+       <div class="back_color">
          <div class="title_1">
                 <div class="title_2"><b>{{item.nickname}} · {{item.name}}</b></div>
             </div>
@@ -16,7 +16,7 @@
          <div class="img">
            <img class="big_img" :src="getCardBackSideImage">
          </div>
-         <div class="price">
+         <div class="price" @click="buyFun()">
            <div class="price1">
           售价：1NAS
            </div>
@@ -24,7 +24,7 @@
          <!-- <div class="column
            is-full-mobile"> -->
           <!-- <div class="content"> -->
-           
+
             <!-- Experimental Start -->
             <!-- <div class="card">
                 <div class="card-image">
@@ -106,7 +106,7 @@
           </template>
          </div> -->
        </div>
-      </div> 
+      </div>
     </div>
     <div v-else-if="item === null">
       Token doesn't exist
@@ -118,12 +118,19 @@
 import { buyItem, exchangeLuckyToken, setGg, setNextPrice } from '@/api';
 import { toReadablePrice } from '@/util';
 import Dravatar from 'dravatar';
-
+import '../assets/neb/nebPay';
 export default {
   name: 'item-view',
 
-  data: () => ({}),
-
+  data() {
+    return {
+      clientAddress: '',
+    };
+  },
+ created() {
+   this.getWallectInfo();
+   this.messageListener();
+ },
   asyncComputed: {
     async getOwnerAvatar() {
       const uri = await Dravatar(this.ownerAddress);
@@ -174,6 +181,28 @@ export default {
   watch: {},
 
   methods: {
+    //获取当前钱包地址
+    getWallectInfo: function () {
+      window.postMessage({
+        "target": "contentscript",
+        "data": {},
+        "method": "getAccount",
+      }, "*");
+    },
+    messageListener: function () {
+      alert ("greate")
+      window.addEventListener('message', function (e) {
+        if (e.data && e.data.data) {
+          if (e.data.data.account) {
+            alert ( e.data.data.account)
+            this.clientAddress = e.data.data.account;
+          }
+        }
+      })
+    },
+    buyFun() {
+      alert(this.clientAddress);
+    },
     onBuy(rate) {
       if (this.$store.state.signInError) {
         return this.$router.push({ name: 'Login' });
@@ -223,7 +252,7 @@ export default {
 </script>
  <style scoped>
  .back_img{
-    background: url(/static/assets/card_profile_top.png) no-repeat top , 
+    background: url(/static/assets/card_profile_top.png) no-repeat top ,
      url(/static/assets/card_profile_end.png) no-repeat bottom,
      url(/static/assets/card_profile.png) repeat-y ;
     background-size: 100%;
@@ -241,7 +270,7 @@ export default {
      width: 100%;
      height: 50px;
      display: flex;
-    justify-content: center 
+    justify-content: center
 }
 
 .line1{
@@ -273,7 +302,7 @@ export default {
  }
  .big_img{
    width: 100%;
-  
+
    border: 10px solid #ecdaa8;
    border-radius: 10px;
  }
