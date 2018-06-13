@@ -9,6 +9,7 @@ import TermView from '@/views/TermView';
 import PrivacyView from '@/views/PrivacyView';
 import BirthdayGiftView from '@/views/BirthdayGiftView';
 import InviteVie from '@/views/InviteView';
+import RankingList from '@/views/RankingList';
 Vue.use(Router);
 
 export default new Router({
@@ -59,6 +60,11 @@ export default new Router({
       name: 'InviteVie',
       path: '/InviteVie',
       component: InviteVie,
+    },  
+    {
+      name: 'RankingList',
+      path: '/RankingList',
+      component: RankingList,
     },  
   ],
 });

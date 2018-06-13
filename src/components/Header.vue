@@ -27,7 +27,7 @@
         </router-link>
 
         <router-link class="navbar-item"
-                     :to="{ name: 'FAQ'}">
+                     :to="{ name: 'RankingList'}">
           <div class="transform">{{$t('Rinking')}}</div>
         </router-link>
 
