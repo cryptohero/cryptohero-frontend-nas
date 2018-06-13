@@ -1,7 +1,7 @@
 import request from 'superagent';
 // import NebPay from '@/lib/nebpay';
 import NebPay from 'nebpay.js';
-
+import nebulas from 'nebulas'
 const nebPay = new NebPay();
 
 const networkSetting = {
@@ -10,6 +10,7 @@ const networkSetting = {
   },
   testnet: {
     rpcApi: 'https://testnet.nebulas.io',
+    contratAddress: 'n1jkpnTHaPeEm8S7sQSWf2R4n5WrSebonZ3'
   },
 };
 

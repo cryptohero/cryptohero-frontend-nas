@@ -1,7 +1,7 @@
 import Promise from 'bluebird';
 import Cookie from 'js-cookie';
 import { BigNumber } from 'bignumber.js';
-import web3 from '@/web3';
+// import web3 from '@/web3';
 import * as config from '@/config';
 import request from 'superagent';
 import timeout from 'timeout-then';
@@ -10,11 +10,11 @@ import convertContractABI from './abi/convertContract.json';
 
 // Sometimes, web3.version.network might be undefined,
 // as a workaround, use defaultNetwork in that case.
-const network = config.network[web3.version.network] || config.defaultNetwork;
-const cryptoWaterMarginContract = web3.eth.contract(cryptoWaterMarginABI).at(network.contract);
+// const network = config.network[web3.version.network] || config.defaultNetwork;
+// const cryptoWaterMarginContract = web3.eth.contract(cryptoWaterMarginABI).at(network.contract);
 
 // This contract supposed to convert CWM to Lucky
-const convertContract = web3.eth.contract(convertContractABI).at(network.convert);
+// const convertContract = web3.eth.contract(convertContractABI).at(network.convert);
 
 let store = [];
 let isInit = false;
@@ -39,7 +39,7 @@ export const init = async () => {
 
 init().then();
 
-export const getMe = async () => {
+/*export const getMe = async () => {
   if (!window.web3) {
     throw Error('NO_METAMASK');
   }
@@ -52,7 +52,7 @@ export const getMe = async () => {
       return reject(new Error('METAMASK_LOCKED'));
     });
   });
-};
+};*/
 
 export const getAnnouncements = async () => {
   const response = await request
@@ -149,7 +149,7 @@ export const getNextPrice = async (id, time = 0) => {
 
   if (item && item.nextPrice) {
     // Convert nextPrice from 'ether' to 'wei'
-    return web3.toWei(item.nextPrice, 'ether');
+    // return web3.toWei(item.nextPrice, 'ether');
   }
 
   return 0;
@@ -158,7 +158,7 @@ export const getNextPrice = async (id, time = 0) => {
 // price为用户成功发起交易的交易价格，调用setNextPrice后，nextPrice会变为此价格的1.1倍
 export const setNextPrice = async (id, priceInWei) => {
   // Convert price(Wei) to a number instance (ether)
-  const price = Number(web3.fromWei(priceInWei, 'ether').toString());
+  const price = 0; //Number(web3.fromWei(priceInWei, 'ether').toString());
   const response = await request
     .get('https://api.leancloud.cn/1.1/classes/ad')
     .set({

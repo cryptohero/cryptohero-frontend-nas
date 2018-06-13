@@ -5,7 +5,7 @@ import Contract from './contract';
 export default class LinkIdolContract extends Contract {
   constructor() {
     super({
-      contractAddress: 'n1qDKeb9BVR4K99hm15HMoSxnVWafqT7fLR',
+      contractAddress: 'n1jkpnTHaPeEm8S7sQSWf2R4n5WrSebonZ3',
       network: 'testnet',
     });
   }
