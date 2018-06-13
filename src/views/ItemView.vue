@@ -1,21 +1,32 @@
 <template>
-  <div class="item-view">
+  <div>
     <div v-if="item">
-      <div class="columns is-multiline is-mobile">
-        <div class="column
-           is-full-mobile">
-          <img :src="getCardImage">
-        </div>
-        <div class="column
-           is-full-mobile">
-          <img :src="getCardBackSideImage">
-        </div>
-        <div class="column
-           is-full-mobile">
-          <div class="content">
-            <h2>{{item.nickname}} · {{item.name}}</h2>
+      <div class="back_img">
+        <div class="title">
+         <div class="line1">卡牌详情</div>
+    </div> 
+       <div class="back_color"> 
+         <div class="title_1">
+                <div class="title_2"><b>{{item.nickname}} · {{item.name}}</b></div>
+            </div>
+         <!-- <h2>{{item.nickname}} · {{item.name}}</h2> -->
+         <div class="img">
+           <img class="big_img" :src="getCardImage">
+         </div>
+         <div class="img">
+           <img class="big_img" :src="getCardBackSideImage">
+         </div>
+         <div class="price">
+           <div class="price1">
+          售价：1NAS
+           </div>
+         </div>
+         <!-- <div class="column
+           is-full-mobile"> -->
+          <!-- <div class="content"> -->
+           
             <!-- Experimental Start -->
-            <div class="card">
+            <!-- <div class="card">
                 <div class="card-image">
                   <figure class="image is-1by1" style="margin: 0">
                     <img :src="getOwnerAvatar" alt="Holder image">
@@ -31,7 +42,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             <!-- Experimental End -->
 
              <!-- <router-link :to="{ name: 'User', params:{address: item.owner}}">
@@ -50,15 +61,15 @@
               <li>{{$t('isLuckyClaim')}}：{{ isConvert ? 'Yes' : 'No'}}</li>
             </ul>
             <p class="item-slogan">{{$t('Slogan')}}: {{ad}}</p> -->
-            <article v-if="notOwner"
+            <!-- <article v-if="notOwner"
                      class="message is-warning">
               <div class="message-body">
                 {{$t('EDIT_SLOGAN_TIP')}}
               </div>
-            </article>
-          </div>
+            </article> -->
+          <!-- </div> -->
 
-          <template v-if="notOwner">
+          <!-- <template v-if="notOwner">
             <div class="buttons">
               <button class="button is-danger is-outlined"
                       @click="onBuy(1)">{{ $t('BUY_BTN') }}</button>
@@ -78,9 +89,9 @@
                 {{$t('BUY_PRICE_TIP')}}
               </div>
             </article>
-          </template>
+          </template> -->
 
-          <template v-if="isOwner">
+          <!-- <template v-if="isOwner">
             <div class="buttons">
             <button
                   class="button is-warning"
@@ -93,8 +104,9 @@
             </div>
 
           </template>
-        </div>
-      </div>
+         </div> -->
+       </div>
+      </div> 
     </div>
     <div v-else-if="item === null">
       Token doesn't exist
@@ -210,9 +222,88 @@ export default {
 };
 </script>
  <style scoped>
+ .back_img{
+    background: url(/static/assets/card_profile_top.png) no-repeat top , 
+     url(/static/assets/card_profile_end.png) no-repeat bottom,
+     url(/static/assets/card_profile.png) repeat-y ;
+    background-size: 100%;
+    padding:3% 4% 4%;
+}
+ .back_color{
+  padding: 20px;
+  display: flex;
+  align-content: space-between;
+  flex-wrap: wrap;
+  background-color: blanchedalmond;
+  justify-content: center;
+ }
+ .title{
+     width: 100%;
+     height: 50px;
+     display: flex;
+    justify-content: center 
+}
+
+.line1{
+     width: 30%;
+     height: 40px;
+     float: left;
+     color:#f8d195;
+     font-size: 37px;
+     text-align: center;
+}
+ .title_1{
+    margin: 0px auto;
+    width: 90%;
+    height: 50px;
+    border: 3px solid #a48554;
+    border-radius: 40px;
+    background-color: #e8cc97;
+}
+.title_2{
+    padding: 5px;
+    text-align: center;
+    font-size: 20px;
+    color: #5c3000;
+}
+ .img{
+   width: 300px;
+   height: 450px;
+   margin: 20px
+ }
+ .big_img{
+   width: 100%;
+  
+   border: 10px solid #ecdaa8;
+   border-radius: 10px;
+ }
 .item-slogan {
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-all;
 }
+.price{
+  width: 100%;
+  height: 73px;
+  display: flex;
+  justify-content: center;
+}
+.price1{
+  width: 201px;
+  height: 75px;
+  background: url(/static/assets/card_profile_price.png) no-repeat center;
+  text-align: center;
+  line-height: 76px;
+  color: #ffffff;
+}
+ @media screen and (max-width: 574px) {
+  .line1{
+     font-size: 27px
+   }
+ }
+ @media screen and (max-width: 350px) {
+  .line1{
+     font-size: 19px
+   }
+ }
 </style>

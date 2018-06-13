@@ -29,7 +29,7 @@
 <script>
 
 export default {
-  name: 'RankingView',
+  name: 'RankingList',
 
    data(){
        return{
@@ -194,7 +194,6 @@ export default {
 }
   @media screen and (max-width: 665px) {
       .ranking-ul ul{
-         width: 80%;
          display: flex;
          justify-content:space-around;
 }
@@ -202,7 +201,7 @@ export default {
          display: none;
 }
      .title{
-         width: 80%;
+         width: 100%;
  
 }
 .line{

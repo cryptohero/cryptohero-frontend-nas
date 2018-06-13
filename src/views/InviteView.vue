@@ -22,7 +22,7 @@
                 </div>
                 <div class="app_list">
                     <ul>
-                    <li v-for="n in 8" :key="n.id" ><img src="'/static/assets/invite/'+index'.png'"> </li>
+                    <li v-for="n in 8" :key="n.id" ><img v-bind:src="'/static/assets/invite/'+index+'.png'"> </li>
                     </ul>
                 </div>
             </div>
@@ -34,7 +34,13 @@ export default {
     name: 'InviteView',
     data(){
    return{
-        title:"排行榜",
+        title:"邀请好友",
+methods :{
+         Invite: function(index){
+             return "Invite_"+ index
+         }
+     },
+
         }
     }
 };
@@ -59,7 +65,6 @@ export default {
      display: flex;
     justify-content: center 
 }
-
 .line1{
      width: 30%;
      height: 42px;
@@ -144,6 +149,9 @@ input{
 }
  .btn{
     margin-top: 20px;
+}
+.line1{
+    font-size: 19px;
 }
 }
 </style>
