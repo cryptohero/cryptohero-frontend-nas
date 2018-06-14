@@ -25,11 +25,6 @@
           购买
            </div>
          </div>
-         <div class="price" >
-           <div class="price1">
-             修改价格
-           </div>
-         </div>
           <div class="price" @click="buyFun()">
            <div class="price1">
           修改价格
@@ -241,14 +236,6 @@
       gotoCoinProfile(code) {
         this.$router.push({ path: `/coin/${code}` });
       },
-      fromWeiToNas(value) {
-        if (value instanceof BigNumber) {
-          return value.dividedBy('1000000000000000000');
-        } else {
-          var nas = new BigNumber(value).dividedBy(1000000000000000000)
-          return new BigNumber(value).dividedBy(1000000000000000000).toString();
-        }
-      },
       buyFun() {
         alert(this.address);
       },
@@ -376,7 +363,7 @@
 }
 .text{
   margin: 10px;
- overflow-wrap: break-word; 
+ overflow-wrap: break-word;
 }
  @media screen and (max-width: 574px) {
   .line1{
