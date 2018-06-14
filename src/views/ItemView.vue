@@ -68,7 +68,7 @@
     components: {
     },
     async created() {
-      console.log(this.$route.params.id);
+//      console.log(this.$route.params.id);
     },
     asyncComputed: {
     /*  async getOwnerAvatar() {
