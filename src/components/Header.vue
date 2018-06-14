@@ -15,11 +15,11 @@
           <div class="transform">{{$t('Sign In')}}</div>
         </router-link>
 
-        <router-link v-else
+        <router-link
                      class="navbar-item"
-                     :to="{ name: 'MyCollection' } ">
+                     :to="{ name: 'User', params:{address: me}}">
           <div class="transform">{{$t('My Cards')}}</div>
-        </router-link>
+        </router-link>        
 
         <router-link class="navbar-item"
                      :to="{ name: 'InviteVie'}">
