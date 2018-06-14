@@ -19,7 +19,12 @@
          <div>编号：{{this.$route.params.id}} 拥有者：{{carOwner}}   价格：{{heroPrice}} Nas</div>
          <div class="price" @click="buyFun()">
            <div class="price1">
-          售价：1NAS
+          购买
+           </div>
+         </div>
+         <div class="price" >
+           <div class="price1">
+             修改价格
            </div>
          </div>
          <!-- <div class="column
@@ -119,7 +124,7 @@
   import { mapState } from 'vuex';
   import NasId from '@/contract/nasid';
   import LinkIdol from '@/contract/cryptohero';
-  import { buyItem, exchangeLuckyToken, setGg, setNextPrice } from '@/api';
+  import { buyItem, exchangeLuckyToken, setGg, setNextPrice, NasTool } from '@/api';
   import { toReadablePrice } from '@/util';
   import BigNumber from 'bignumber.js';
 
@@ -138,10 +143,10 @@
       console.log(this.$route.params.id);
     },
     asyncComputed: {
-      async getOwnerAvatar() {
+    /*  async getOwnerAvatar() {
         const uri = await Dravatar(this.ownerAddress);
         return uri;
-      },
+      },*/
       async profile() {
         const nasId = new NasId();
         const result = await nasId.fetchAccountDetail(this.address);
@@ -156,17 +161,13 @@
         const idol = new LinkIdol();
         var heroId = this.$route.params.id;
         const result = await idol.ownerOf(heroId);
-        console.log('+++++++++++carOwner++++++++++++++++')
-        console.log(result)
         return result;
       },
       async heroPrice() {
         const idol = new LinkIdol();
         var heroId = this.$route.params.id;
         const result = await idol.priceOf(heroId);
-        console.log('+++++++++++heroPrice++++++++++++++++')
-        console.log(result)
-        return result;
+        return new NasTool.fromWeiToNas(result).toString();
       }
     },
 
