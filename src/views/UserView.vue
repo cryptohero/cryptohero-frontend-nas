@@ -127,7 +127,6 @@ export default {
 .userContainer {
   background-size: 100%;
   background-repeat: no-repeat;
-  background-color: #fff;
   width: 100%;
   /*padding-top: 43.5%;*/
   padding-top: 28%;
@@ -155,8 +154,12 @@ export default {
   text-align: center;
   padding-top: 15%;
 }
+.usercontent h2{
+  color: blanchedalmond;
+}
 .useraddress {
-  color: #08567e;
+
+   color: blanchedalmond;
 }
 
 /*
@@ -195,6 +198,11 @@ export default {
   .cardItemImg{
     width: 100%;
   }
+}
+@media (max-width: 420px) {
+  .usercontent{
+    padding-top: 27%;
+}
 }
 </style>
 
