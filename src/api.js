@@ -297,3 +297,15 @@ export const getLocale = async () => (
 export const setLocale = async (locale) => {
   Cookie.set('locale', locale, { expires: 365 });
 };
+
+export class NasTool {
+  static fromNasToWei(value) {
+    return new BigNumber('1000000000000000000').times(value);
+  }
+  static fromWeiToNas(value) {
+    if (value instanceof BigNumber) {
+      return value.dividedBy('1000000000000000000');
+    }
+    return new BigNumber(value).dividedBy('1000000000000000000');
+  }
+}
