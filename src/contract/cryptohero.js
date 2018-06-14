@@ -28,13 +28,26 @@ export default class LinkIdolContract extends Contract {
       value: new BigNumber(value).times(1000000000000000000).toString(),
       args: [referrer],
     }).then(console.info);
-    const result = await this.send(
+    // const result = await this.send(
+    //   {
+    //     functionName: 'multiDraw',
+    //     value,
+    //     data: [referrer],
+    //   });
+    return new Promise(resolve =>{
+      this.send(
       {
         functionName: 'multiDraw',
         value,
         data: [referrer],
+        options : { listener: 
+          function (resp) {
+            resolve(resp);
+          }
+        }
       });
-    return result;
+    });
+    // return result;
   }
 
   async getDrawCardsLeft() {

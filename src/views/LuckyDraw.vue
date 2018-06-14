@@ -86,7 +86,21 @@ export default {
     async draw() {
       const contract = new Contract();
       const result = await contract.draw(undefined, this.getDisplayTotal);
-      alert(result);
+      // alert(result);
+      if(this.$route.params.address != undefined) {
+        const formData = new FormData();
+        formData.append('address', this.$store.state.me);
+        formData.append('inviteaddress', this.$route.params.address);
+        formData.append('cardnum', this.count);
+        formData.append('price', this.getPrice);
+        this.$http
+          .post('http://35.200.102.240/inviteshuihuadd.php', formData)
+          .then((response) => {
+            const res = response.body;
+            console.log(res);
+            alert("抽卡成功，到我的收藏里看看吧");
+          });
+      }
     },
   },
 };

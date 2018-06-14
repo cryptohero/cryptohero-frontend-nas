@@ -28,6 +28,11 @@ export default new Router({
       component: LuckyDraw,
     },
     {
+      name: 'LuckyDraw',
+      path: '/draw/:address',
+      component: LuckyDraw,
+    },
+    {
       name: 'Login',
       path: '/Login',
       component: LoginView,
