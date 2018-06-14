@@ -7,6 +7,7 @@ function getCardInfoByHeroId(id) {
   console.error(str);
   const basic = heroProfile[id];
   const cardImage = {
+    code: id,
     front: `http://test.cdn.hackx.org/heros/${id}.jpg`,
     back: `http://test.cdn.hackx.org/back/back_${id}.jpg`,
   };
@@ -36,16 +37,17 @@ export default class LinkIdolContract extends Contract {
     //   });
     return new Promise(resolve =>{
       this.send(
-      {
-        functionName: 'multiDraw',
-        value,
-        data: [referrer],
-        options : { listener: 
-          function (resp) {
-            resolve(resp);
+        {
+          functionName: 'multiDraw',
+          value,
+          data: [referrer],
+          options: {
+            listener:
+            function (resp) {
+              resolve(resp);
+            }
           }
-        }
-      });
+        });
     });
     // return result;
   }
@@ -78,7 +80,9 @@ export default class LinkIdolContract extends Contract {
   }
 
   async getUserCards(address) {
+    console.error("address", address)
     const tokenIds = await this.getTokenIDsByAddress(address);
+    console.error(tokenIds)
     const result = await Promise.all(tokenIds.map(async (token) => {
       const heroId = await this.call(
         {

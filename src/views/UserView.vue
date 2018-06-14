@@ -91,8 +91,6 @@ export default {
   },
   methods: {
     gotoCoinProfile(code) {
-      alert(code)
-      console.log(code)
       this.$router.push({ path: `/item/${code}` });
     },
   },
