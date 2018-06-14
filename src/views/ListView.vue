@@ -12,7 +12,7 @@
 			 </div>
 		 	<div class="btnContainer">
 				 <div class="cardbtn">
-				  	<img class="btnimg" width="150" alt="" srcset="/static/assets/btn.png"/>
+				  	<a> <img class="btnimg" @click="drawClicked()" width="150" alt="" srcset="/static/assets/btn.png"/> </a>
 				  </div>
 			  </div>
 		  </div>
@@ -57,6 +57,10 @@ export default {
       const readable = toReadablePrice(priceInWei);
       return `${readable.price} ${readable.unit}`;
     },
+    drawClicked(){
+      var href="/#/draw";
+      window.location.href = href;
+    }
   },
   watch: {},
 };
