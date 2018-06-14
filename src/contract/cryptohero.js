@@ -2,6 +2,18 @@ import { BigNumber } from 'bignumber.js';
 import heroProfile from '@/config/cards.json';// '@/heroProfile.json';
 import Contract from './contract';
 
+function getCardInfoByHeroId(id) {
+  const str = `Card Hero id ${id}`;
+  console.error(str);
+  const basic = heroProfile[id];
+  const cardImage = {
+    front: `http://test.cdn.hackx.org/heros/${id}.jpg`,
+    back: `http://test.cdn.hackx.org/back/back_${id}.jpg`,
+  };
+  return Object.assign(basic, cardImage);
+  // return basic;
+}
+
 export default class LinkIdolContract extends Contract {
   constructor() {
     super({
@@ -44,12 +56,25 @@ export default class LinkIdolContract extends Contract {
     return JSON.parse(result);
   }
   async getCardInfoByTokenId(token) {
-    const id = await this.call(
+    const heroId = await this.call(
       {
         functionName: 'getCardIdByTokenId',
         args: [token],
       });
-    return heroProfile[id];
+    return heroProfile[heroId];
+  }
+
+  async getUserCards(address) {
+    const tokenIds = await this.getTokenIDsByAddress(address);
+    const result = await Promise.all(tokenIds.map(async (token) => {
+      const heroId = await this.call(
+        {
+          functionName: 'getCardIdByTokenId',
+          args: [token],
+        });
+      return getCardInfoByHeroId(heroId);
+    }));
+    return result;
   }
 
   async buyToken(id) {

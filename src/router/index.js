@@ -11,6 +11,7 @@ import BirthdayGiftView from '@/views/BirthdayGiftView';
 import InviteVie from '@/views/InviteView';
 import RankingList from '@/views/RankingList';
 import LuckyDraw from '@/views/LuckyDraw';
+import MyCollection from '@/views/MyCollectionPage';
 
 Vue.use(Router);
 
@@ -37,6 +38,11 @@ export default new Router({
       name: 'Item',
       path: '/item/:id(\\d+)',
       component: ItemView,
+    },
+    {
+      name: 'MyCollection',
+      path: '/my',
+      component: MyCollection,
     },
     {
       name: 'User',
