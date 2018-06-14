@@ -197,7 +197,7 @@
         const readable = toReadablePrice(priceInWei);
         return `${readable.price} ${readable.unit}`;
       },
- 
+
     },
   };
 </script>
