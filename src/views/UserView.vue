@@ -109,7 +109,7 @@ export default {
     cardsInfo(cards) {
       // console.log(`newTypes:${cards}`);
       // console.log("cards:"+cards.length)
-      if (cards.length >= 6) {
+      /*if (cards.length >= 6) {
         const formData = new FormData();
         formData.append('address', this.address);
         this.$http.post('http://35.200.102.240/addranknas.php', formData)
@@ -117,7 +117,7 @@ export default {
             const res = response.body;
             console.log(res);
           });
-      }
+      }*/
     },
   },
 };

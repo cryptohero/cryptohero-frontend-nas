@@ -10,7 +10,7 @@
            is-one-quarter-desktop
            is-one-quarter-widescreen
            is-one-quarter-fullhd">
-      <template v-if="1 <= item.id && item.id <= 114">
+      <template v-if="0 <= item.id && item.id <= 114">
         <div class="card">
           <div class="card-image"
               @mouseover="lightShow(item.id)"
@@ -100,7 +100,7 @@ export default {
   },
 
   created() {
-    for(var i=1;i<114;i++){
+    for(var i=0;i<=114;i++){
       this.lightisShow[i] = false;
     }
   },
@@ -108,8 +108,8 @@ export default {
   watch: {
     itemIds(newItemIds) {
       newItemIds.forEach((itemId) => {
-        this.$store.dispatch('FETCH_ITEM', itemId);
-        this.$store.dispatch('FETCH_AD', itemId);
+        // this.$store.dispatch('FETCH_ITEM', itemId);
+        // this.$store.dispatch('FETCH_AD', itemId);
       });
     },
   },
