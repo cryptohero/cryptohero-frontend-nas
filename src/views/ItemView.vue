@@ -22,6 +22,11 @@
           售价：1NAS
            </div>
          </div>
+          <div class="price" @click="buyFun()">
+           <div class="price1">
+          修改价格
+           </div>
+         </div>
          <!-- <div class="column
            is-full-mobile"> -->
           <!-- <div class="content"> -->
