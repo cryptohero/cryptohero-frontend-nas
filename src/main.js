@@ -4,12 +4,13 @@ import Vue from 'vue';
 import vueConfig from 'vue-config';
 import VueLazyload from 'vue-lazyload';
 import AsyncComputed from 'vue-async-computed';
+import VueResource from 'vue-resource';
 import * as config from '@/config';
 import App from './App';
 import store from './store';
 import router from './router';
 import i18n from './i18n';
-import VueResource from 'vue-resource';
+
 
 Vue.config.productionTip = false;
 
