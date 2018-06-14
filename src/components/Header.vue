@@ -17,7 +17,7 @@
 
         <router-link v-else
                      class="navbar-item"
-                     :to="{ name: 'User', params:{address: me.address}}">
+                     :to="{ name: 'MyCollection' } ">
           <div class="transform">{{$t('My Cards')}}</div>
         </router-link>
 
