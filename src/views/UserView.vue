@@ -11,7 +11,7 @@
   <div class="userContainer" v-else>
     <div class="usericon" >
         <figure>
-          <img :src="profile.avatar" alt="Identicon" style="border-radius: 50%;">
+          <img :src="profile.avatar" alt="Identicon" style="border-radius: 50%;  width: 100px;">
         </figure>
     </div>
       <div class="usercontent">
@@ -138,7 +138,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  padding-top: 60px;
+  /* padding-top: 60px; */
 }
 .iconimg{
   border-radius: 50%;
@@ -152,9 +152,10 @@ export default {
   left: 0;
   width: 100%;
   text-align: center;
-  padding-top: 15%;
+  
 }
 .usercontent h2{
+  padding-top: 15%;
   color: blanchedalmond;
 }
 .useraddress {
