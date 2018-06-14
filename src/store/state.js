@@ -8,7 +8,7 @@
 // This is useful when you want to reuse the state object especially for module reuse.
 // https://vuex.vuejs.org/en/modules.html#module-reuse
 
-import cards from '../config/cards.json'
+import cards from '../config/cards.json';
 
 export default () => ({
   locale: '',

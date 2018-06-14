@@ -1,5 +1,5 @@
 <template>
-  <div class="columns is-multiline is-mobile">
+  <div class="columns is-multiline is-mobile">    
     <router-link v-for="item in items"
                  v-if="item"
                  :to="{ name: 'Item', params:{id: item.id}}"
@@ -66,7 +66,10 @@ export default {
   computed: {
     items() {
       return this.itemIds.map((id) => {
+       // console.log(id);
         const item = this.$store.state.items[id];
+     //   console.log(item);
+        item.id = id;
         return item || { id };
       });
     },

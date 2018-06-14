@@ -135,7 +135,7 @@
         return this.item.owner;
       },
       item() {
-        console.error("tiemtiemitem:LLL", this.$store.state.items[this.itemId])
+        // console.error("tiemtiemitem:LLL", this.$store.state.items[this.itemId])
         return this.$store.state.items[this.itemId];
       },
       ad() {
