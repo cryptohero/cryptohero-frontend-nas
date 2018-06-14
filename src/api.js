@@ -39,20 +39,20 @@ export const init = async () => {
 
 init().then();
 
-export const getMe = async () => {
-  if (!window.web3) {
-    throw Error('NO_METAMASK');
-  }
-  return new Promise((resolve, reject) => {
-    web3.eth.getAccounts((error, accounts) => {
-      const address = accounts[0];
-      if (address) {
-        return resolve({ address });
-      }
-      return reject(new Error('METAMASK_LOCKED'));
-    });
+export const getMe = async () => new Promise((resolve) => {
+  window.postMessage({
+    target: 'contentscript',
+    data: {
+    },
+    method: 'getAccount',
+  }, '*');
+  window.addEventListener('message', ({ data }) => {
+    if (data.data && data.data.account) {
+      resolve(data.data.account);
+    }
   });
-};
+});
+
 
 export const getAnnouncements = async () => {
   const response = await request
