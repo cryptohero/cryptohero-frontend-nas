@@ -7,7 +7,6 @@ import FaqView from '@/views/FaqView';
 import UserView from '@/views/UserView';
 import TermView from '@/views/TermView';
 import PrivacyView from '@/views/PrivacyView';
-import BirthdayGiftView from '@/views/BirthdayGiftView';
 import InviteVie from '@/views/InviteView';
 import RankingList from '@/views/RankingList';
 import LuckyDraw from '@/views/LuckyDraw';
@@ -62,11 +61,6 @@ export default new Router({
       name: 'Term',
       path: '/terms-of-us',
       component: TermView,
-    },
-    {
-      name: 'BirthdayGift',
-      path: '/birthday-gift',
-      component: BirthdayGiftView,
     },
     {
       name: 'InviteVie',
