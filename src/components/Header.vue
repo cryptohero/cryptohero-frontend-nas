@@ -9,13 +9,18 @@
          <div class="transform">{{$t('CryptoHero')}}</div>
         </router-link>
 
+        <router-link class="navbar-item"
+                     :to="{ name: 'LuckyDraw'}">
+          <div class="transform"> {{$t('luckydraw')}} </div>
+        </router-link>
+
         <router-link v-if="!me"
                      class="navbar-item"
                      :to="{ name: 'Login'}">
           <div class="transform">{{$t('Sign In')}}</div>
         </router-link>
 
-        <router-link
+        <router-link v-else
                      class="navbar-item"
                      :to="{ name: 'User', params:{address: me}}">
           <div class="transform">{{$t('My Cards')}}</div>
@@ -32,9 +37,10 @@
         </router-link>
 
         <router-link class="navbar-item"
-                     :to="{ name: 'LuckyDraw'}">
-          <div class="transform"> {{$t('luckydraw')}} </div>
+                     :to="{ name: 'FAQ'}">
+          <div class="transform"> {{$t('faq')}} </div>
         </router-link>
+
 
         <!-- <router-link class="navbar-item"
                      :to="{ name: 'BirthdayGift'}">
