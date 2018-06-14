@@ -26,14 +26,14 @@
               </div>
            </li>
 
-           <li><div class="text"> 价格：{{heroPrice}} Nas</div></li>
+           <li><div class="text"> 价格：<input style="width: 50px" disabled="editFlag" type="text" v-model="heroPrice"/> Nas</div></li>
            </ul>
-         <div class="price" @click="buyHero()">
+         <div class="price" @click="buyHero()" v-show="!editFlag">
            <div class="price1">
           购买
            </div>
          </div>
-          <div class="price" @click="upatePrice()">
+          <div class="price" @click="upatePrice()" v-show="editFlag">
            <div class="price1">
           修改价格
            </div>
@@ -146,6 +146,7 @@
       return {
         owner: '',
         price: '',
+        editFlag: true,
       };
     },
     components: {
@@ -193,7 +194,13 @@
         return new NasTool.fromWeiToNas(result).toString();
       }
     },
-
+   mounted(){
+      if( this.address == this.carOwner) {
+        this.editFlag = true;
+  }else {
+        this.editFlag = false;
+  }
+   },
     computed: {
       ...mapState({
         me: state => state.me,
@@ -252,10 +259,14 @@
       },
     },
     methods: {
+    async updatePrice() {
+       const contract = new Contract();
+       const result = await contract.setTokenPrice(this.itemId, this.heroPrice);
+       return result;
+     },
       async draw() {
         const contract = new Contract();
         const result = await contract.draw(undefined, this.heroPrice);
-        alert(result);
       },
       gotoCoinProfile(code) {
         this.$router.push({ path: `/coin/${code}` });
@@ -264,7 +275,7 @@
         this.draw();
       },
       upatePrice() {
-        this.draw;
+         this.updatePrice();
       },
       onBuy(rate) {
         if (this.$store.state.signInError) {

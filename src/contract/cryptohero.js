@@ -115,5 +115,11 @@ export default class LinkIdolContract extends Contract {
     })
     return JSON.parse(price);
   }
-
+  async setTokenPrice(heroId, nas) {
+    const result = await this.call({
+      functionName: 'setTokenPrice',
+      args: [heroId, nas],
+    });
+    return JSON.parse(result)
+  }
 }

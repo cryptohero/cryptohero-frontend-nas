@@ -155,7 +155,7 @@ export default {
   left: 0;
   width: 100%;
   text-align: center;
-  
+
 }
 .usercontent h2{
   padding-top: 15%;
