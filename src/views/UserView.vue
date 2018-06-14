@@ -23,17 +23,20 @@
 
   <section>
       <div class="columns is-multiline is-mobile section2div">
+        <div class="title11">
+          <h4>我的收藏</h4>
+      </div>
         <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem"
         v-for="item in cardsInfo" :key="item"
-        @click="gotoCoinProfile(item.code)">
+        @click="gotoCoinProfile(item.code)" style="margin-top: 18px;">
           <img class="cardItemImg" alt="" :src="item.front"/>
-          <div :style="{ backgroundColor: item.color, height: '50px' }">
+          <div :style="{ backgroundColor: item.color, height: '50px'}">
             <span>
-            <a :style="{ lineHeight: '50px', color: item.textcolor, paddingLeft: '20px' }">
+            <a  class="name" :style="{ lineHeight: '50px', color: item.textcolor, paddingLeft: '20px' }">
               {{item.name}} · {{item.nickname}}</a>
           </span>
           </div>
-          <CardItem :item='item' :hasMouseOver='true'></CardItem>
+          <!-- <CardItem :item='item' :hasMouseOver='true'></CardItem> -->
         </div>
       </div>
     </section>
@@ -162,7 +165,18 @@ export default {
 
    color: blanchedalmond;
 }
+.name {
 
+   color: blanchedalmond;
+}
+.title11{
+  width: 100%;
+  margin-top: 103px;
+  display: flex;
+  justify-content: center;
+  color: blanchedalmond;
+  font-size: 24px;
+}
 /*
   section 2
 */
@@ -175,6 +189,8 @@ export default {
 .cardItemImg{
   vertical-align:bottom;
   cursor: pointer;
+  border: 8px solid #ecdaa8;
+    border-radius: 8px;
 }
 .priceSpan {
   float:right;
