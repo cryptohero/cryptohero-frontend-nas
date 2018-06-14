@@ -115,5 +115,5 @@ export default class LinkIdolContract extends Contract {
     })
     return JSON.parse(price);
   }
-  
+
 }

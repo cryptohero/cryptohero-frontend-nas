@@ -18,22 +18,22 @@
          </div>
          <div class="img">
            <ul>
-           <li><div class="text">编号：{{this.$route.params.id}}</div></li>
+           <li><div class="text">编号：{{itemId}}</div></li>
            <li><div class="text">{{$t('Owner')}}：
               <router-link :to="{ name: 'User', params:{address: item.owner}}">
-                {{item.owner.slice(-6).toUpperCase()}}
+                {{ownerTag}}
               </router-link>
               </div>
            </li>
-             
+
            <li><div class="text"> 价格：{{heroPrice}} Nas</div></li>
-           </ul> 
-         <div class="price" @click="buyFun()">
+           </ul>
+         <div class="price" @click="buyHero()">
            <div class="price1">
           购买
            </div>
          </div>
-          <div class="price" @click="buyFun()">
+          <div class="price" @click="upatePrice()">
            <div class="price1">
           修改价格
            </div>
@@ -135,11 +135,10 @@
 <script>
   import { mapState } from 'vuex';
   import NasId from '@/contract/nasid';
-  import LinkIdol from '@/contract/cryptohero';
+  import Contract from '@/contract/cryptohero';
   import { buyItem, exchangeLuckyToken, setGg, setNextPrice, NasTool } from '@/api';
   import { toReadablePrice } from '@/util';
   import BigNumber from 'bignumber.js';
-
   export default {
     name: 'item-view',
 
@@ -159,24 +158,36 @@
         const uri = await Dravatar(this.ownerAddress);
         return uri;
       },*/
+
+      async getCardsLeft() {
+        const contract = new Contract();
+        console.log(contract);
+        const result = await contract.getDrawCardsLeft();
+        return result;
+      },
+   /*     async getPrice() {
+          const contract = new Contract();
+          const result = await contract.getDrawPrice();
+          return new BigNumber(result).div(1000000000000000000).toString();
+        },*/
       async profile() {
         const nasId = new NasId();
         const result = await nasId.fetchAccountDetail(this.address);
         return result;
       },
       async cardsInfo() {
-        const idol = new LinkIdol();
+        const idol = new Contract();
         const result = await idol.getUserCards(this.address);
         return result;
       },
       async carOwner() {
-        const idol = new LinkIdol();
+        const idol = new Contract();
         var heroId = this.$route.params.id;
         const result = await idol.ownerOf(heroId);
         return result;
       },
       async heroPrice() {
-        const idol = new LinkIdol();
+        const idol = new Contract();
         var heroId = this.$route.params.id;
         const result = await idol.priceOf(heroId);
         return new NasTool.fromWeiToNas(result).toString();
@@ -241,11 +252,19 @@
       },
     },
     methods: {
+      async draw() {
+        const contract = new Contract();
+        const result = await contract.draw(undefined, this.heroPrice);
+        alert(result);
+      },
       gotoCoinProfile(code) {
         this.$router.push({ path: `/coin/${code}` });
       },
-      buyFun() {
-        alert(this.address);
+      buyHero() {
+        this.draw();
+      },
+      upatePrice() {
+        this.draw;
       },
       onBuy(rate) {
         if (this.$store.state.signInError) {
