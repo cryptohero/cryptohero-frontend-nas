@@ -17,9 +17,17 @@
            <img class="big_img" :src="getCardBackSideImage">
          </div>
          <div class="img">
-           <div class="text">编号：{{this.$route.params.id}}</div>
-           <div class="text "> 拥有者：{{carOwner}}   </div>
-           <div class="text"> 价格：{{heroPrice}} Nas</div>
+           <ul>
+           <li><div class="text">编号：{{this.$route.params.id}}</div></li>
+           <li><div class="text">{{$t('Owner')}}：
+              <router-link :to="{ name: 'User', params:{address: item.owner}}">
+                {{item.owner.slice(-6).toUpperCase()}}
+              </router-link>
+              </div>
+           </li>
+             
+           <li><div class="text"> 价格：{{heroPrice}} Nas</div></li>
+           </ul> 
          <div class="price" @click="buyFun()">
            <div class="price1">
           购买

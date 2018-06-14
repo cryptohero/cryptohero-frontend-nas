@@ -1,39 +1,39 @@
 <template lang="pug">
   .containera
     #login(v-if="!me")
-      h1| 请使用 Nebulas 钱包登录 （<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" style="color:#FFFF00" target="_blank">GitHub地址</a>，<a href="https://nano.nebulas.io/index_cn.html" style="color:#FFFF00" target="_blank">Nas nano</a>）
-      h3| 无法访问你的钱包接口，请登录后抽卡
+      h1| {{$t('Content1')}} （<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" style="color:#FFFF00" target="_blank">{{$t('Content2')}}</a>，<a href="https://nano.nebulas.io/index_cn.html" style="color:#FFFF00" target="_blank">Nas nano</a>）
+      h3| {{$t('Content3')}}
     #draw(v-if="me")
             section.hero.head
               .hero-body
                   .container
-                      h1.title| 幸运抽卡
-                      h2.subtitle| 目前卡池可抽数量： {{getCardsLeft}} 张，卡牌限量，先到先得
-                      h2.subtitle| 目前抽卡费
-                      h1.title| {{ getPrice }} NAS / 张
+                      h1.title| {{$t('H1Title1')}}
+                      h2.subtitle| {{$t('H2Title1')}} {{getCardsLeft}} {{$t('H2Title2')}}
+                      h2.subtitle| {{$t('H2Title3')}}
+                      h1.title| {{ getPrice }} NAS / {{$t('CardUnit')}}
             .container
                 .buttons(style="width: 18rem")
-                  a.button.is-primary(@click="setQty(1)")|抽 1 张
-                  a.button.is-primary(@click="setQty(3)")|抽 3 张
-                  a.button.is-primary(@click="setQty(6)")|抽 6 张
-                  a.button.is-primary(@click="setQty(9)")|抽 9 张
-                  a.button.is-primary(@click="setQty(12)")|抽 12 张
-                  a.button.is-primary(@click="setQty(16)")|抽 16 张
-                  a.button.is-primary(@click="setQty(32)")|抽 32 张
-                  a.button.is-primary(@click="setQty(64)")|抽 64 张
-                  a.button.is-primary(@click="setQty(128)")|抽 128 张
-                  a.button.is-primary(@click="setQty(1024)")|抽 1024 张
+                  a.button.is-primary(@click="setQty(1)")|{{$t('Draw')}} 1 {{$t('CardUnit')}}
+                  a.button.is-primary(@click="setQty(3)")|{{$t('Draw')}} 3 {{$t('CardUnit')}}
+                  a.button.is-primary(@click="setQty(6)")|{{$t('Draw')}} 6 {{$t('CardUnit')}}
+                  a.button.is-primary(@click="setQty(9)")|{{$t('Draw')}} 9 {{$t('CardUnit')}}
+                  a.button.is-primary(@click="setQty(12)")|{{$t('Draw')}} 12 {{$t('CardUnit')}}
+                  a.button.is-primary(@click="setQty(16)")|{{$t('Draw')}} 16 {{$t('CardUnit')}}
+                  a.button.is-primary(@click="setQty(32)")|{{$t('Draw')}} 32 {{$t('CardUnit')}}
+                  a.button.is-primary(@click="setQty(64)")|{{$t('Draw')}} 64 {{$t('CardUnit')}}
+                  a.button.is-primary(@click="setQty(128)")|{{$t('Draw')}} 128 {{$t('CardUnit')}}
+                  a.button.is-primary(@click="setQty(1024)")|{{$t('Draw')}} 1024 {{$t('CardUnit')}}
             //- .container
               .columns
                 .column
                   section.hero
                     .hero-body
                         .containers
-                            h2.subtitle| 即将耗费你
+                            h2.subtitle| {{$t('H2Content1')}}
                             h1.title| {{getDisplayTotal}} NAS
-                            h2.subtitle| 你确定要抽取卡牌吗
+                            h2.subtitle| {{$t('H2Content2')}}
                 .column
-                      button.button.is-primary.is-large(@click="draw")| 搏一搏!
+                      button.button.is-primary.is-large(@click="draw")| {{$t('Fight')}}
 
 </template>
 
