@@ -27,7 +27,7 @@
           <h4>{{$t('His Cards')}}</h4>
       </div>
         <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem"
-        v-for="item in cardsInfo" :key="item"
+        v-for="item in cardsInfo" :key="item.code"
         @click="gotoCoinProfile(item.code)" style="margin-top: 18px;">
           <img class="cardItemImg" alt="" :src="item.front"/>
           <div :style="{ backgroundColor: item.color, height: '50px'}">
