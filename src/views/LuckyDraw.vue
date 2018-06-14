@@ -1,7 +1,7 @@
 <template lang="pug">
   .containera
     #login(v-if="!me")
-      h1| 请使用 MetaMask 登录
+      h1| 请使用 Nebulas 钱包登录 （<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" style="color:#FFFF00" target="_blank">GitHub地址</a>，<a href="https://nano.nebulas.io/index_cn.html" style="color:#FFFF00" target="_blank">Nas nano</a>）
       h3| 无法访问你的钱包接口，请登录后抽卡
     #draw(v-if="me")
             section.hero.head

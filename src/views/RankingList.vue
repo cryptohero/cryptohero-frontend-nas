@@ -1,7 +1,7 @@
 <template>
 <div class="back_img">
     <div class="title">
-         <div class="line1"> {{title}}</div>
+         <div class="line1">{{$t('Ranking')}}</div>
     </div> 
     <div class="back">
     <div class="title-line">
@@ -9,9 +9,9 @@
     </div>
     <div class="ranking-ul"> 
      <ul style=" background-color:#97ceea; height: 50px; border: 3px solid #a48554;border-radius: 40px;background-color: #e8cc97;">
-        <li class="rank1" style=" line-height: 25px;">名次</li>
-        <li class="key1" > 钱包地址</li>
-        <li class="time1" > 合成时间</li>   
+        <li class="rank1" style=" line-height: 25px;">{{$t('ranking')}}</li>
+        <li class="key1" > {{$t('key')}}</li>
+        <li class="time1" >{{$t('time')}}</li>   
     </ul>
      </div>
     <div  v-for="( item, index ) in items" :key="item.id" class="ranking-ul"> 
@@ -219,6 +219,15 @@ export default {
     .ranking {
         width: 10vw;
     }
+}
+@media screen and (max-width: 440px) {
+    .time1 {
+        display: none;
+    }
+    .time {
+        display: none;
+    }
+    
 }
 
 /* @media screen and (max-width: 1060px) {

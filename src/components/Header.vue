@@ -15,11 +15,11 @@
           <div class="transform">{{$t('Sign In')}}</div>
         </router-link>
 
-        <router-link v-else
+        <router-link
                      class="navbar-item"
-                     :to="{ name: 'MyCollection' } ">
+                     :to="{ name: 'User', params:{address: me}}">
           <div class="transform">{{$t('My Cards')}}</div>
-        </router-link>
+        </router-link>        
 
         <router-link class="navbar-item"
                      :to="{ name: 'InviteVie'}">
@@ -28,12 +28,12 @@
 
         <router-link class="navbar-item"
                      :to="{ name: 'RankingList'}">
-          <div class="transform">{{$t('Rinking')}}</div>
+          <div class="transform">{{$t('Ranking')}}</div>
         </router-link>
 
         <router-link class="navbar-item"
                      :to="{ name: 'LuckyDraw'}">
-          <div class="transform"> 幸运抽奖 </div>
+          <div class="transform"> {{$t('luckydraw')}} </div>
         </router-link>
 
         <!-- <router-link class="navbar-item"

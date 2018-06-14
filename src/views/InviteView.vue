@@ -1,29 +1,35 @@
 <template>
     <div class="back_img">
         <div class="title11">
-         <div class="line1"> {{title}}</div>
-    </div>
+         <div class="line1">{{$t('inviteFirend')}}</div>
+    </div> 
         <div class="back_color">
             <div class="title_1">
-                <div class="title_2"><b>推荐好友玩 星云水浒 可获得 3 % 消费额的奖励!</b></div>
+                <div class="title_2"><b>{{$t('title')}}</b></div>
             </div>
             <div class="input1">
-            <div class="title is-5 title3">你的邀请链接: </div>
+            <div class="title is-5 title3">{{$t('firendLink')}} </div>
             <div class="input">
                 <input type="search" :value="myRefferalLink" disabled>
             </div>
-                <div class="btn">复制链接</div>
+                <div class="btn">{{$t('Linkcpy')}}</div>
             </div>
             <div>
                 <div class="invite">
                     <div class="line"></div>
-                    <div class="title is-6">分享到社交媒体</div>
+                    <div class="title is-6">{{$t('shareapp')}}</div>
                     <div class="line"></div>
                 </div>
                 <div class="app_list">
                     <ul>
-                    <li v-for="n in 8" :key="n.id" >
-                        <img v-bind:src="'/static/assets/invite/'+index+'.png'"> </li>
+                    <li><img src="/static/assets/invite/1.png"> </li>
+                    <li><img src="/static/assets/invite/2.png"> </li>
+                    <li><img src="/static/assets/invite/3.png"> </li>
+                    <li><img src="/static/assets/invite/4.png"> </li>
+                    <li><img src="/static/assets/invite/5.png"> </li>
+                    <li><img src="/static/assets/invite/6.png"> </li>
+                    <li><img src="/static/assets/invite/7.png"> </li>
+                    <li><img src="/static/assets/invite/8.png"> </li>
                     </ul>
                 </div>
             </div>
@@ -150,14 +156,27 @@ input{
     background-color: #5c3000;
 }
 .app_list{
-    width: 200px;
+    width: 300px;
     height: 50px;
     border: 0px;
     border-radius: 40px;
     background-color: #e0c48f;
     margin: 0px auto;
 }
+.app_list ul li{
+    float: left;
+}
+.app_list ul li img{
+    width: 30px;
+    height: 30px;
+        margin-top: 11px;
+    margin-left: 6px;
+}
 @media screen and (max-width: 450px){
+    .back_color{
+    
+    padding: 9px;
+    }
     .input{
     width: 90%;
     }
@@ -169,6 +188,10 @@ input{
 }
 .line1{
     font-size: 19px;
+}
+.app_list ul li img[data-v-7bd60c08] {
+    margin-top: 10px;
+    margin-left: 6px;
 }
 }
 </style>

@@ -94,6 +94,7 @@ export default {
 }
 .content h4 {
   color: #ffc627;
+  font-size: 13px;
 }
 .card{
   font-size: 1.2em;
