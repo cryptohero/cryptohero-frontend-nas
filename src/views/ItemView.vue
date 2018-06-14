@@ -16,7 +16,10 @@
          <div class="img">
            <img class="big_img" :src="getCardBackSideImage">
          </div>
-         <div>编号：{{this.$route.params.id}} 拥有者：{{carOwner}}   价格：{{heroPrice}} Nas</div>
+         <div class="img">
+           <div class="text">编号：{{this.$route.params.id}}</div>
+           <div class="text "> 拥有者：{{carOwner}}   </div>
+           <div class="text"> 价格：{{heroPrice}} Nas</div>
          <div class="price" @click="buyFun()">
            <div class="price1">
           售价：1NAS
@@ -26,6 +29,7 @@
            <div class="price1">
           修改价格
            </div>
+         </div>
          </div>
          <!-- <div class="column
            is-full-mobile"> -->
@@ -340,8 +344,8 @@
     color: #5c3000;
 }
  .img{
-   width: 300px;
-   height: 450px;
+   width: 224px;
+   height: 340px;
    margin: 20px
  }
  .big_img{
@@ -368,6 +372,10 @@
   text-align: center;
   line-height: 76px;
   color: #ffffff;
+}
+.text{
+  margin: 10px;
+ overflow-wrap: break-word; 
 }
  @media screen and (max-width: 574px) {
   .line1{
