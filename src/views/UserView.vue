@@ -11,7 +11,7 @@
   <div class="userContainer" v-else>
     <div class="usericon" >
         <figure>
-          <img :src="getAvatar" alt="Identicon" style="border-radius: 50%;">
+          <img :src="profile.avatar" alt="Identicon" style="border-radius: 50%;">
         </figure>
     </div>
       <div class="usercontent">
@@ -46,7 +46,6 @@ import { mapState } from 'vuex';
 import NasId from '@/contract/nasid';
 import LinkIdol from '@/contract/cryptohero';
 import CardItem from '@/components/CardItem';
-import getAvatarFromAddress from 'dravatar'
 
 export default {
   name: 'MyCollectionPage',
@@ -54,11 +53,12 @@ export default {
     items: [],
   }),
   asyncComputed: {
-    async getAvatar() {
-      const uri = await getAvatarFromAddress(this.address);
-      return uri;
+    async profile() {
+      const nasId = new NasId();
+      const result = await nasId.fetchAccountDetail(this.address);
+      return result;
     },
-  },  
+  },
   components: {
     CardItem,
   },

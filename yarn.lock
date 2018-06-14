@@ -2121,13 +2121,6 @@ domutils@1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-dravatar@^1.0.2:
-  version "1.0.2"
-  resolved "http://registry.npm.taobao.org/dravatar/download/dravatar-1.0.2.tgz#93381ecf114a94e5a28a93b58641c9a4bad65f53"
-  dependencies:
-    ethereum-blockies-png "^0.1.2"
-    superagent "^3.8.2"
-
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "http://registry.npm.taobao.org/duplexer3/download/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"

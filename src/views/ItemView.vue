@@ -29,7 +29,7 @@
             <!-- <div class="card">
                 <div class="card-image">
                   <figure class="image is-1by1" style="margin: 0">
-                    <img :src="getOwnerAvatar" alt="Holder image">
+                    <img :src="getOwnerProfile" alt="Holder image">
                   </figure>
                 </div>
                 <div class="card-content">
@@ -48,7 +48,7 @@
              <!-- <router-link :to="{ name: 'User', params:{address: item.owner}}">
             <figure class="image is-128x128">
               <img class="item-image"
-              :src="getOwnerAvatar">
+              :src="getOwnerProfile">
             </figure>
             </router-link>
             <ul>
@@ -117,8 +117,9 @@
 <script>
 import { buyItem, exchangeLuckyToken, setGg, setNextPrice } from '@/api';
 import { toReadablePrice } from '@/util';
-import Dravatar from 'dravatar';
+import NasId from '@/contract/nasid';
 import '../assets/neb/nebPay';
+
 export default {
   name: 'item-view',
 
@@ -127,14 +128,15 @@ export default {
       clientAddress: '',
     };
   },
- created() {
-   this.getWallectInfo();
-   this.messageListener();
- },
+  created() {
+    this.getWallectInfo();
+    this.messageListener();
+  },
   asyncComputed: {
-    async getOwnerAvatar() {
-      const uri = await Dravatar(this.ownerAddress);
-      return uri;
+    async getOwnerProfile() {
+      const nasId = new NasId();
+      const result = await nasId.fetchAccountDetail(this.address);
+      return result;
     },
   },
 
@@ -181,24 +183,24 @@ export default {
   watch: {},
 
   methods: {
-    //获取当前钱包地址
-    getWallectInfo: function () {
+    // 获取当前钱包地址
+    getWallectInfo() {
       window.postMessage({
-        "target": "contentscript",
-        "data": {},
-        "method": "getAccount",
-      }, "*");
+        target: 'contentscript',
+        data: {},
+        method: 'getAccount',
+      }, '*');
     },
-    messageListener: function () {
-      alert ("greate")
+    messageListener() {
+      alert('greate');
       window.addEventListener('message', function (e) {
         if (e.data && e.data.data) {
           if (e.data.data.account) {
-            alert ( e.data.data.account)
+            alert(e.data.data.account);
             this.clientAddress = e.data.data.account;
           }
         }
-      })
+      });
     },
     buyFun() {
       alert(this.clientAddress);
