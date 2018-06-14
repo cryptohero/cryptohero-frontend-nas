@@ -16,6 +16,7 @@
          <div class="img">
            <img class="big_img" :src="getCardBackSideImage">
          </div>
+         <div>编号：{{this.$route.params.id}} 拥有者：{{carOwner}}   价格：{{heroPrice}} Nas</div>
          <div class="price" @click="buyFun()">
            <div class="price1">
           售价：1NAS
@@ -115,142 +116,178 @@
 </template>
 
 <script>
-import { buyItem, exchangeLuckyToken, setGg, setNextPrice } from '@/api';
-import { toReadablePrice } from '@/util';
-import NasId from '@/contract/nasid';
-import '../assets/neb/nebPay';
+  import { mapState } from 'vuex';
+  import NasId from '@/contract/nasid';
+  import LinkIdol from '@/contract/cryptohero';
+  import { buyItem, exchangeLuckyToken, setGg, setNextPrice } from '@/api';
+  import { toReadablePrice } from '@/util';
+  import BigNumber from 'bignumber.js';
 
-export default {
-  name: 'item-view',
+  export default {
+    name: 'item-view',
 
-  data() {
-    return {
-      clientAddress: '',
-    };
-  },
-  created() {
-    this.getWallectInfo();
-    this.messageListener();
-  },
-  asyncComputed: {
-    async getOwnerProfile() {
-      const nasId = new NasId();
-      const result = await nasId.fetchAccountDetail(this.address);
-      return result;
+    data() {
+      return {
+        owner: '',
+        price: '',
+      };
     },
-  },
-
-  computed: {
-    ownerTag() {
-      return this.item.owner.slice(-6).toUpperCase();
+    components: {
     },
-    itemId() {
-      return this.$route.params.id;
+    async created() {
+      console.log(this.$route.params.id);
     },
-    me() {
-      return this.$store.state.me || {};
-    },
-    ownerAddress() {
-      return this.item.owner;
-    },
-    item() {
-      return this.$store.state.items[this.itemId];
-    },
-    ad() {
-      return this.$store.state.ads[this.itemId];
-    },
-    isConvert() {
-      return this.$store.state.items[this.itemId].isLCYClaimed;
-    },
-    getCardImage() {
-      return `http://test.cdn.hackx.org/heros/${this.itemId}.jpg`;
-    },
-    getCardBackSideImage() {
-      return `/static/assets/back/${this.itemId}.jpeg`;
-    },
-    isOwner() {
-      return this.item.owner === this.me.address;
-    },
-    notOwner() {
-      return !this.isOwner;
-    },
-  },
-  async created() {
-    this.$store.dispatch('FETCH_ITEM', this.itemId);
-    this.$store.dispatch('FETCH_AD', this.itemId);
-  },
-
-  watch: {},
-
-  methods: {
-    // 获取当前钱包地址
-    getWallectInfo() {
-      window.postMessage({
-        target: 'contentscript',
-        data: {},
-        method: 'getAccount',
-      }, '*');
-    },
-    messageListener() {
-      alert('greate');
-      window.addEventListener('message', function (e) {
-        if (e.data && e.data.data) {
-          if (e.data.data.account) {
-            alert(e.data.data.account);
-            this.clientAddress = e.data.data.account;
-          }
-        }
-      });
-    },
-    buyFun() {
-      alert(this.clientAddress);
-    },
-    onBuy(rate) {
-      if (this.$store.state.signInError) {
-        return this.$router.push({ name: 'Login' });
+    asyncComputed: {
+      async getOwnerAvatar() {
+        const uri = await Dravatar(this.ownerAddress);
+        return uri;
+      },
+      async profile() {
+        const nasId = new NasId();
+        const result = await nasId.fetchAccountDetail(this.address);
+        return result;
+      },
+      async cardsInfo() {
+        const idol = new LinkIdol();
+        const result = await idol.getUserCards(this.address);
+        return result;
+      },
+      async carOwner() {
+        const idol = new LinkIdol();
+        var heroId = this.$route.params.id;
+        const result = await idol.ownerOf(heroId);
+        console.log('+++++++++++carOwner++++++++++++++++')
+        console.log(result)
+        return result;
+      },
+      async heroPrice() {
+        const idol = new LinkIdol();
+        var heroId = this.$route.params.id;
+        const result = await idol.priceOf(heroId);
+        console.log('+++++++++++heroPrice++++++++++++++++')
+        console.log(result)
+        return result;
       }
-      const buyPrice = this.item.price.times(rate).toFixed(0);
-      buyItem(this.itemId, buyPrice)
-        .then(() => {
-          alert(this.$t('BUY_SUCCESS_MSG'));
-          setNextPrice(this.itemId, buyPrice);
-        })
-        .catch((e) => {
-          alert(this.$t('BUY_FAIL_MSG'));
-          console.log(e);
-        });
     },
-    toDisplayedPrice(priceInWei) {
-      const readable = toReadablePrice(priceInWei);
-      return `${readable.price} ${readable.unit}`;
+
+    computed: {
+      ...mapState({
+        me: state => state.me,
+      }),
+      address() {
+        return this.$route.params.address || this.me;
+      },
+      ownerTag() {
+        return this.item.owner.slice(-6).toUpperCase();
+      },
+      itemId() {
+        return this.$route.params.id;
+      },
+      me() {
+        return this.$store.state.me || {};
+      },
+      ownerAddress() {
+        return this.item.owner;
+      },
+      item() {
+        return this.$store.state.items[this.itemId];
+      },
+      ad() {
+        return this.$store.state.ads[this.itemId];
+      },
+      isConvert() {
+        return this.$store.state.items[this.itemId].isLCYClaimed;
+      },
+      getCardImage() {
+        return `http://test.cdn.hackx.org/heros/${this.itemId}.jpg`;
+      },
+      getCardBackSideImage() {
+        return `/static/assets/back/${this.itemId}.jpeg`;
+      },
+      isOwner() {
+        return this.item.owner === this.me.address;
+      },
+      notOwner() {
+        return !this.isOwner;
+      },
     },
-    async onUpdateAd() {
-      const ad = prompt(this.$t('UPDATE_SLOGAN_PROMPT'));
-      if (ad !== null) {
-        if (ad.length > 100) {
-          return alert(this.$t('UPDATE_SLOGAN_FAIL_TOO_LOOG_MSG'));
+
+    watch: {
+      cardsInfo(cards) {
+        // console.log(`newTypes:${cards}`);
+        // console.log("cards:"+cards.length)
+        if (cards.length >= 6) {
+          const formData = new FormData();
+          formData.append('address', this.address);
+          this.$http.post('http://35.200.102.240/addranknas.php', formData)
+            .then((response) => {
+              const res = response.body;
+              console.log(res);
+            });
         }
-        setGg(this.itemId, ad)
+      },
+    },
+    methods: {
+      gotoCoinProfile(code) {
+        this.$router.push({ path: `/coin/${code}` });
+      },
+      fromWeiToNas(value) {
+        if (value instanceof BigNumber) {
+          return value.dividedBy('1000000000000000000');
+        } else {
+          var nas = new BigNumber(value).dividedBy(1000000000000000000)
+          return new BigNumber(value).dividedBy(1000000000000000000).toString();
+        }
+      },
+      buyFun() {
+        alert(this.address);
+      },
+      onBuy(rate) {
+        if (this.$store.state.signInError) {
+          return this.$router.push({ name: 'Login' });
+        }
+        const buyPrice = this.item.price.times(rate).toFixed(0);
+        buyItem(this.itemId, buyPrice)
           .then(() => {
-            this.$store.dispatch('FETCH_AD', this.itemId);
+            alert(this.$t('BUY_SUCCESS_MSG'));
+            setNextPrice(this.itemId, buyPrice);
           })
           .catch((e) => {
-            alert(this.$t('UPDATE_SLOGAN_FAIL_MSG'));
+            alert(this.$t('BUY_FAIL_MSG'));
             console.log(e);
           });
-      }
-      return 0;
+      },
+      toDisplayedPrice(priceInWei) {
+        const readable = toReadablePrice(priceInWei);
+        return `${readable.price} ${readable.unit}`;
+      },
+      async onUpdateAd() {
+        const ad = prompt(this.$t('UPDATE_SLOGAN_PROMPT'));
+        if (ad !== null) {
+          if (ad.length > 100) {
+            return alert(this.$t('UPDATE_SLOGAN_FAIL_TOO_LOOG_MSG'));
+          }
+          setGg(this.itemId, ad)
+            .then(() => {
+              this.$store.dispatch('FETCH_AD', this.itemId);
+            })
+            .catch((e) => {
+              alert(this.$t('UPDATE_SLOGAN_FAIL_MSG'));
+              console.log(e);
+            });
+        }
+        return 0;
+      },
+      async exchangeToken() {
+        // need i18n
+        exchangeLuckyToken(this.itemId)
+          .then(() => alert('请求已发送 请等待交易结果'))
+          .catch(() => {
+            alert('交易发送失败');
+          });
+      },
     },
-    async exchangeToken() {
-      // need i18n
-      exchangeLuckyToken(this.itemId)
-        .then(() => alert('请求已发送 请等待交易结果'))
-        .catch(() => {
-          alert('交易发送失败');
-        });
-    },
-  },
-};
+  };
 </script>
  <style scoped>
  .back_img{

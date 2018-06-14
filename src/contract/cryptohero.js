@@ -101,4 +101,18 @@ export default class LinkIdolContract extends Contract {
       });
     return JSON.parse(result);
   }
+  async ownerOf(heroId) {
+    const owner = await this.call({
+      functionName: 'ownerOf',
+      args: [heroId]
+    })
+    return JSON.parse(owner);
+  }
+  async priceOf(heroId) {
+    const price = await this.call({
+      functionName: 'priceOf',
+      args: [heroId],
+    })
+    return JSON.parse(price);
+  }
 }
