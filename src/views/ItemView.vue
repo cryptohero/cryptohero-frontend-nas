@@ -3,7 +3,7 @@
     <div v-if="item">
       <div class="back_img">
         <div class="title">
-         <div class="line1">卡牌详情</div>
+         <div class="line1">{{$t('CardDetails')}}</div>
     </div>
        <div class="back_color">
          <div class="title_1">
@@ -18,7 +18,7 @@
          </div>
          <div class="img">
            <ul>
-           <li><div class="text">编号：{{itemId}}</div></li>
+           <li><div class="text">{{$t('NoId')}}{{itemId}}</div></li>
            <li><div class="text">{{$t('Owner')}}：
               <router-link :to="{ name: 'User', params:{address: item.owner}}">
                 {{ownerTag}}
@@ -26,16 +26,16 @@
               </div>
            </li>
 
-           <li><div class="text"> 价格：{{heroPrice}} Nas</div></li>
+           <li><div class="text"> {{$t('Value')}}{{heroPrice}} Nas</div></li>
            </ul>
          <div class="price" @click="buyHero()">
            <div class="price1">
-          购买
+          {{$t('Buy')}}
            </div>
          </div>
           <div class="price" @click="upatePrice()">
            <div class="price1">
-          修改价格
+          {{$t('ModPrice')}}
            </div>
          </div>
          </div>

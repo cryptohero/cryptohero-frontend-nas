@@ -15,8 +15,8 @@
         </figure>
     </div>
       <div class="usercontent">
-        <h2 class="title"> {{profile.nickname}} 的收藏 </h2>
-        <p class="useraddress"> 钱包地址 {{address}}</p>
+        <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
+        <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
     </section>
@@ -24,7 +24,7 @@
   <section>
       <div class="columns is-multiline is-mobile section2div">
         <div class="title11">
-          <h4>我的收藏</h4>
+          <h4>{{$t('His Cards')}}</h4>
       </div>
         <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem"
         v-for="item in cardsInfo" :key="item"
@@ -155,7 +155,7 @@ export default {
   left: 0;
   width: 100%;
   text-align: center;
-  
+
 }
 .usercontent h2{
   padding-top: 15%;

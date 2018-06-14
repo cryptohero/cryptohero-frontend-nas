@@ -20,7 +20,7 @@
           <div class="card-content">
             <div class="content is-small">
               <h4>{{item.nickname}} · {{item.name}}
-                <div class="btnn">查看详情</div>
+                <div class="btnn">{{$t('Details')}}</div>
               </h4>
               <!-- <ul>
                 <li>{{$t('Owner')}}：
@@ -30,7 +30,7 @@
                   </router-link>
                 </li>
                 <li>{{$t('Current Price')}}: {{toDisplayedPrice(item.price)}}</li>
-              </ul> 
+              </ul>
               <p class="item-slogan">{{$t('Slogan')}}: {{toDisplayedAd(item.id)}}</p>-->
             </div>
           </div>
