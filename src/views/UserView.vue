@@ -1,126 +1,200 @@
 <template>
-  <div>
-    <!-- rewrite -->
-    <div class="card">
-  <div class="card-content">
-    <div class="media">
-      <div class="media-content">
+<div>
+
+<section>
+  <div class="userContainer" v-if="!profile">
+    <div class="usercontent">
+      <h2 class="title">Loading Profile, please wait
+      </h2>
+    </div>
+  </div>
+  <div class="userContainer" v-else>
+    <div class="usericon" >
         <figure>
           <img :src="getAvatar" alt="Identicon" style="border-radius: 50%;">
         </figure>
-      </div>
-      <div class="media-content">
-        <p class="title is-4"> {{$t('User')}}: {{address}} </p>
-        <br>
-        <!-- <p class="subtitle is-6">的卡片</p> -->
-        <!-- <p class="subtitle is-6"><a class="button" :href="getEtherScanURL"> 查看TA的交易记录 </a></p> -->
-      </div>
-      <div class="media-content">
-        卡片：100张
+    </div>
+      <div class="usercontent">
+        <h2 class="title"> {{profile.nickname}} 的收藏 </h2>
+        <p class="useraddress"> 钱包地址 {{address}}</p>
       </div>
     </div>
+    </section>
 
+  <section>
+      <div class="columns is-multiline is-mobile section2div">
+        <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem"
+        v-for="item in cardsInfo" :key="item"
+        @click="gotoCoinProfile(item.code)">
+          <img class="cardItemImg" alt="" :src="item.front"/>
+          <div :style="{ backgroundColor: item.color, height: '50px' }">
+            <span>
+            <a :style="{ lineHeight: '50px', color: item.textcolor, paddingLeft: '20px' }">
+              {{item.name}} · {{item.nickname}}</a>
+          </span>
+          </div>
+          <CardItem :item='item' :hasMouseOver='true'></CardItem>
+        </div>
       </div>
-    </div>
-    <!-- end of rewrite -->
-    <div class="tabs">
-      <div class="title11">
-          <a v-if="me && me.address.toUpperCase() === address">{{$t('My Cards')}}</a>
-          <a v-else>{{$t('His Cards')}}</a>
-      </div>
-    </div>
-    <ItemList :itemIds='itemIds' />
-  </div>
+    </section>
+
+</div>
 </template>
 
 <script>
-import ItemList from '@/components/ItemList';
-import { getItemsOf } from '@/api';
+import { mapState } from 'vuex';
+import NasId from '@/contract/nasid';
+import LinkIdol from '@/contract/cryptohero';
+import CardItem from '@/components/CardItem';
 import getAvatarFromAddress from 'dravatar'
-  ;
 
 export default {
-  name: 'UserView',
-  components: {
-    ItemList,
-  },
+  name: 'MyCollectionPage',
   data: () => ({
-    itemIds: [],
+    items: [],
   }),
   asyncComputed: {
     async getAvatar() {
       const uri = await getAvatarFromAddress(this.address);
       return uri;
     },
+  },  
+  components: {
+    CardItem,
   },
-  computed: {
-    address() {
-      return this.$route.params.address;
+  // async mounted() {
+  //   console.log("aaaaaa:"+this.cardsInfo)
+  //   if (this.cardsInfo.length >= 6) {
+  //     const formData = new FormData();
+  //     formData.append('address', this.address);
+  //     this.$http.post('http://35.200.102.240/addranknas.php', formData)
+  //       .then((response) => {
+  //         const res = response.body;
+  //         console.log(res);
+  //       });
+  //   }
+  // },
+  asyncComputed: {
+    async profile() {
+      const nasId = new NasId();
+      const result = await nasId.fetchAccountDetail(this.address);
+      return result;
     },
-    getEtherScanURL() {
-      return `https://etherscan.io/address/${this.address}`;
+    async cardsInfo() {
+      const idol = new LinkIdol();
+      const result = await idol.getUserCards(this.address);
+      return result;
     },
-    me() {
-      return this.$store.state.me;
+  },
+  methods: {
+    gotoCoinProfile(code) {
+      this.$router.push({ path: `/coin/${code}` });
     },
   },
   async created() {
-    this.itemIds = await getItemsOf(this.$route.params.address);
-    if (this.itemIds.length >= 108) {
-      const formData = new FormData();
-      formData.append('address', this.address);
-      this.$http
-        .post('http://35.200.102.240/addrankshuihunas.php', formData)
-        .then((response) => {
-          const res = response.body;
-          console.log(res);
-        });
-    }
+    console.log('created');
   },
-
-  watch: {},
-
-  methods: {},
+  computed: {
+    ...mapState({
+      me: state => state.me,
+    }),
+    address() {
+      return this.$route.params.address || this.me;
+    },
+  },
+  watch: {
+    cardsInfo(cards) {
+      // console.log(`newTypes:${cards}`);
+      // console.log("cards:"+cards.length)
+      if (cards.length >= 6) {
+        const formData = new FormData();
+        formData.append('address', this.address);
+        this.$http.post('http://35.200.102.240/addranknas.php', formData)
+          .then((response) => {
+            const res = response.body;
+            console.log(res);
+          });
+      }
+    },
+  },
 };
 </script>
+
 <style scoped>
-.user-info-wrapper {
-  border-radius: 5px;
-}.media {
-  display:block;
-    height: 439px;
-    margin-top: 122px;
+/*
+  section 1
+*/
+.userContainer {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-color: #fff;
+  width: 100%;
+  /*padding-top: 43.5%;*/
+  padding-top: 28%;
+  position: relative;
+  text-align: center;
 }
-.card {
-  color: blanchedalmond;
-    background-color:inherit;
+.usericon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-top: 60px;
 }
-.media-content {
-    display: flex;
-    justify-content: center;
+.iconimg{
+  border-radius: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
-.title11{
- 
-  font-size: 43px;
+.usercontent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding-top: 15%;
 }
-.title{
-  color: blanchedalmond;
+.useraddress {
+  color: #08567e;
 }
-.tabs a{
-   color: blanchedalmond;
+
+/*
+  section 2
+*/
+.section2div {
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-top: 30px;
+  padding-bottom: 50px;
 }
-.tabs{
-  
-  justify-content: center;
+.cardItemImg{
+  vertical-align:bottom;
+  cursor: pointer;
 }
-@media screen and (max-width: 414px){
-figure{
-  height: 152px;
-    width: 144px;
+.priceSpan {
+  float:right;
+  padding-right: 20px;
 }
-.media[data-v-4d74474a] {
-    height: 289px;
-    margin-top: 29px;
-}
+
+@media (max-width: 800px) {
+  .cardContainer {
+    background-size: cover;
+    padding-top: 60%;
+  }
+  .charaimg{
+    width: 100%;
+  }
+  .btnContainer {
+    padding-top: 50%;
+  }
+
+  .section2div {
+    padding-top: 100px;
+  }
+  .cardItemImg{
+    width: 100%;
+  }
 }
 </style>
+
