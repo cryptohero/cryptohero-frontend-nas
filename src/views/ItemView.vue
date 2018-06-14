@@ -19,10 +19,11 @@
          <div class="img">
            <ul>
            <li><div class="text">编号：{{this.$route.params.id}}</div></li>
-           <li>{{$t('Owner')}}：
+           <li><div class="text">{{$t('Owner')}}：
               <router-link :to="{ name: 'User', params:{address: item.owner}}">
                 {{item.owner.slice(-6).toUpperCase()}}
               </router-link>
+              </div>
            </li>
              
            <li><div class="text"> 价格：{{heroPrice}} Nas</div></li>
