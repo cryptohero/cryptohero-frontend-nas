@@ -69,7 +69,11 @@ export default class Contract {
      * @param: data - Function arguement, please enter arguement in ordered array
      * @param: options - please check https://github.com/nebulasio/nebPay/blob/master/doc/NebPay%E4%BB%8B%E7%BB%8D.md#options
      */
-  async send({ functionName, value = 0, data = [], options = { listener: undefined } }) {
+  async send({ functionName, value = 0, data = [], options = { listener: 
+        function (resp) {
+          console.log("respres:"+resp);
+        }
+   } }) {
     const to = this.contractAddress;
     const resp = await nebPay.call(
       to,
