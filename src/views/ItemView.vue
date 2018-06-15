@@ -30,7 +30,8 @@
               </li>
 
               <li>
-                <div class="text"> {{$t('Value')}}<input style="width: 50px" disabled="editFlag" v-model="heroPrice" >Nas</div>
+                <div class="text"> {{$t('Value')}}
+                  <input style="width: 50px" type="text" :disabled=!editFlag v-model="heroPrice">Nas</div>
               </li>
             </ul>
             <div class="price" @click="buyHero()" v-show="!editFlag">
@@ -67,7 +68,7 @@
       return {
         owner: '',
         price: '',
-        editFlag: false,
+        editFlag: true,
       };
     },
     components: {
@@ -101,23 +102,22 @@
         const idol = new Contract();
         var heroId = this.$route.params.id;
         const result = await idol.ownerOf(heroId);
-        console.log('++++heroId+++++++')
-        console.log(result)
+        if( this.address === result) {
+          this.editFlag = true;
+        }else {
+          this.editFlag = false;
+        }
         return result;
       },
       async heroPrice() {
         const idol = new Contract();
         var heroId = this.$route.params.id;
         const result = await idol.priceOf(heroId);
-        console.log('++++heroprice+++++++')
-        console.log(new NasTool.fromWeiToNas(result).toString())
         return new NasTool.fromWeiToNas(result).toString();
       },
-      async item() {
+   async item() {
     const contract = new Contract();
-    console.log('carInfo')
-    const result = await contract.getCarInfo(this.itemId);
-    console.log(result)
+    const result = await contract.getCardInfoByTokenId(this.$route.params.id);
     return result;
   },
     },
@@ -141,16 +141,16 @@
       ownerAddress() {
         return this.item.owner;
       },
-     /* item() {
-        // console.error("tiemtiemitem:LLL", this.$store.state.items[this.itemId])
+//      item() {
+//        // console.error("tiemtiemitem:LLL", this.$store.state.items[this.itemId])
 //        return this.$store.state.items[this.itemId];
-//        console.log(heroJsonFile[this.itemId])
-        const contract = new Contract();
-        console.log('carInfo')
-        const result = await contract.getCarInfo(this.itemId);
-        console.log(result)
-        return result;
-      },*/
+////        console.log(heroJsonFile[this.itemId])
+//        const contract = new Contract();
+//        console.log('carInfo')
+//        const result = await contract.getCarInfo(this.itemId);
+//        console.log(result)
+//        return result;
+//      },
       ad() {
         return this.$store.state.ads[this.itemId];
       },
@@ -186,12 +186,8 @@
         }*/
       },
     },
-    mounted(){
-      if( this.address == this.carOwner) {
-        this.editFlag = true;
-      }else {
-        this.editFlag = false;
-      }
+    mounted() {
+
     },
     methods: {
       async updatePrice() {

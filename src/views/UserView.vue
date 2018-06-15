@@ -28,7 +28,7 @@
       </div>
         <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem"
         v-for="item in cardsInfo" :key="item.code"
-        @click="gotoCoinProfile(item.code)" style="margin-top: 18px;">
+        @click="gotoCoinProfile(item.tokenId)" style="margin-top: 18px;">
           <img class="cardItemImg" alt="" :src="item.front"/>
           <div :style="{ backgroundColor: item.color, height: '50px'}">
             <span>
@@ -86,12 +86,14 @@ export default {
     async cardsInfo() {
       const idol = new LinkIdol();
       const result = await idol.getUserCards(this.address);
+      console.log('carInfo');
+      console.error(result)
       return result;
     },
   },
   methods: {
-    gotoCoinProfile(code) {
-      this.$router.push({ path: `/item/${code}` });
+    gotoCoinProfile(tokenId) {
+      this.$router.push({ path: `/item/${tokenId}` });
     },
   },
   async created() {
