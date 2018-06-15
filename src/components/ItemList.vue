@@ -12,22 +12,20 @@
            is-one-quarter-fullhd">
       <template v-if="0 <= item.id && item.id <= 114">
         <div class="card">
-          <div class="card-image"
-              @mouseover="lightShow(item.id)"
-              @mouseout="lightunShow(item.id)">
+          <div class="card-image">
+              <!-- @mouseover="lightShow(item.id)"
+              @mouseout="lightunShow(item.id)"
             <div class="smallcardcharas">
               <img class="charaimg" v-lazy="getCardImage(1)">
-              <!-- <img class="charaimg" v-lazy="getCardImage(2)" v-show="!lightisShow[item.id]">  -->
             </div>
             <div class="smallcardcharas">
-              <!-- <img class="charaimg" v-lazy="getCardImage(1)"> -->
               <img class="charaimg" v-lazy="getCardImage(2)" v-show="!lightisShow[item.id]"> 
-            </div>
-            <div class="imageborder8">
+            </div> -->
+            <!-- <div class="imageborder8"> -->
             <figure class="image is-5by4">
               <img v-lazy="getCardImage(item.id)">
             </figure>
-            </div>
+            <!-- </div> -->
           </div>
           <div class="card-content">
             <div class="content is-small">
@@ -60,7 +58,7 @@ export default {
   props: ['itemIds'],
 
   data: () => ({
-    lightisShow: [],
+    // lightisShow: [],
   }),
 
   computed: {
@@ -90,22 +88,22 @@ export default {
     getCardImage(id) {
       return `http://test.cdn.hackx.org/heros/${id}.jpg`;
     },
-    lightShow: function(id) {
-      console.log(id+"qwwwww"+this.lightisShow[id])
-      this.lightisShow[id] = true;
-      this.$forceUpdate();
-    },
-    lightunShow: function(id) {
-      console.log(id+"qwwwww"+this.lightisShow[id])
-      this.lightisShow[id] = false;
-      this.$forceUpdate();
-    }
+    // lightShow: function(id) {
+    //   console.log(id+"qwwwww"+this.lightisShow[id])
+    //   this.lightisShow[id] = true;
+    //   this.$forceUpdate();
+    // },
+    // lightunShow: function(id) {
+    //   console.log(id+"qwwwww"+this.lightisShow[id])
+    //   this.lightisShow[id] = false;
+    //   this.$forceUpdate();
+    // }
   },
 
   created() {
-    for(var i=0;i<=114;i++){
-      this.lightisShow[i] = false;
-    }
+    // for(var i=0;i<=114;i++){
+    //   this.lightisShow[i] = false;
+    // }
   },
 
   watch: {
@@ -127,12 +125,12 @@ export default {
   color: #ffc627;
   font-size: 13px;
 }
-.imageborder8{
+/* .imageborder8{
   border-top: 12px solid;
   border-left: 8px solid;
   border-bottom: 12px solid;
   border-right: 8px solid;
-}
+} */
 .card{
   font-size: 1.2em;
   background-color: initial;
@@ -153,12 +151,8 @@ flex-wrap: wrap;
   word-wrap: break-word;
   word-break: break-all;
 }
-.smallcardcharas {
+/* .smallcardcharas {
   position: absolute;
-  /* top: 0;
-  left: 0; 
-  width: 100%; */
-  
-}
+} */
 </style>
 
