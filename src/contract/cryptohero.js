@@ -20,14 +20,15 @@ export default class LinkIdolContract extends Contract {
   constructor() {
     super({
       // contractAddress: 'n1jkpnTHaPeEm8S7sQSWf2R4n5WrSebonZ3',
-      contractAddress: 'n1dwSSgbeZEGV81GWhdQmN5XfD4Bt2WDSb7',
+      // contractAddress: 'n1dwSSgbeZEGV81GWhdQmN5XfD4Bt2WDSb7',
+      contractAddress: 'n1pPfgbyq1i268DGdeJnhwEp1jj1QpbA4WF',
       network: 'testnet',
     });
   }
 
   async draw(referrer = 'n1MmUacQExJwkD1xHggwaEvTpKgUeSmV4Af', value) {
     this.call({
-      functionName: 'multiDraw',
+      functionName: 'draw',
       value: new BigNumber(value).times(1000000000000000000).toString(),
       args: [referrer],
     }).then(console.info);
@@ -37,18 +38,17 @@ export default class LinkIdolContract extends Contract {
     //     value,
     //     data: [referrer],
     //   });
-    return new Promise(resolve =>{
+    return new Promise((resolve) => {
       this.send(
         {
           functionName: 'multiDraw',
           value,
           data: [referrer],
           options: {
-            listener:
-            function (resp) {
+            listener (resp) {
               resolve(resp);
-            }
-          }
+            },
+          },
         });
     });
     // return result;
@@ -82,9 +82,9 @@ export default class LinkIdolContract extends Contract {
   }
 
   async getUserCards(address) {
-    console.error("address", address)
+    console.error('address', address);
     const tokenIds = await this.getTokenIDsByAddress(address);
-    console.error(tokenIds)
+    console.error(tokenIds);
     const result = await Promise.all(tokenIds.map(async (token) => {
       const heroId = await this.call(
         {
@@ -123,15 +123,15 @@ export default class LinkIdolContract extends Contract {
   async ownerOf(heroId) {
     const owner = await this.call({
       functionName: 'ownerOf',
-      args: [heroId]
-    })
+      args: [heroId],
+    });
     return JSON.parse(owner);
   }
   async priceOf(heroId) {
     const price = await this.call({
       functionName: 'priceOf',
       args: [heroId],
-    })
+    });
     return JSON.parse(price);
   }
   async setTokenPrice(heroId, nas) {
@@ -139,6 +139,6 @@ export default class LinkIdolContract extends Contract {
       functionName: 'setTokenPrice',
       args: [heroId, nas],
     });
-    return JSON.parse(result)
+    return JSON.parse(result);
   }
 }
