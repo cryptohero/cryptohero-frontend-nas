@@ -1,5 +1,5 @@
 <template>
-  <div class="columns is-multiline is-mobile">    
+  <div class="columns is-multiline is-gapless is-mobile">    
     <router-link v-for="item in items"
                  v-if="item"
                  :to="{ name: 'Item', params:{id: item.id}}"
@@ -9,23 +9,25 @@
            is-one-quarter-tablet
            is-one-quarter-desktop
            is-one-quarter-widescreen
-           is-one-quarter-fullhd">
+           is-one-quarter-fullhd"
+           >
       <template v-if="0 <= item.id && item.id <= 114">
-        <div class="card">
-          <div class="card-image">
-              <!-- @mouseover="lightShow(item.id)"
+        <!-- <div class="card"> -->
+          <div class="card-image"
+              @mouseover="lightShow(item.id)"
               @mouseout="lightunShow(item.id)"
+              >
             <div class="smallcardcharas">
-              <img class="charaimg" v-lazy="getCardImage(1)">
+              <img class="charaimg" v-lazy="getCardBack()">
             </div>
             <div class="smallcardcharas">
-              <img class="charaimg" v-lazy="getCardImage(2)" v-show="!lightisShow[item.id]"> 
-            </div> -->
-            <!-- <div class="imageborder8"> -->
+              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[item.id]"> 
+            </div>
+            <div class="imageborder8">
             <figure class="image is-5by4">
               <img v-lazy="getCardImage(item.id)">
             </figure>
-            <!-- </div> -->
+            </div>
           </div>
           <div class="card-content">
             <div class="content is-small">
@@ -44,7 +46,7 @@
               <p class="item-slogan">{{$t('Slogan')}}: {{toDisplayedAd(item.id)}}</p>-->
             </div>
           </div>
-        </div>
+        <!-- </div> -->
       </template>
     </router-link>
   </div>
@@ -58,7 +60,7 @@ export default {
   props: ['itemIds'],
 
   data: () => ({
-    // lightisShow: [],
+    lightisShow: [],
   }),
 
   computed: {
@@ -88,22 +90,28 @@ export default {
     getCardImage(id) {
       return `http://test.cdn.hackx.org/heros/${id}.jpg`;
     },
-    // lightShow: function(id) {
-    //   console.log(id+"qwwwww"+this.lightisShow[id])
-    //   this.lightisShow[id] = true;
-    //   this.$forceUpdate();
-    // },
-    // lightunShow: function(id) {
-    //   console.log(id+"qwwwww"+this.lightisShow[id])
-    //   this.lightisShow[id] = false;
-    //   this.$forceUpdate();
-    // }
+    getCardBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback_light.png`;
+    },
+    getCardLightBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback.png`;
+    },
+    lightShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = true;
+      this.$forceUpdate();
+    },
+    lightunShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = false;
+      this.$forceUpdate();
+    }
   },
 
   created() {
-    // for(var i=0;i<=114;i++){
-    //   this.lightisShow[i] = false;
-    // }
+    for(var i=0;i<=114;i++){
+      this.lightisShow[i] = false;
+    }
   },
 
   watch: {
@@ -118,19 +126,23 @@ export default {
 </script>
  <style scoped>
  .image {
-    border: 8px solid #ecdaa8;
-    border-radius: 8px;
+    background : "";
+    /* border: 8px solid #ecdaa8;
+    border-radius: 8px; */
+}
+.opacitycolumn{
+  fill-opacity: 0;
 }
 .content h4 {
   color: #ffc627;
   font-size: 13px;
 }
-/* .imageborder8{
-  border-top: 12px solid;
-  border-left: 8px solid;
-  border-bottom: 12px solid;
-  border-right: 8px solid;
-} */
+.imageborder8{
+  border-top: 34px solid #00000000;
+  border-left: 32px solid #00000000;
+  border-bottom: 34px solid #00000000;
+  border-right: 32px solid #00000000;
+}
 .card{
   font-size: 1.2em;
   background-color: initial;
@@ -151,8 +163,8 @@ flex-wrap: wrap;
   word-wrap: break-word;
   word-break: break-all;
 }
-/* .smallcardcharas {
+.smallcardcharas {
   position: absolute;
-} */
+}
 </style>
 
