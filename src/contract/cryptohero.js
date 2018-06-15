@@ -3,9 +3,10 @@ import heroProfile from '@/config/cards.json';// '@/heroProfile.json';
 import Contract from './contract';
 
 function getCardInfoByHeroId(id) {
-  const str = `Card Hero id ${id}`;
-  console.error(str);
   const basic = heroProfile[id];
+  if (!basic) {
+    console.error(`error detected id is ${id}`);
+  }
   const cardImage = {
     front: `http://test.cdn.hackx.org/heros/${id}.jpg`,
     back: `http://test.cdn.hackx.org/back/back_${id}.jpg`,
@@ -17,7 +18,8 @@ function getCardInfoByHeroId(id) {
 export default class LinkIdolContract extends Contract {
   constructor() {
     super({
-      contractAddress: 'n1jkpnTHaPeEm8S7sQSWf2R4n5WrSebonZ3',
+      // contractAddress: 'n1jkpnTHaPeEm8S7sQSWf2R4n5WrSebonZ3',
+      contractAddress: 'n1dwSSgbeZEGV81GWhdQmN5XfD4Bt2WDSb7',
       network: 'testnet',
     });
   }
