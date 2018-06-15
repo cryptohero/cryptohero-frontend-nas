@@ -17,7 +17,7 @@
 
             <div class="invitelist"> 
                 <ul>
-                    <li class="ul1">邀请人</li>
+                    <li class="ul1">被邀请人</li>
                     <li class="ul2">抽卡数量</li>
                     <li class="ul3">充值金额</li>
                     <li class="ul4">返利金额</li>
@@ -88,7 +88,31 @@ export default {
   async mounted() {
     this.$http.get(`http://35.200.102.240/inviteshuihulist.php?address=${this.me}`)
       .then((response) => {
-        this.items = response.body;
+
+        var addresstypes = {}
+        response.body.map(async (addrinfo) => {
+            if (addresstypes[addrinfo["address"]]) {
+                addresstypes[addrinfo["address"]]["cardcount"]+=parseInt(addrinfo["cardcount"]);
+                addresstypes[addrinfo["address"]]["paid"]+=parseFloat(addrinfo["paid"]);
+                addresstypes[addrinfo["address"]]["rebate"]+=parseFloat(addrinfo["rebate"]);
+            } else {
+                addresstypes[addrinfo["address"]] = {};
+                addresstypes[addrinfo["address"]]["cardcount"]=parseInt(addrinfo["cardcount"]);
+                addresstypes[addrinfo["address"]]["paid"]=parseFloat(addrinfo["paid"]);
+                addresstypes[addrinfo["address"]]["rebate"]=parseFloat(addrinfo["rebate"]);
+            }
+        });
+
+        const keys = Object.keys(addresstypes);
+        const thisself = this;
+          keys.forEach((addr) => {
+            var info = addresstypes[addr];
+            console.log(info);
+            info["address"] = addr;
+            thisself.items.push(info);
+          });
+
+        // this.items = response.body;
       });
   }
 };
