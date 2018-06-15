@@ -28,7 +28,7 @@
       </div>
         <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem"
         v-for="item in cardsInfo" :key="item.code"
-        @click="gotoCoinProfile(item.code)" style="margin-top: 18px;">
+        @click="gotoCoinProfile(item.tokenId)" style="margin-top: 18px;">
           <img class="cardItemImg" alt="" :src="item.front"/>
           <div :style="{ backgroundColor: item.color, height: '50px'}">
             <span>

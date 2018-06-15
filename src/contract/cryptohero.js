@@ -5,7 +5,7 @@ import Contract from './contract';
 import NebPay from 'nebpay.js';
 const nebPay = new NebPay();
 
-function getCardInfoByHeroId(id) {
+function getCardInfoByHeroId(id, tokenId) {
   const basic = heroProfile[id];
   if (!basic) {
     console.error(`error detected id is ${id}`);
@@ -14,6 +14,7 @@ function getCardInfoByHeroId(id) {
     code: id,
     front: `http://test.cdn.hackx.org/heros/${id}.jpg`,
     back: `http://test.cdn.hackx.org/back/back_${id}.jpg`,
+    tokenId: tokenId
   };
   return Object.assign(basic, cardImage);
   // return basic;
@@ -110,7 +111,7 @@ export default class LinkIdolContract extends Contract {
         });
       console.log('getCardInfoByHeroId')
       console.log(getCardInfoByHeroId(heroId))
-      return getCardInfoByHeroId(heroId);
+      return getCardInfoByHeroId(heroId, token);
     }));
     console.log('usercars')
     console.log(result)
@@ -159,6 +160,7 @@ export default class LinkIdolContract extends Contract {
     return JSON.parse(price);
   }
   async setTokenPrice(heroId, nas) {
+    alert(heroId + ' ' + nas)
     const result = await this.call({
       functionName: 'setTokenPrice',
       args: [heroId, nas],

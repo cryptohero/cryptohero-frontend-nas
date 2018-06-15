@@ -30,7 +30,7 @@
               </li>
 
               <li>
-                <div class="text"> {{$t('Value')}}<input style="width: 50px" disabled="editFlag" v-model="heroPrice" >Nas</div>
+                <div class="text"> {{$t('Value')}}<input style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas</div>
               </li>
             </ul>
             <div class="price" @click="buyHero()" v-show="!editFlag">
@@ -101,23 +101,22 @@
         const idol = new Contract();
         var heroId = this.$route.params.id;
         const result = await idol.ownerOf(heroId);
-        console.log('++++heroId+++++++')
-        console.log(result)
+        if( this.address === result) {
+          this.editFlag = true;
+        }else {
+          this.editFlag = false;
+        }
         return result;
       },
       async heroPrice() {
         const idol = new Contract();
-        var heroId = this.$route.params.id;
-        const result = await idol.priceOf(heroId);
-        console.log('++++heroprice+++++++')
-        console.log(new NasTool.fromWeiToNas(result).toString())
+        var tokenId = this.$route.params.id;
+        const result = await idol.priceOf(tokenId);
         return new NasTool.fromWeiToNas(result).toString();
       },
       async item() {
     const contract = new Contract();
-    console.log('carInfo')
-    const result = await contract.getCarInfo(this.itemId);
-    console.log(result)
+    const result = await contract.getCardInfoByTokenId(this.$route.params.id);
     return result;
   },
     },
@@ -187,11 +186,7 @@
       },
     },
     mounted(){
-      if( this.address == this.carOwner) {
-        this.editFlag = true;
-      }else {
-        this.editFlag = false;
-      }
+
     },
     methods: {
       async updatePrice() {
