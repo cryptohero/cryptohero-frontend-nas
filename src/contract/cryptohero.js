@@ -56,6 +56,7 @@ export default class LinkIdolContract extends Contract {
 
   async getDrawCardsLeft() {
     const result = await this.call({ functionName: 'getCardsLeft' });
+    console.log(result)
     return JSON.parse(result);
   }
 
@@ -84,8 +85,11 @@ export default class LinkIdolContract extends Contract {
   async getUserCards(address) {
     console.error('address', address);
     const tokenIds = await this.getTokenIDsByAddress(address);
-    console.error(tokenIds);
+    console.log('heroId')
+    console.log(tokenIds);
     const result = await Promise.all(tokenIds.map(async (token) => {
+      console.log('token')
+      console.log(token)
       const heroId = await this.call(
         {
           functionName: 'getCardIdByTokenId',

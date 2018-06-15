@@ -46,8 +46,11 @@ export default {
   computed: {},
 
   async created() {
-    this.total = await getTotal();
-    const itemIds = await getItemIds(0, this.total);
+//    this.total = await getTotal();
+//    const itemIds = await getItemIds(0, this.total);
+    const itemIds = await getItemIds(0, 0);//modified by dawn
+    console.log('+++++++++++itemsId+++++++++++++++')
+    console.error(itemIds)
     this.itemIds = itemIds;
     this.loading = false;
   },
@@ -80,7 +83,7 @@ export default {
   top: 0;
   left: 0;
 	width: 100%;
-  
+
 }
 
 

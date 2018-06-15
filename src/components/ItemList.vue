@@ -1,8 +1,8 @@
 <template>
-  <div class="columns is-multiline is-mobile">    
+  <div class="columns is-multiline is-mobile">
     <router-link v-for="item in items"
                  v-if="item"
-                 :to="{ name: 'Item', params:{id: item.id}}"
+                 :to="{ name: 'Item', params:{id: item.id, tokenId: item.type}}"
                  :key=item.id.toString()
                  class="column
            is-full-mobile
@@ -19,7 +19,7 @@
               <img class="charaimg" v-lazy="getCardImage(1)">
             </div>
             <div class="smallcardcharas">
-              <img class="charaimg" v-lazy="getCardImage(2)" v-show="!lightisShow[item.id]"> 
+              <img class="charaimg" v-lazy="getCardImage(2)" v-show="!lightisShow[item.id]">
             </div> -->
             <!-- <div class="imageborder8"> -->
             <figure class="image is-5by4">
@@ -64,10 +64,12 @@ export default {
   computed: {
     items() {
       return this.itemIds.map((id) => {
-       // console.log(id);
+        console.error(id);
         const item = this.$store.state.items[id];
-     //   console.log(item);
+        console.error(item);
         item.id = id;
+        const result = item || { id };
+        console.error(result)
         return item || { id };
       });
     },

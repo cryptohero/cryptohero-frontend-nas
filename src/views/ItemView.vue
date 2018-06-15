@@ -186,7 +186,8 @@
         }*/
       },
     },
-    mounted(){
+    mounted() {
+//      alert(this.address + ' ' + this.carOwner)
       if( this.address == this.carOwner) {
         this.editFlag = true;
       }else {

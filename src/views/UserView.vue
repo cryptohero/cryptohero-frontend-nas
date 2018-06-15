@@ -84,6 +84,7 @@ export default {
       return result;
     },
     async cardsInfo() {
+      alert(this.address)
       const idol = new LinkIdol();
       const result = await idol.getUserCards(this.address);
       return result;
