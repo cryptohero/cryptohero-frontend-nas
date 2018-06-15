@@ -11,29 +11,32 @@
   <div class="userContainer" v-else>
     <div class="usericon" >
         <figure>
-          <img :src="profile.avatar" alt="Identicon" style="border-radius: 50%;">
+          <img :src="profile.avatar" alt="Identicon" style="border-radius: 50%;  width: 100px;">
         </figure>
     </div>
       <div class="usercontent">
-        <h2 class="title"> {{profile.nickname}} 的收藏 </h2>
-        <p class="useraddress"> 钱包地址 {{address}}</p>
+        <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
+        <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
     </section>
 
   <section>
       <div class="columns is-multiline is-mobile section2div">
+        <div class="title11">
+          <h4>{{$t('His Cards')}}</h4>
+      </div>
         <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem"
-        v-for="item in cardsInfo" :key="item"
-        @click="gotoCoinProfile(item.code)">
+        v-for="item in cardsInfo" :key="item.code"
+        @click="gotoCoinProfile(item.code)" style="margin-top: 18px;">
           <img class="cardItemImg" alt="" :src="item.front"/>
-          <div :style="{ backgroundColor: item.color, height: '50px' }">
+          <div :style="{ backgroundColor: item.color, height: '50px'}">
             <span>
-            <a :style="{ lineHeight: '50px', color: item.textcolor, paddingLeft: '20px' }">
+            <a  class="name" :style="{ lineHeight: '50px', color: item.textcolor, paddingLeft: '20px' }">
               {{item.name}} · {{item.nickname}}</a>
           </span>
           </div>
-          <CardItem :item='item' :hasMouseOver='true'></CardItem>
+          <!-- <CardItem :item='item' :hasMouseOver='true'></CardItem> -->
         </div>
       </div>
     </section>
@@ -88,7 +91,7 @@ export default {
   },
   methods: {
     gotoCoinProfile(code) {
-      this.$router.push({ path: `/coin/${code}` });
+      this.$router.push({ path: `/item/${code}` });
     },
   },
   async created() {
@@ -106,7 +109,7 @@ export default {
     cardsInfo(cards) {
       // console.log(`newTypes:${cards}`);
       // console.log("cards:"+cards.length)
-      if (cards.length >= 6) {
+      /*if (cards.length >= 6) {
         const formData = new FormData();
         formData.append('address', this.address);
         this.$http.post('http://35.200.102.240/addranknas.php', formData)
@@ -114,7 +117,7 @@ export default {
             const res = response.body;
             console.log(res);
           });
-      }
+      }*/
     },
   },
 };
@@ -127,7 +130,6 @@ export default {
 .userContainer {
   background-size: 100%;
   background-repeat: no-repeat;
-  background-color: #fff;
   width: 100%;
   /*padding-top: 43.5%;*/
   padding-top: 28%;
@@ -139,7 +141,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  padding-top: 60px;
+  /* padding-top: 60px; */
 }
 .iconimg{
   border-radius: 50%;
@@ -153,12 +155,28 @@ export default {
   left: 0;
   width: 100%;
   text-align: center;
+
+}
+.usercontent h2{
   padding-top: 15%;
+  color: blanchedalmond;
 }
 .useraddress {
-  color: #08567e;
-}
 
+   color: blanchedalmond;
+}
+.name {
+
+   color: blanchedalmond;
+}
+.title11{
+  width: 100%;
+  margin-top: 103px;
+  display: flex;
+  justify-content: center;
+  color: blanchedalmond;
+  font-size: 24px;
+}
 /*
   section 2
 */
@@ -171,6 +189,8 @@ export default {
 .cardItemImg{
   vertical-align:bottom;
   cursor: pointer;
+  border: 8px solid #ecdaa8;
+    border-radius: 8px;
 }
 .priceSpan {
   float:right;
@@ -195,6 +215,11 @@ export default {
   .cardItemImg{
     width: 100%;
   }
+}
+@media (max-width: 420px) {
+  .usercontent{
+    padding-top: 27%;
+}
 }
 </style>
 

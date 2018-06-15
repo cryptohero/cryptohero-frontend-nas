@@ -13,8 +13,8 @@
         <img class="iconimg" alt="" width="100" :src="profile.avatar"/>
       </div>
       <div class="usercontent">
-        <h2 class="title"> {{profile.nickname}} 的收藏 </h2>
-        <p class="useraddress"> 钱包地址 {{address}}</p>
+        <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
+        <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
     </section>

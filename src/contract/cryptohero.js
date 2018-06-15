@@ -8,6 +8,7 @@ function getCardInfoByHeroId(id) {
     console.error(`error detected id is ${id}`);
   }
   const cardImage = {
+    code: id,
     front: `http://test.cdn.hackx.org/heros/${id}.jpg`,
     back: `http://test.cdn.hackx.org/back/back_${id}.jpg`,
   };
@@ -30,13 +31,27 @@ export default class LinkIdolContract extends Contract {
       value: new BigNumber(value).times(1000000000000000000).toString(),
       args: [referrer],
     }).then(console.info);
-    const result = await this.send(
-      {
-        functionName: 'multiDraw',
-        value,
-        data: [referrer],
-      });
-    return result;
+    // const result = await this.send(
+    //   {
+    //     functionName: 'multiDraw',
+    //     value,
+    //     data: [referrer],
+    //   });
+    return new Promise(resolve =>{
+      this.send(
+        {
+          functionName: 'multiDraw',
+          value,
+          data: [referrer],
+          options: {
+            listener:
+            function (resp) {
+              resolve(resp);
+            }
+          }
+        });
+    });
+    // return result;
   }
 
   async getDrawCardsLeft() {
@@ -67,7 +82,9 @@ export default class LinkIdolContract extends Contract {
   }
 
   async getUserCards(address) {
+    console.error("address", address)
     const tokenIds = await this.getTokenIDsByAddress(address);
+    console.error(tokenIds)
     const result = await Promise.all(tokenIds.map(async (token) => {
       const heroId = await this.call(
         {
@@ -102,5 +119,26 @@ export default class LinkIdolContract extends Contract {
         args: [],
       });
     return JSON.parse(result);
+  }
+  async ownerOf(heroId) {
+    const owner = await this.call({
+      functionName: 'ownerOf',
+      args: [heroId]
+    })
+    return JSON.parse(owner);
+  }
+  async priceOf(heroId) {
+    const price = await this.call({
+      functionName: 'priceOf',
+      args: [heroId],
+    })
+    return JSON.parse(price);
+  }
+  async setTokenPrice(heroId, nas) {
+    const result = await this.call({
+      functionName: 'setTokenPrice',
+      args: [heroId, nas],
+    });
+    return JSON.parse(result)
   }
 }
