@@ -84,9 +84,14 @@ export default {
     invite(index) {
       return `Invite_${index}`;
     },
+    updatetx() {
+
+    }
   },
   async mounted() {
-    this.$http.get(`http://35.200.102.240/inviteshuihulist.php?address=${this.me}`)
+    // const thisme = "8888888888899999000000000000000";
+    this.$http.get(`http://35.200.102.240/inviteshuihulist.php?address=${this.me}`)//&t='1'
+    // this.$http.get(`http://127.0.0.1:8888/inviteshuihulist.php?address=${thisme}&witchnet='test'&t=1`)
       .then((response) => {
 
         var addresstypes = {}
