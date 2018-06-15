@@ -41,11 +41,11 @@ export default class LinkIdolContract extends Contract {
     return new Promise((resolve) => {
       this.send(
         {
-          functionName: 'multiDraw',
+          functionName: 'draw',
           value,
           data: [referrer],
           options: {
-            listener (resp) {
+            listener(resp) {
               resolve(resp);
             },
           },
