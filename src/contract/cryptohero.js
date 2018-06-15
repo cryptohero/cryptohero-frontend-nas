@@ -2,6 +2,9 @@ import { BigNumber } from 'bignumber.js';
 import heroProfile from '@/config/cards.json';// '@/heroProfile.json';
 import Contract from './contract';
 
+import NebPay from 'nebpay.js';
+const nebPay = new NebPay();
+
 function getCardInfoByHeroId(id) {
   const basic = heroProfile[id];
   if (!basic) {
@@ -26,30 +29,44 @@ export default class LinkIdolContract extends Contract {
     });
   }
 
-  async draw(referrer = 'n1MmUacQExJwkD1xHggwaEvTpKgUeSmV4Af', value) {
-    this.call({
+  async draw(referrer = '', value) {
+    const t = this.call({
       functionName: 'draw',
       value: new BigNumber(value).times(1000000000000000000).toString(),
       args: [referrer],
     }).then(console.info);
+    console.log("call return:" + t);
     // const result = await this.send(
     //   {
     //     functionName: 'multiDraw',
     //     value,
     //     data: [referrer],
     //   });
-    return new Promise((resolve) => {
-      this.send(
+    return new Promise(resolve =>{
+      const result = this.send(
         {
           functionName: 'draw',
           value,
           data: [referrer],
           options: {
-            listener(resp) {
-              resolve(resp);
-            },
-          },
+            callback: NebPay.config.testnetUrl,
+            listener:
+            function (serialNumber, data) {
+              console.log("serialNumberrrr:"+serialNumber + " data: "+JSON.stringify(data));
+              if (data === "Error: Transaction rejected by user" || data === false || data === true) {
+                resolve("cancel");
+              } else {
+                resolve(serialNumber);
+              }
+// 返回式样：
+// serialNumber:MiTRVkmRZOx0anWMZTgwhpJGrm50LHYr data: false (点二维码下方取消支付时显示)
+// serialNumber:MiTRVkmRZOx0anWMZTgwhpJGrm50LHYr data: "Error: Transaction rejected by user"
+// serialNumber:Nqjj6WPtQvcKxUf0OlCVRKYadqYUHI7r data: {"txhash":"f7a0316f3f7b74f493d008a6fc8f058e7b8da0238453f42a00e5c025820098ab","contract_address":""}
+              // resolve(serialNumber);
+            }
+          }
         });
+      console.log("send: " + result);
     });
     // return result;
   }
@@ -147,5 +164,18 @@ export default class LinkIdolContract extends Contract {
       args: [heroId, nas],
     });
     return JSON.parse(result);
+  }
+
+
+  async checkSerialNumber(sn) {
+    return await nebPay.queryPayInfo(sn,{
+        callback: NebPay.config.testnetUrl,
+      })
+    // .then(function (resp) {
+    //       console.log("snrespres:"+resp);
+    // })
+    // .catch(function (err) {
+    //       console.log("snrespres:"+err);
+    // });
   }
 }
