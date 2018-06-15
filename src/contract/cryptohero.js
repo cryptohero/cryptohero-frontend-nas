@@ -91,11 +91,18 @@ export default class LinkIdolContract extends Contract {
           functionName: 'getCardIdByTokenId',
           args: [token],
         });
+      console.log('getCardInfoByHeroId')
+      console.log(getCardInfoByHeroId(heroId))
       return getCardInfoByHeroId(heroId);
     }));
+    console.log('usercars')
+    console.log(result)
     return result;
   }
 
+   async getCarInfo(heroId) {
+     return getCardInfoByHeroId(heroId);
+   }
   async buyToken(id) {
     const result = await this.call(
       {

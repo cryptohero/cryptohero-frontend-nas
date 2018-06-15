@@ -23,22 +23,22 @@
               </li>
               <li>
                 <div class="text">{{$t('Owner')}}：
-                  <router-link :to="{ name: 'User', params:{address: item.owner}}">
-                    {{ownerTag}}
+                  <router-link :to="{ name: 'User', params:{address: carOwner}}">
+                    {{carOwner}}
                   </router-link>
                 </div>
               </li>
 
               <li>
-                <div class="text"> {{$t('Value')}}{{heroPrice}} Nas</div>
+                <div class="text"> {{$t('Value')}}<input style="width: 50px" disabled="editFlag" v-model="heroPrice" >Nas</div>
               </li>
             </ul>
-            <div class="price" @click="buyHero()">
+            <div class="price" @click="buyHero()" v-show="!editFlag">
               <div class="price1">
                 {{$t('Buy')}}
               </div>
             </div>
-            <div class="price" @click="upatePrice()">
+            <div class="price" @click="upatePrice()" v-show="editFlag">
               <div class="price1">
                 {{$t('ModPrice')}}
               </div>
@@ -57,7 +57,7 @@
   import { mapState } from 'vuex';
   import NasId from '@/contract/nasid';
   import Contract from '@/contract/cryptohero';
-  import { buyItem, exchangeLuckyToken, setGg, setNextPrice, NasTool } from '@/api';
+  import { NasTool } from '@/api';
   import { toReadablePrice } from '@/util';
   import BigNumber from 'bignumber.js';
   export default {
@@ -67,6 +67,7 @@
       return {
         owner: '',
         price: '',
+        editFlag: false,
       };
     },
     components: {
@@ -75,11 +76,6 @@
       console.log(this.$route.params.id);
     },
     asyncComputed: {
-      /*  async getOwnerAvatar() {
-          const uri = await Dravatar(this.ownerAddress);
-          return uri;
-        },*/
-
       async getCardsLeft() {
         const contract = new Contract();
         console.log(contract);
@@ -96,23 +92,34 @@
         const result = await nasId.fetchAccountDetail(this.address);
         return result;
       },
-      async cardsInfo() {
+  /*    async cardsInfo() {
         const idol = new Contract();
         const result = await idol.getUserCards(this.address);
         return result;
-      },
+      },*/
       async carOwner() {
         const idol = new Contract();
         var heroId = this.$route.params.id;
         const result = await idol.ownerOf(heroId);
+        console.log('++++heroId+++++++')
+        console.log(result)
         return result;
       },
       async heroPrice() {
         const idol = new Contract();
         var heroId = this.$route.params.id;
         const result = await idol.priceOf(heroId);
+        console.log('++++heroprice+++++++')
+        console.log(new NasTool.fromWeiToNas(result).toString())
         return new NasTool.fromWeiToNas(result).toString();
-      }
+      },
+      async item() {
+    const contract = new Contract();
+    console.log('carInfo')
+    const result = await contract.getCarInfo(this.itemId);
+    console.log(result)
+    return result;
+  },
     },
 
     computed: {
@@ -134,10 +141,16 @@
       ownerAddress() {
         return this.item.owner;
       },
-      item() {
+     /* item() {
         // console.error("tiemtiemitem:LLL", this.$store.state.items[this.itemId])
-        return this.$store.state.items[this.itemId];
-      },
+//        return this.$store.state.items[this.itemId];
+//        console.log(heroJsonFile[this.itemId])
+        const contract = new Contract();
+        console.log('carInfo')
+        const result = await contract.getCarInfo(this.itemId);
+        console.log(result)
+        return result;
+      },*/
       ad() {
         return this.$store.state.ads[this.itemId];
       },
@@ -162,7 +175,7 @@
       cardsInfo(cards) {
         // console.log(`newTypes:${cards}`);
         // console.log("cards:"+cards.length)
-        if (cards.length >= 6) {
+    /*    if (cards.length >= 6) {
           const formData = new FormData();
           formData.append('address', this.address);
           this.$http.post('http://35.200.102.240/addranknas.php', formData)
@@ -170,10 +183,22 @@
               const res = response.body;
               console.log(res);
             });
-        }
+        }*/
       },
     },
+    mounted(){
+      if( this.address == this.carOwner) {
+        this.editFlag = true;
+      }else {
+        this.editFlag = false;
+      }
+    },
     methods: {
+      async updatePrice() {
+      const contract = new Contract();
+      const result = await contract.setTokenPrice(this.itemId, this.heroPrice);
+      return result;
+    },
       async draw() {
         const contract = new Contract();
         const result = await contract.draw(undefined, this.heroPrice);
@@ -186,7 +211,7 @@
         this.draw();
       },
       upatePrice() {
-        this.draw;
+        this.updatePrice();
       },
       onBuy(rate) {
         if (this.$store.state.signInError) {
@@ -242,7 +267,7 @@
     background-size: 100%;
     padding: 3% 4% 4%;
   }
-  
+
   .back_color {
     padding: 20px;
     display: flex;
@@ -251,14 +276,14 @@
     background-color: blanchedalmond;
     justify-content: center;
   }
-  
+
   .title {
     width: 100%;
     height: 50px;
     display: flex;
     justify-content: center
   }
-  
+
   .line1 {
     width: 30%;
     height: 40px;
@@ -267,7 +292,7 @@
     font-size: 37px;
     text-align: center;
   }
-  
+
   .title_1 {
     margin: 0px auto;
     width: 90%;
@@ -276,39 +301,39 @@
     border-radius: 40px;
     background-color: #e8cc97;
   }
-  
+
   .title_2 {
     padding: 5px;
     text-align: center;
     font-size: 20px;
     color: #5c3000;
   }
-  
+
   .img {
     width: 224px;
     height: 340px;
     margin: 20px
   }
-  
+
   .big_img {
     width: 100%;
     border: 10px solid #ecdaa8;
     border-radius: 10px;
   }
-  
+
   .item-slogan {
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-all;
   }
-  
+
   .price {
     width: 100%;
     height: 73px;
     display: flex;
     justify-content: center;
   }
-  
+
   .price1 {
     width: 201px;
     height: 75px;
@@ -317,18 +342,18 @@
     line-height: 76px;
     color: #ffffff;
   }
-  
+
   .text {
     margin: 10px;
     overflow-wrap: break-word;
   }
-  
+
   @media screen and (max-width: 574px) {
     .line1 {
       font-size: 27px
     }
   }
-  
+
   @media screen and (max-width: 350px) {
     .line1 {
       font-size: 19px
