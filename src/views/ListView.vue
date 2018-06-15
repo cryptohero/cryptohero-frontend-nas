@@ -46,8 +46,9 @@ export default {
   computed: {},
 
   async created() {
-    this.total = await getTotal();
-    const itemIds = await getItemIds(0, this.total);
+//    this.total = await getTotal();这里去监听了eth合约
+//    const itemIds = await getItemIds(0, this.total);
+    const itemIds = await getItemIds(0, 0);
     this.itemIds = itemIds;
     this.loading = false;
   },
@@ -57,7 +58,7 @@ export default {
       const readable = toReadablePrice(priceInWei);
       return `${readable.price} ${readable.unit}`;
     },
-    drawClicked(){
+    drawClicked() {
       var href="/#/draw";
       window.location.href = href;
     }
@@ -80,7 +81,7 @@ export default {
   top: 0;
   left: 0;
 	width: 100%;
-  
+
 }
 
 

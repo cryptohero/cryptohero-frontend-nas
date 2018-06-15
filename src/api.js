@@ -263,7 +263,7 @@ export const getItemIds = async (offset, limit) => {
   ids.sort((a, b) => a - b);
   return Array.from(new Set(ids));*/
   let ids = [];
-  for (let i=1;i<=108;++i) {
+  for (let i=1;i<=114;++i) {
     ids.push(i);
   }
   return ids;
