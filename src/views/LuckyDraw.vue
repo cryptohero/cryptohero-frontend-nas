@@ -87,7 +87,7 @@ export default {
       const contract = new Contract();
       const result = await contract.draw(undefined, this.getDisplayTotal);
       // alert(result);
-      if(this.$route.params.address != undefined) {
+      if(this.$route.params.address != undefined && this.$store.state.me != this.$route.params.address) {
         const formData = new FormData();
         formData.append('address', this.$store.state.me);
         formData.append('inviteaddress', this.$route.params.address);
