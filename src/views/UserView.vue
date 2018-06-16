@@ -24,15 +24,22 @@
       <div class="columns is-multiline is-mobile section2div">
         <div class="title11">
           <h4>{{$t('His Cards')}}</h4>
-      </div>
-
+        </div>
         <div v-if="loading">
           <pulse-loader></pulse-loader>
         </div>
-        <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem"
-        v-for="item in cardsInfo" :key="item.code"
+        <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem card-image"
+        v-for="item in cardsInfo" :key="item.code"         
+        @mouseover="lightShow(item.code)"
+        @mouseout="lightunShow(item.code)"
         @click="gotoCoinProfile(item.tokenId)" style="margin-top: 18px;">
-          <img class="cardItemImg" alt="" :src="item.front"/>
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardBack()">
+            </div>
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[item.code]">
+            </div>
+          <img class="cardItemImg imageborder8 image is-5by4" alt="" :src="item.front"/>
           <div :style="{ backgroundColor: item.color, height: '50px'}">
             <span>
             <a  class="name" :style="{ lineHeight: '50px', color: item.textcolor, paddingLeft: '20px' }">
@@ -57,6 +64,7 @@ import PulseLoader from 'vue-spinner/src/PulseLoader';
 export default {
   name: 'MyCollectionPage',
   data: () => ({
+    lightisShow: [],
     items: [],
     loading: true,
   }),
@@ -100,8 +108,27 @@ export default {
     gotoCoinProfile(code) {
       this.$router.push({ path: `/item/${code}` });
     },
+    getCardBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback_light.png`;
+    },
+    getCardLightBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback.png`;
+    },
+    lightShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = true;
+      this.$forceUpdate();
+    },
+    lightunShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = false;
+      this.$forceUpdate();
+    }
   },
   async created() {
+    for(var i=0;i<cardsInfo().length;i++){
+      this.lightisShow[i] = false;
+    }
     console.log('created');
   },
   computed: {
@@ -196,14 +223,37 @@ export default {
 .cardItemImg{
   vertical-align:bottom;
   cursor: pointer;
-  border: 8px solid #ecdaa8;
-    border-radius: 8px;
+  /* border: 8px solid #ecdaa8;
+    border-radius: 8px; */
 }
 .priceSpan {
   float:right;
   padding-right: 20px;
 }
-
+.imageborder8{
+  border-top: 36px solid #00000000;
+  border-left: 36px solid #00000000;
+  border-bottom: 34px solid #00000000;
+  border-right: 22px solid #00000000;
+}
+.smallcardcharas {
+  position: absolute;
+}
+.charaimg{
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+ .image {
+    background : "";
+    /* border: 8px solid #ecdaa8;
+    border-radius: 8px; */
+}
+.card{
+  font-size: 1.2em;
+  background-color: initial;
+}
 @media (max-width: 800px) {
   .cardContainer {
     background-size: cover;
