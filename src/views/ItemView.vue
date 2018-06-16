@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div v-if="loading"
+         class="loader-wrapper">
+      <pulse-loader></pulse-loader>
+    </div>
     <div v-if="item">
       <div class="back_img">
         <div class="title">
@@ -59,7 +63,7 @@
   import Contract from '@/contract/cryptohero';
   import { NasTool } from '@/api';
   import { toReadablePrice } from '@/util';
-  import BigNumber from 'bignumber.js';
+  import PulseLoader from 'vue-spinner/src/PulseLoader';
   export default {
     name: 'item-view',
 
@@ -68,9 +72,11 @@
         owner: '',
         price: '',
         editFlag: false,
+        loading: true,
       };
     },
     components: {
+      PulseLoader
     },
     async created() {
       console.log(this.$route.params.id);
@@ -78,7 +84,6 @@
     asyncComputed: {
       async getCardsLeft() {
         const contract = new Contract();
-        console.log(contract);
         const result = await contract.getDrawCardsLeft();
         return result;
       },
@@ -117,6 +122,7 @@
       async item() {
     const contract = new Contract();
     const result = await contract.getCardInfoByTokenId(this.$route.params.id);
+        this.loading = false;
     return result;
   },
     },
@@ -197,7 +203,7 @@
       async draw() {
         const contract = new Contract();
         const result = await contract.draw(undefined, this.heroPrice);
-        alert(result);
+//        alert(result);
       },
       gotoCoinProfile(code) {
         this.$router.push({ path: `/coin/${code}` });

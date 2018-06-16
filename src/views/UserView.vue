@@ -1,6 +1,5 @@
 <template>
 <div>
-
 <section>
   <div class="userContainer" v-if="!profile">
     <div class="usercontent">
@@ -26,6 +25,11 @@
         <div class="title11">
           <h4>{{$t('His Cards')}}</h4>
       </div>
+
+        <div v-if="loading"
+             class="loader-wrapper">
+          <pulse-loader></pulse-loader>
+        </div>
         <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem"
         v-for="item in cardsInfo" :key="item.code"
         @click="gotoCoinProfile(item.tokenId)" style="margin-top: 18px;">
@@ -49,11 +53,13 @@ import { mapState } from 'vuex';
 import NasId from '@/contract/nasid';
 import LinkIdol from '@/contract/cryptohero';
 import CardItem from '@/components/CardItem';
+import PulseLoader from 'vue-spinner/src/PulseLoader';
 
 export default {
   name: 'MyCollectionPage',
   data: () => ({
     items: [],
+    loading: true,
   }),
   asyncComputed: {
     async profile() {
@@ -64,6 +70,7 @@ export default {
   },
   components: {
     CardItem,
+    PulseLoader,
   },
   // async mounted() {
   //   console.log("aaaaaa:"+this.cardsInfo)
@@ -86,6 +93,7 @@ export default {
     async cardsInfo() {
       const idol = new LinkIdol();
       const result = await idol.getUserCards(this.address);
+      this.loading = false;
       return result;
     },
   },
