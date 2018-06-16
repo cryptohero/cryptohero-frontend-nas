@@ -211,7 +211,7 @@ export default {
     },
     async buyHero() {
       const contract = new Contract();
-      const result = await contract.buyToken(this.itemId);
+      const result = await contract.buyToken(this.itemId, this.heroPrice);
       return result;
       // this.draw();
     },

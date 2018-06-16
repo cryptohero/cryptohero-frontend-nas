@@ -117,9 +117,8 @@ export default class LinkIdolContract extends Contract {
   async getCarInfo(heroId) {
     return this.getCardInfoByHeroId(heroId);
   }
-  async buyToken(id) {
-    const valueInWei = await this.priceOf(id);
-    const value = NasTool.fromWeiToNas(valueInWei);
+  async buyToken(id, price) {
+    const  value = price;
     const result = await this.send(
       {
         functionName: 'buyToken',
