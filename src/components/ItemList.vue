@@ -28,6 +28,8 @@
               <img v-lazy="getCardImage(item.code)">
             </figure>
             </div>
+
+
           </div>
           <div class="card-content">
             <div class="content is-small">
@@ -125,6 +127,7 @@ export default {
  <style scoped>
  .image {
     background : "";
+     padding: 16%
     /* border: 8px solid #ecdaa8;
     border-radius: 8px; */
 }
@@ -136,10 +139,10 @@ export default {
   font-size: 13px;
 }
 .imageborder8{
-  border-top: 34px solid #00000000;
+  /* border-top: 34px solid #00000000;
   border-left: 32px solid #00000000;
   border-bottom: 34px solid #00000000;
-  border-right: 32px solid #00000000;
+  border-right: 32px solid #00000000; */
 }
 .card{
   font-size: 1.2em;
