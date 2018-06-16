@@ -84,14 +84,21 @@ export default {
     invite(index) {
       return `Invite_${index}`;
     },
-    updatetx() {
-
-    }
+    // updatetx() {
+    //     var snlist = [];
+    //     const thisme = "8888888888899999000000000000000";
+    //     this.$http.get(`http://127.0.0.1:8888/inviteshuihulist.php?address=${thisme}&witchnet=test&t=0`)
+    //       .then((response) => {
+    //         response.body.map(async (addrinfo) => {
+    //             snlist.push(addrinfo["serialnum"]);
+    //         });
+    //       });
+    // }
   },
   async mounted() {
     // const thisme = "8888888888899999000000000000000";
     this.$http.get(`http://35.200.102.240/inviteshuihulist.php?address=${this.me}`)//&t='1'
-    // this.$http.get(`http://127.0.0.1:8888/inviteshuihulist.php?address=${thisme}&witchnet='test'&t=1`)
+    // this.$http.get(`http://127.0.0.1:8888/inviteshuihulist.php?address=${thisme}&witchnet=test&t=1`)
       .then((response) => {
 
         var addresstypes = {}
@@ -118,6 +125,7 @@ export default {
           });
 
         // this.items = response.body;
+        // this.updatetx();
       });
   }
 };
