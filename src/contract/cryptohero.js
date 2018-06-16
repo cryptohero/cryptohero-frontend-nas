@@ -141,17 +141,17 @@ export default class LinkIdolContract extends Contract {
       });
     return JSON.parse(result);
   }
-  async ownerOf(heroId) {  //added by Dawn
+  async ownerOf(tokenId) {  //added by Dawn
     const owner = await this.call({
       functionName: 'ownerOf',
-      args: [heroId],
+      args: [tokenId],
     });
     return JSON.parse(owner);
   }
-  async priceOf(heroId) {  //added by Dawn
+  async priceOf(tokenId) {  //added by Dawn
     const price = await this.call({
       functionName: 'priceOf',
-      args: [heroId],
+      args: [tokenId],
     });
     return JSON.parse(price);
   }
