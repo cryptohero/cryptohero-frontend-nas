@@ -25,7 +25,7 @@ export default class LinkIdolContract extends Contract {
     super({
       // contractAddress: 'n1jkpnTHaPeEm8S7sQSWf2R4n5WrSebonZ3',
       // contractAddress: 'n1dwSSgbeZEGV81GWhdQmN5XfD4Bt2WDSb7',
-      contractAddress: 'n1pPfgbyq1i268DGdeJnhwEp1jj1QpbA4WF',
+      contractAddress: 'n1gpvXuBn8PoxgwpnyYD9zzE4MUwfPqSijh',
       network: 'testnet',
     });
   }
@@ -125,6 +125,7 @@ export default class LinkIdolContract extends Contract {
     return JSON.parse(result);
   }
   async setTokenPrice({ tokenId, value }) {
+    console.log(tokenId + '' + value)
     const result = await this.call(
       {
         functionName: 'setTokenPrice',

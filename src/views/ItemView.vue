@@ -202,7 +202,7 @@
     },
       async draw() {
         const contract = new Contract();
-        const result = await contract.draw(undefined, this.heroPrice);
+        const result = await contract.draw(this.carOwner, this.heroPrice);
 //        alert(result);
       },
       gotoCoinProfile(code) {
