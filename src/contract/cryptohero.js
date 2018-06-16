@@ -100,7 +100,6 @@ export default class LinkIdolContract extends Contract {
   }
 
   async getUserCards(address) {
-    console.error('address', address);
     const tokenIds = await this.getTokenIDsByAddress(address);
     console.error(tokenIds);
     const result = await Promise.all(tokenIds.map(async (token) => {
@@ -109,12 +108,8 @@ export default class LinkIdolContract extends Contract {
           functionName: 'getCardIdByTokenId',
           args: [token],
         });
-      console.log('getCardInfoByHeroId')
-      console.log(getCardInfoByHeroId(heroId))
       return getCardInfoByHeroId(heroId, token);
     }));
-    console.log('usercars')
-    console.log(result)
     return result;
   }
 
@@ -168,7 +163,20 @@ export default class LinkIdolContract extends Contract {
     console.error(result)
     return JSON.parse(result);
   }
-
+  //added by Dawn
+ async getCarInfoByTokenId(tokenIds) {
+    console.log('new tokenIds')
+    console.error(tokenIds)
+   const result = await Promise.all(tokenIds.map(async (token) => {
+     const heroId = await this.call(
+       {
+         functionName: 'getCardIdByTokenId',
+         args: [token],
+       });
+     return getCardInfoByHeroId(heroId, token);
+   }));
+   return result;
+ }
 
   async checkSerialNumber(sn) {
     return await nebPay.queryPayInfo(sn,{

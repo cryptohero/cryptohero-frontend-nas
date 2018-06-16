@@ -1,9 +1,9 @@
 <template>
-  <div class="columns is-multiline is-gapless is-mobile">    
-    <router-link v-for="item in items"
+  <div class="columns is-multiline is-gapless is-mobile">
+    <router-link v-for="item in itemIds"
                  v-if="item"
-                 :to="{ name: 'Item', params:{id: item.id}}"
-                 :key=item.id.toString()
+                 :to="{ name: 'Item', params:{id: item.tokenId}}"
+                 :key=item.code.toString()
                  class="column
            is-full-mobile
            is-one-quarter-tablet
@@ -11,21 +11,21 @@
            is-one-quarter-widescreen
            is-one-quarter-fullhd"
            >
-      <template v-if="0 <= item.id && item.id <= 114">
+      <template v-if="0 <= item.code && item.code <= 114">
         <!-- <div class="card"> -->
           <div class="card-image"
-              @mouseover="lightShow(item.id)"
-              @mouseout="lightunShow(item.id)"
+              @mouseover="lightShow(item.code)"
+              @mouseout="lightunShow(item.code)"
               >
             <div class="smallcardcharas">
               <img class="charaimg" v-lazy="getCardBack()">
             </div>
             <div class="smallcardcharas">
-              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[item.id]"> 
+              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[item.code]">
             </div>
             <div class="imageborder8">
             <figure class="image is-5by4">
-              <img v-lazy="getCardImage(item.id)">
+              <img v-lazy="getCardImage(item.code)">
             </figure>
             </div>
           </div>
@@ -54,7 +54,6 @@
 
 <script>
 import { toReadablePrice } from '@/util';
-
 export default {
   name: 'item-lists',
   props: ['itemIds'],
@@ -62,17 +61,16 @@ export default {
   data: () => ({
     lightisShow: [],
   }),
-
   computed: {
-    items() {
-      return this.itemIds.map((id) => {
+    /*   items() {
+   return this.itemIds.map((id) => {
        // console.log(id);
         const item = this.$store.state.items[id];
-     //   console.log(item);
+        console.error(item);
         item.id = id;
         return item || { id };
       });
-    },
+    },*/
   },
 
   methods: {

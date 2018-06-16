@@ -24,7 +24,7 @@
                      class="navbar-item"
                      :to="{ name: 'User', params:{address: me}}">
           <div class="transform">{{$t('My Cards')}}</div>
-        </router-link>        
+        </router-link>
 
         <router-link class="navbar-item"
                      :to="{ name: 'InviteVie'}">
