@@ -196,10 +196,10 @@
     },
     methods: {
       async updatePrice() {
-      const contract = new Contract();
-      const result = await contract.setTokenPrice({ tokenId: this.itemId, value: this.heroPrice });
-      return result;
-    },
+        const contract = new Contract();
+        const result = await contract.setTokenPrice({ tokenId: this.itemId, value: this.heroPrice });
+        return result;
+      },
       async draw() {
         const contract = new Contract();
         const result = await contract.draw(this.carOwner, this.heroPrice);

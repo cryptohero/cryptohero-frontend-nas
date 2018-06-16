@@ -125,7 +125,7 @@ export default class LinkIdolContract extends Contract {
     return JSON.parse(result);
   }
   async setTokenPrice({ tokenId, value }) {
-    console.log(tokenId + '' + value)
+    console.log(tokenId + ' ' + value)
     const result = await this.call(
       {
         functionName: 'setTokenPrice',
