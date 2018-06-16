@@ -117,10 +117,10 @@ export default class LinkIdolContract extends Contract {
     return this.getCardInfoByHeroId(heroId);
   }
   async buyToken(id) {
-    const result = await this.call(
+    const result = await this.send(
       {
         functionName: 'buyToken',
-        args: [id],
+        data: [id],
       });
     return JSON.parse(result);
   }
@@ -134,7 +134,7 @@ export default class LinkIdolContract extends Contract {
     return JSON.parse(result);
   }
   async claim() {
-    const result = await this.call(
+    const result = await this.send(
       {
         functionName: 'claim',
         args: [],
