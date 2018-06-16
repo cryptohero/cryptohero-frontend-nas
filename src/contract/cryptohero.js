@@ -1,4 +1,5 @@
 import { BigNumber } from 'bignumber.js';
+import { NasTool } from '@/api';
 import heroProfile from '@/config/cards.json';// '@/heroProfile.json';
 import Contract from './contract';
 
@@ -117,9 +118,12 @@ export default class LinkIdolContract extends Contract {
     return this.getCardInfoByHeroId(heroId);
   }
   async buyToken(id) {
+    const valueInWei = await this.priceOf(id);
+    const value = NasTool.fromWeiToNas(valueInWei);
     const result = await this.send(
       {
         functionName: 'buyToken',
+        value,
         data: [id],
       });
     return JSON.parse(result);
