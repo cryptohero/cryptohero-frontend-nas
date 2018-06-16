@@ -130,6 +130,7 @@ export default class LinkIdolContract extends Contract {
         functionName: 'setTokenPrice',
         args: [tokenId, value],
       });
+    console.log(result)
     return JSON.parse(result);
   }
   async claim() {
@@ -140,33 +141,22 @@ export default class LinkIdolContract extends Contract {
       });
     return JSON.parse(result);
   }
-  async ownerOf(heroId) {
+  async ownerOf(heroId) {  //added by Dawn
     const owner = await this.call({
       functionName: 'ownerOf',
       args: [heroId],
     });
     return JSON.parse(owner);
   }
-  async priceOf(heroId) {
+  async priceOf(heroId) {  //added by Dawn
     const price = await this.call({
       functionName: 'priceOf',
       args: [heroId],
     });
     return JSON.parse(price);
   }
-  async setTokenPrice(tokenId, nas) {
-    alert(tokenId + ' ' + nas)
-    const result = await this.call({
-      functionName: 'setTokenPrice',
-      args: [tokenId, nas],
-    });
-    console.error(result)
-    return JSON.parse(result);
-  }
-  //added by Dawn
- async getCarInfoByTokenId(tokenIds) {
-    console.log('new tokenIds')
-    console.error(tokenIds)
+
+ async getCarInfoByTokenId(tokenIds) {  //added by Dawn
    const result = await Promise.all(tokenIds.map(async (token) => {
      const heroId = await this.call(
        {

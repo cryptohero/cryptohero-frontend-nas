@@ -191,7 +191,7 @@
     methods: {
       async updatePrice() {
       const contract = new Contract();
-      const result = await contract.setTokenPrice(this.itemId, this.heroPrice);
+      const result = await contract.setTokenPrice({ tokenId: this.itemId, value: this.heroPrice });
       return result;
     },
       async draw() {

@@ -50,14 +50,11 @@ export default {
 //    this.total = await getTotal();这里去监听了eth合约
 //    const itemIds = await getItemIds(0, this.total);
     const itemIds = await getItemIds(0, 0);
-    console.error(itemIds)
     const contrat = new Contract();
     //默认前12个tokenId
     //通过tokenId图片相关信息
     const result = await contrat.getCarInfoByTokenId(itemIds);
     this.itemIds = result;
-    console.log('result')
-    console.log(result)
     this.loading = false;
   },
 
