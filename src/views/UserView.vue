@@ -26,8 +26,7 @@
           <h4>{{$t('His Cards')}}</h4>
       </div>
 
-        <div v-if="loading"
-             class="loader-wrapper">
+        <div v-if="loading">
           <pulse-loader></pulse-loader>
         </div>
         <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem"

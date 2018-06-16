@@ -28,7 +28,7 @@
               <li>
                 <div class="text">{{$t('Owner')}}：
                   <router-link :to="{ name: 'User', params:{address: carOwner}}">
-                    {{carOwner}}
+                    {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
                   </router-link>
                 </div>
               </li>
