@@ -4,7 +4,7 @@
     <nav class="navbar is-light">
       <div class="navbar-brand">
          <img  class="logo" src="/static/assets/logo.png">
-        <router-link class="navbar-item"
+        <router-link class="navbar-item ff" style={opacity:0.5}
                      :to="{ name: 'Home'}">
          <div class="transform">{{$t('CryptoHero')}}</div>
         </router-link>
@@ -24,7 +24,7 @@
                      class="navbar-item"
                      :to="{ name: 'User', params:{address: me}}">
           <div class="transform">{{$t('My Cards')}}</div>
-        </router-link>        
+        </router-link>
 
         <router-link class="navbar-item"
                      :to="{ name: 'InviteVie'}">
@@ -151,7 +151,7 @@ export default {
     margin-left: 20px;
     height: 31px;
     transform: skew(-20deg);
-    background: linear-gradient(#dcb84f, #89540d);
+    background: linear-gradient(#dcb84f60, #89540d60);
     font-size: 12px;
 }
 .transform{

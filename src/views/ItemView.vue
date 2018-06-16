@@ -1,148 +1,142 @@
 <template>
   <div>
+    <div v-if="loading"
+         class="loader-wrapper">
+      <pulse-loader></pulse-loader>
+    </div>
     <div v-if="item">
       <div class="back_img">
         <div class="title">
-         <div class="line1">卡牌详情</div>
-    </div>
-       <div class="back_color">
-         <div class="title_1">
-                <div class="title_2"><b>{{item.nickname}} · {{item.name}}</b></div>
-            </div>
-         <!-- <h2>{{item.nickname}} · {{item.name}}</h2> -->
-         <div class="img">
-           <img class="big_img" :src="getCardImage">
-         </div>
-         <div class="img">
-           <img class="big_img" :src="getCardBackSideImage">
-         </div>
-         <div class="price" @click="buyFun()">
-           <div class="price1">
-          售价：1NAS
-           </div>
-         </div>
-         <!-- <div class="column
-           is-full-mobile"> -->
-          <!-- <div class="content"> -->
-
-            <!-- Experimental Start -->
-            <!-- <div class="card">
-                <div class="card-image">
-                  <figure class="image is-1by1" style="margin: 0">
-                    <img :src="getOwnerProfile" alt="Holder image">
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="media">
-                    <div class="media-content">
-                      <p class="title is-4">{{$t('Owner')}} {{ownerTag}}</p>
-                      <p class="subtitle is-6"> {{$t('Current Price')}}：{{toDisplayedPrice(item.price)}} </p>
-                      <p class="subtitle is-6"> {{$t('isLuckyClaim')}}: {{ isConvert ? 'Yes' : 'No'}} </p>
-                      <p class="subtitle is-6"> {{$t('Slogan')}}: {{ad}} </p>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-            <!-- Experimental End -->
-
-             <!-- <router-link :to="{ name: 'User', params:{address: item.owner}}">
-            <figure class="image is-128x128">
-              <img class="item-image"
-              :src="getOwnerProfile">
-            </figure>
-            </router-link>
+          <div class="line1">{{$t('CardDetails')}}</div>
+        </div>
+        <div class="back_color">
+          <div class="title_1">
+            <div class="title_2"><b>{{item.nickname}} · {{item.name}}</b></div>
+          </div>
+          <!-- <h2>{{item.nickname}} · {{item.name}}</h2> -->
+          <div class="img">
+            <img class="big_img" :src="item.front">
+          </div>
+          <div class="img">
+            <img class="big_img" :src="item.back">
+          </div>
+          <div class="img">
             <ul>
-              <li>{{$t('Owner')}}：
-                <router-link :to="{ name: 'User', params:{address: item.owner}}">
-                  {{ownerTag}}
-                </router-link>
+              <li>
+                <div class="text">{{$t('NoId')}}{{itemId}}</div>
               </li>
-              <li>{{$t('Current Price')}}：{{toDisplayedPrice(item.price)}}</li>
-              <li>{{$t('isLuckyClaim')}}：{{ isConvert ? 'Yes' : 'No'}}</li>
+              <li>
+                <div class="text">{{$t('Owner')}}：
+                  <router-link :to="{ name: 'User', params:{address: carOwner}}">
+                    {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
+                  </router-link>
+                </div>
+              </li>
+
+              <li>
+                <div class="text"> {{$t('Value')}}<input style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas</div>
+              </li>
             </ul>
-            <p class="item-slogan">{{$t('Slogan')}}: {{ad}}</p> -->
-            <!-- <article v-if="notOwner"
-                     class="message is-warning">
-              <div class="message-body">
-                {{$t('EDIT_SLOGAN_TIP')}}
+            <div class="price" @click="buyHero()" v-show="!editFlag">
+              <div class="price1">
+                {{$t('Buy')}}
               </div>
-            </article> -->
-          <!-- </div> -->
-
-          <!-- <template v-if="notOwner">
-            <div class="buttons">
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1)">{{ $t('BUY_BTN') }}</button>
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1.1)">{{ $t('PREMIUM_BUY_BTN', { rate: '10%' }) }}</button>
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1.2)">{{ $t('PREMIUM_BUY_BTN', { rate: '20%' }) }}</button>
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1.3)">{{ $t('PREMIUM_BUY_BTN', { rate: '30%' }) }}</button>
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1.4)">{{ $t('PREMIUM_BUY_BTN', { rate: '40%' }) }}</button>
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1.5)">{{ $t('PREMIUM_BUY_BTN', { rate: '50%' }) }}</button>
             </div>
-            <article class="message is-danger">
-              <div class="message-body">
-                {{$t('BUY_PRICE_TIP')}}
+            <div class="price" @click="upatePrice()" v-show="editFlag">
+              <div class="price1">
+                {{$t('ModPrice')}}
               </div>
-            </article>
-          </template> -->
-
-          <!-- <template v-if="isOwner">
-            <div class="buttons">
-            <button
-                  class="button is-warning"
-                  @click="onUpdateAd">{{$t('Edit Slogan')}}</button>
-            <button
-                  class="button is-info"
-                  v-if="!isConvert"
-                  @click="exchangeToken">{{$t('Claim Lucky Token')}}</button>
-
             </div>
-
-          </template>
-         </div> -->
-       </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div v-else-if="item === null">
+    <div v-else>
       Token doesn't exist
     </div>
   </div>
 </template>
 
 <script>
-import { buyItem, exchangeLuckyToken, setGg, setNextPrice } from '@/api';
-import { toReadablePrice } from '@/util';
+import { mapState } from 'vuex';
 import NasId from '@/contract/nasid';
-import '../assets/neb/nebPay';
+import Contract from '@/contract/cryptohero';
+import { NasTool } from '@/api';
+import { toReadablePrice } from '@/util';
+import PulseLoader from 'vue-spinner/src/PulseLoader';
 
 export default {
   name: 'item-view',
 
   data() {
     return {
-      clientAddress: '',
+      owner: '',
+      price: '',
+      editFlag: false,
+      loading: true,
     };
   },
-  created() {
-    this.getWallectInfo();
-    this.messageListener();
+  components: {
+    PulseLoader,
+  },
+  async created() {
+    console.log(this.$route.params.id);
   },
   asyncComputed: {
-    async getOwnerProfile() {
+    async getCardsLeft() {
+      const contract = new Contract();
+      const result = await contract.getDrawCardsLeft();
+      return result;
+    },
+    /*     async getPrice() {
+             const contract = new Contract();
+             const result = await contract.getDrawPrice();
+             return new BigNumber(result).div(1000000000000000000).toString();
+           }, */
+    async profile() {
       const nasId = new NasId();
       const result = await nasId.fetchAccountDetail(this.address);
+      return result;
+    },
+    /*    async cardsInfo() {
+        const idol = new Contract();
+        const result = await idol.getUserCards(this.address);
+        return result;
+      }, */
+    async carOwner() {
+      const idol = new Contract();
+      const heroId = this.$route.params.id;
+      const result = await idol.ownerOf(heroId);
+      if (this.address === result) {
+        this.editFlag = true;
+      } else {
+        this.editFlag = false;
+      }
+      return result;
+    },
+    async heroPrice() {
+      const idol = new Contract();
+      const tokenId = this.$route.params.id;
+      const result = await idol.priceOf(tokenId);
+      return NasTool.fromWeiToNas(result).toString();
+    },
+    async item() {
+      const contract = new Contract();
+      const result = await contract.getCardInfoByTokenId(this.$route.params.id);
+      this.loading = false;
       return result;
     },
   },
 
   computed: {
+    ...mapState({
+      me: state => state.me,
+    }),
+    address() {
+      return this.$route.params.address || this.me;
+    },
     ownerTag() {
-      return this.item.owner.slice(-6).toUpperCase();
+      return this.item.owner ? this.item.owner.slice(-6).toUpperCase() : '';
     },
     itemId() {
       return this.$route.params.id;
@@ -153,9 +147,16 @@ export default {
     ownerAddress() {
       return this.item.owner;
     },
-    item() {
-      return this.$store.state.items[this.itemId];
-    },
+    /* item() {
+        // console.error("tiemtiemitem:LLL", this.$store.state.items[this.itemId])
+//        return this.$store.state.items[this.itemId];
+//        console.log(heroJsonFile[this.itemId])
+        const contract = new Contract();
+        console.log('carInfo')
+        const result = await contract.getCarInfo(this.itemId);
+        console.log(result)
+        return result;
+      }, */
     ad() {
       return this.$store.state.ads[this.itemId];
     },
@@ -175,35 +176,47 @@ export default {
       return !this.isOwner;
     },
   },
-  async created() {
-    this.$store.dispatch('FETCH_ITEM', this.itemId);
-    this.$store.dispatch('FETCH_AD', this.itemId);
+
+  watch: {
+    cardsInfo(cards) {
+      // console.log(`newTypes:${cards}`);
+      // console.log("cards:"+cards.length)
+    /*    if (cards.length >= 6) {
+          const formData = new FormData();
+          formData.append('address', this.address);
+          this.$http.post('http://35.200.102.240/addranknas.php', formData)
+            .then((response) => {
+              const res = response.body;
+              console.log(res);
+            });
+        } */
+    },
   },
+  mounted() {
 
-  watch: {},
-
+  },
   methods: {
-    // 获取当前钱包地址
-    getWallectInfo() {
-      window.postMessage({
-        target: 'contentscript',
-        data: {},
-        method: 'getAccount',
-      }, '*');
+    async updatePrice() {
+      const contract = new Contract();
+      const result = await contract.setTokenPrice({ tokenId: this.itemId, value: this.heroPrice });
+      return result;
     },
-    messageListener() {
-      alert('greate');
-      window.addEventListener('message', function (e) {
-        if (e.data && e.data.data) {
-          if (e.data.data.account) {
-            alert(e.data.data.account);
-            this.clientAddress = e.data.data.account;
-          }
-        }
-      });
+    async draw() {
+      const contract = new Contract();
+      const result = await contract.draw(this.carOwner, this.heroPrice);
+      //        alert(result);
     },
-    buyFun() {
-      alert(this.clientAddress);
+    gotoCoinProfile(code) {
+      this.$router.push({ path: `/coin/${code}` });
+    },
+    async buyHero() {
+      const contract = new Contract();
+      const result = await contract.buyToken(this.itemId, this.heroPrice);
+      return result;
+      // this.draw();
+    },
+    upatePrice() {
+      this.updatePrice();
     },
     onBuy(rate) {
       if (this.$store.state.signInError) {
@@ -251,90 +264,104 @@ export default {
     },
   },
 };
-</script>
- <style scoped>
- .back_img{
-    background: url(/static/assets/card_profile_top.png) no-repeat top ,
-     url(/static/assets/card_profile_end.png) no-repeat bottom,
-     url(/static/assets/card_profile.png) repeat-y ;
-    background-size: 100%;
-    padding:3% 4% 4%;
-}
- .back_color{
-  padding: 20px;
-  display: flex;
-  align-content: space-between;
-  flex-wrap: wrap;
-  background-color: blanchedalmond;
-  justify-content: center;
- }
- .title{
-     width: 100%;
-     height: 50px;
-     display: flex;
-    justify-content: center
-}
 
-.line1{
-     width: 30%;
-     height: 40px;
-     float: left;
-     color:#f8d195;
-     font-size: 37px;
-     text-align: center;
-}
- .title_1{
+</script>
+<style scoped>
+  .back_img {
+    background: url(/static/assets/card_profile_top.png) no-repeat top, url(/static/assets/card_profile_end.png) no-repeat bottom, url(/static/assets/card_profile.png) repeat-y;
+    background-size: 100%;
+    padding: 3% 4% 4%;
+  }
+
+  .back_color {
+    padding: 20px;
+    display: flex;
+    align-content: space-between;
+    flex-wrap: wrap;
+    background-color: blanchedalmond;
+    justify-content: center;
+  }
+
+  .title {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center
+  }
+
+  .line1 {
+    width: 30%;
+    height: 40px;
+    float: left;
+    color: #f8d195;
+    font-size: 37px;
+    text-align: center;
+  }
+
+  .title_1 {
     margin: 0px auto;
     width: 90%;
     height: 50px;
     border: 3px solid #a48554;
     border-radius: 40px;
     background-color: #e8cc97;
-}
-.title_2{
+  }
+
+  .title_2 {
     padding: 5px;
     text-align: center;
     font-size: 20px;
     color: #5c3000;
-}
- .img{
-   width: 300px;
-   height: 450px;
-   margin: 20px
- }
- .big_img{
-   width: 100%;
+  }
 
-   border: 10px solid #ecdaa8;
-   border-radius: 10px;
- }
-.item-slogan {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-all;
-}
-.price{
-  width: 100%;
-  height: 73px;
-  display: flex;
-  justify-content: center;
-}
-.price1{
-  width: 201px;
-  height: 75px;
-  background: url(/static/assets/card_profile_price.png) no-repeat center;
-  text-align: center;
-  line-height: 76px;
-  color: #ffffff;
-}
- @media screen and (max-width: 574px) {
-  .line1{
-     font-size: 27px
-   }
- }
- @media screen and (max-width: 350px) {
-  .line1{
-     font-size: 19px
-   }
- }
+  .img {
+    width: 224px;
+    height: 340px;
+    margin: 20px
+  }
+
+  .big_img {
+    width: 100%;
+    border: 10px solid #ecdaa8;
+    border-radius: 10px;
+  }
+
+  .item-slogan {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  .price {
+    width: 100%;
+    height: 73px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .price1 {
+    width: 201px;
+    height: 75px;
+    background: url(/static/assets/card_profile_price.png) no-repeat center;
+    text-align: center;
+    line-height: 76px;
+    color: #ffffff;
+  }
+
+  .text {
+    margin: 10px;
+    overflow-wrap: break-word;
+  }
+
+  @media screen and (max-width: 574px) {
+    .line1 {
+      font-size: 27px
+    }
+  }
+
+  @media screen and (max-width: 350px) {
+    .line1 {
+      font-size: 19px
+    }
+  }
 </style>

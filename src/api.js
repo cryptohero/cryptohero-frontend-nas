@@ -258,10 +258,15 @@ export const isConvert = cardId => new Promise((resolve, reject) => {
 export const getTotal = () => Promise.promisify(cryptoWaterMarginContract.totalSupply)();
 
 export const getItemIds = async (offset, limit) => {
-  let ids = await Promise.promisify(cryptoWaterMarginContract.itemsForSaleLimit)(offset, limit);
+  /*let ids = await Promise.promisify(cryptoWaterMarginContract.itemsForSaleLimit)(offset, limit);
   ids = ids.map(id => id.toNumber());
   ids.sort((a, b) => a - b);
-  return Array.from(new Set(ids));
+  return Array.from(new Set(ids));*/
+  let ids = [];
+  for (let i=1;i<=12;++i) {
+    ids.push(i);
+  }
+  return ids;
 };
 
 export const isItemMaster = async (id) => {

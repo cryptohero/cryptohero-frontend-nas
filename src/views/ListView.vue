@@ -12,7 +12,7 @@
 			 </div>
 		 	<div class="btnContainer">
 				 <div class="cardbtn">
-				  	<img class="btnimg" width="150" alt="" srcset="/static/assets/btn.png"/>
+				  	<a> <img class="btnimg" @click="drawClicked()" width="150" alt="" srcset="/static/assets/btn.png"/> </a>
 				  </div>
 			  </div>
 		  </div>
@@ -25,8 +25,9 @@
 <script>
 import PulseLoader from 'vue-spinner/src/PulseLoader';
 import ItemList from '@/components/ItemList';
-import { getTotal, getItemIds } from '@/api';
+import { getItemIds } from '@/api';
 import { toReadablePrice } from '@/util';
+import Contract from '@/contract/cryptohero';
 
 export default {
   name: 'item-list',
@@ -46,9 +47,14 @@ export default {
   computed: {},
 
   async created() {
-    this.total = await getTotal();
-    const itemIds = await getItemIds(0, this.total);
-    this.itemIds = itemIds;
+//    this.total = await getTotal();这里去监听了eth合约
+//    const itemIds = await getItemIds(0, this.total);
+    const itemIds = await getItemIds(0, 0);
+    const contrat = new Contract();
+    //默认前12个tokenId
+    //通过tokenId图片相关信息
+    const result = await contrat.getCarInfoByTokenId(itemIds);
+    this.itemIds = result;
     this.loading = false;
   },
 
@@ -57,6 +63,10 @@ export default {
       const readable = toReadablePrice(priceInWei);
       return `${readable.price} ${readable.unit}`;
     },
+    drawClicked() {
+      var href="/#/draw";
+      window.location.href = href;
+    }
   },
   watch: {},
 };
@@ -76,7 +86,7 @@ export default {
   top: 0;
   left: 0;
 	width: 100%;
-  
+
 }
 
 

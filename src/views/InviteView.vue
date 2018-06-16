@@ -1,19 +1,37 @@
 <template>
     <div class="back_img">
         <div class="title11">
-         <div class="line1">{{$t('inviteFirend')}}</div>
-    </div> 
+            <div class="line1">{{$t('inviteFirend')}}</div>
+        </div> 
         <div class="back_color">
             <div class="title_1">
                 <div class="title_2"><b>{{$t('title')}}</b></div>
             </div>
             <div class="input1">
-            <div class="title is-5 title3">{{$t('firendLink')}} </div>
-            <div class="input">
-                <input type="search" :value="myRefferalLink" disabled>
-            </div>
+                <div class="title is-5 title3">{{$t('firendLink')}} </div>
+                <div class="input">
+                    <input type="search" :value="myRefferalLink" disabled>
+                </div>
                 <div class="btn">{{$t('Linkcpy')}}</div>
             </div>
+
+            <div class="invitelist"> 
+                <ul>
+                    <li class="ul1">被邀请人</li>
+                    <li class="ul2">抽卡数量</li>
+                    <li class="ul3">充值金额</li>
+                    <li class="ul4">返利金额</li>
+                </ul>
+            </div>
+            <div class="invitelist" v-for="( item, index ) in items" :key="item.id"> 
+                  <ul>
+                    <li class="ul1"> {{ item.address }}</li>
+                    <li class="ul2"> {{ item.cardcount }}</li>
+                    <li class="ul3"> {{ item.paid }}</li>   
+                    <li class="ul4"> {{ item.rebate }}</li>   
+                  </ul>
+            </div>
+
             <div>
                 <div class="invite">
                     <div class="line"></div>
@@ -50,6 +68,7 @@ export default {
   name: 'InviteView',
   data: () => ({
     title: '邀请好友',
+    items: []
   }),
   computed: {
     ...mapState(['me']),
@@ -65,7 +84,50 @@ export default {
     invite(index) {
       return `Invite_${index}`;
     },
+    // updatetx() {
+    //     var snlist = [];
+    //     const thisme = "8888888888899999000000000000000";
+    //     this.$http.get(`http://127.0.0.1:8888/inviteshuihulist.php?address=${thisme}&witchnet=test&t=0`)
+    //       .then((response) => {
+    //         response.body.map(async (addrinfo) => {
+    //             snlist.push(addrinfo["serialnum"]);
+    //         });
+    //       });
+    // }
   },
+  async mounted() {
+    // const thisme = "8888888888899999000000000000000";
+    this.$http.get(`http://35.200.102.240/inviteshuihulist.php?address=${this.me}`)//&t='1'
+    // this.$http.get(`http://127.0.0.1:8888/inviteshuihulist.php?address=${thisme}&witchnet=test&t=1`)
+      .then((response) => {
+
+        var addresstypes = {}
+        response.body.map(async (addrinfo) => {
+            if (addresstypes[addrinfo["address"]]) {
+                addresstypes[addrinfo["address"]]["cardcount"]+=parseInt(addrinfo["cardcount"]);
+                addresstypes[addrinfo["address"]]["paid"]+=parseFloat(addrinfo["paid"]);
+                addresstypes[addrinfo["address"]]["rebate"]+=parseFloat(addrinfo["rebate"]);
+            } else {
+                addresstypes[addrinfo["address"]] = {};
+                addresstypes[addrinfo["address"]]["cardcount"]=parseInt(addrinfo["cardcount"]);
+                addresstypes[addrinfo["address"]]["paid"]=parseFloat(addrinfo["paid"]);
+                addresstypes[addrinfo["address"]]["rebate"]=parseFloat(addrinfo["rebate"]);
+            }
+        });
+
+        const keys = Object.keys(addresstypes);
+        const thisself = this;
+          keys.forEach((addr) => {
+            var info = addresstypes[addr];
+            console.log(info);
+            info["address"] = addr;
+            thisself.items.push(info);
+          });
+
+        // this.items = response.body;
+        // this.updatetx();
+      });
+  }
 };
 </script>
 
@@ -105,7 +167,7 @@ export default {
     background-color: #e8cc97;
 }
 .input1{
-    margin: 30px 0px 240px 0px;
+    margin: 30px 0px 30px 0px;
     display: flex;
     align-content: space-between;
     justify-content: center;
@@ -144,6 +206,7 @@ input{
     color: #906718;
 }
 .invite{
+    margin-top: 30px;
     width: 100%;
     display: flex;
     align-content: space-between;
@@ -169,9 +232,28 @@ input{
 .app_list ul li img{
     width: 30px;
     height: 30px;
-        margin-top: 11px;
+    margin-top: 11px;
     margin-left: 6px;
 }
+
+.invitelist ul {
+    display: flex;
+    height: 30px;
+    text-align: center;
+}
+.ul1 {
+    flex: 40%;
+}
+.ul2 {
+    flex: 10%;
+}
+.ul3 {
+    flex: 15%;
+}
+.ul4 {
+    flex: 15%;
+}
+
 @media screen and (max-width: 450px){
     .back_color{
     

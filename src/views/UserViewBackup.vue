@@ -13,8 +13,8 @@
         <img class="iconimg" alt="" width="100" :src="profile.avatar"/>
       </div>
       <div class="usercontent">
-        <h2 class="title"> {{profile.nickname}} 的收藏 </h2>
-        <p class="useraddress"> 钱包地址 {{address}}</p>
+        <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
+        <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
     </section>
@@ -97,15 +97,15 @@ export default {
     cardsInfo(cards) {
       // console.log(`newTypes:${cards}`);
       // console.log("cards:"+cards.length)
-      if (cards.length >= 6) {
-        const formData = new FormData();
-        formData.append('address', this.address);
-        this.$http.post('http://35.200.102.240/addranknas.php', formData)
-          .then((response) => {
-            const res = response.body;
-            console.log(res);
-          });
-      }
+      // if (cards.length >= 6) {
+      //   const formData = new FormData();
+      //   formData.append('address', this.address);
+      //   this.$http.post('http://35.200.102.240/addranknas.php', formData)
+      //     .then((response) => {
+      //       const res = response.body;
+      //       console.log(res);
+      //     });
+      // }
     },
   },
 };
