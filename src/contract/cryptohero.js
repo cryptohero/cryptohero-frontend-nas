@@ -3,6 +3,7 @@ import heroProfile from '@/config/cards.json';// '@/heroProfile.json';
 import Contract from './contract';
 
 import NebPay from 'nebpay.js';
+
 const nebPay = new NebPay();
 
 function getCardInfoByHeroId(id, tokenId) {
@@ -14,7 +15,7 @@ function getCardInfoByHeroId(id, tokenId) {
     code: id,
     front: `http://test.cdn.hackx.org/heros/${id}.jpg`,
     back: `http://test.cdn.hackx.org/back/back_${id}.jpg`,
-    tokenId: tokenId
+    tokenId,
   };
   return Object.assign(basic, cardImage);
   // return basic;
@@ -36,14 +37,14 @@ export default class LinkIdolContract extends Contract {
       value: new BigNumber(value).times(1000000000000000000).toString(),
       args: [referrer],
     }).then(console.info);
-    console.log("call return:" + t);
+    console.log(`call return:${t}`);
     // const result = await this.send(
     //   {
     //     functionName: 'multiDraw',
     //     value,
     //     data: [referrer],
     //   });
-    return new Promise(resolve =>{
+    return new Promise((resolve) => {
       const result = this.send(
         {
           functionName: 'draw',
@@ -51,23 +52,22 @@ export default class LinkIdolContract extends Contract {
           data: [referrer],
           options: {
             callback: NebPay.config.testnetUrl,
-            listener:
-            function (serialNumber, data) {
-              console.log("serialNumberrrr:"+serialNumber + " data: "+JSON.stringify(data));
-              if (data === "Error: Transaction rejected by user" || data === false || data === true) {
-                resolve("cancel");
+            listener(serialNumber, data) {
+              console.log(`serialNumberrrr:${serialNumber} data: ${JSON.stringify(data)}`);
+              if (data === 'Error: Transaction rejected by user' || data === false || data === true) {
+                resolve('cancel');
               } else {
                 resolve(serialNumber);
               }
-// 返回式样：
-// serialNumber:MiTRVkmRZOx0anWMZTgwhpJGrm50LHYr data: false (点二维码下方取消支付时显示)
-// serialNumber:MiTRVkmRZOx0anWMZTgwhpJGrm50LHYr data: "Error: Transaction rejected by user"
-// serialNumber:Nqjj6WPtQvcKxUf0OlCVRKYadqYUHI7r data: {"txhash":"f7a0316f3f7b74f493d008a6fc8f058e7b8da0238453f42a00e5c025820098ab","contract_address":""}
+              // 返回式样：
+              // serialNumber:MiTRVkmRZOx0anWMZTgwhpJGrm50LHYr data: false (点二维码下方取消支付时显示)
+              // serialNumber:MiTRVkmRZOx0anWMZTgwhpJGrm50LHYr data: "Error: Transaction rejected by user"
+              // serialNumber:Nqjj6WPtQvcKxUf0OlCVRKYadqYUHI7r data: {"txhash":"f7a0316f3f7b74f493d008a6fc8f058e7b8da0238453f42a00e5c025820098ab","contract_address":""}
               // resolve(serialNumber);
-            }
-          }
+            },
+          },
         });
-      console.log("send: " + result);
+      console.log(`send: ${result}`);
     });
     // return result;
   }
@@ -113,9 +113,9 @@ export default class LinkIdolContract extends Contract {
     return result;
   }
 
-   async getCarInfo(heroId) {
-     return getCardInfoByHeroId(heroId);
-   }
+  async getCarInfo(heroId) {
+    return this.getCardInfoByHeroId(heroId);
+  }
   async buyToken(id) {
     const result = await this.call(
       {
@@ -125,13 +125,12 @@ export default class LinkIdolContract extends Contract {
     return JSON.parse(result);
   }
   async setTokenPrice({ tokenId, value }) {
-    console.log(tokenId + ' ' + value)
-    const result = await this.call(
+    const result = await this.send(
       {
         functionName: 'setTokenPrice',
-        args: [tokenId, value],
+        data: [tokenId, value],
       });
-    console.log(result)
+    console.log(result);
     return JSON.parse(result);
   }
   async claim() {
@@ -142,14 +141,14 @@ export default class LinkIdolContract extends Contract {
       });
     return JSON.parse(result);
   }
-  async ownerOf(tokenId) {  //added by Dawn
+  async ownerOf(tokenId) { // added by Dawn
     const owner = await this.call({
       functionName: 'ownerOf',
       args: [tokenId],
     });
     return JSON.parse(owner);
   }
-  async priceOf(tokenId) {  //added by Dawn
+  async priceOf(tokenId) { // added by Dawn
     const price = await this.call({
       functionName: 'priceOf',
       args: [tokenId],
@@ -157,22 +156,22 @@ export default class LinkIdolContract extends Contract {
     return JSON.parse(price);
   }
 
- async getCarInfoByTokenId(tokenIds) {  //added by Dawn
-   const result = await Promise.all(tokenIds.map(async (token) => {
-     const heroId = await this.call(
-       {
-         functionName: 'getCardIdByTokenId',
-         args: [token],
-       });
-     return getCardInfoByHeroId(heroId, token);
-   }));
-   return result;
- }
+  async getCarInfoByTokenId(tokenIds) { // added by Dawn
+    const result = await Promise.all(tokenIds.map(async (token) => {
+      const heroId = await this.call(
+        {
+          functionName: 'getCardIdByTokenId',
+          args: [token],
+        });
+      return getCardInfoByHeroId(heroId, token);
+    }));
+    return result;
+  }
 
   async checkSerialNumber(sn) {
-    return await nebPay.queryPayInfo(sn,{
-        callback: NebPay.config.testnetUrl,
-      })
+    return await nebPay.queryPayInfo(sn, {
+      callback: NebPay.config.testnetUrl,
+    });
     // .then(function (resp) {
     //       console.log("snrespres:"+resp);
     // })
