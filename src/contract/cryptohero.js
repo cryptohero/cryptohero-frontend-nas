@@ -137,7 +137,7 @@ export default class LinkIdolContract extends Contract {
     const result = await this.send(
       {
         functionName: 'claim',
-        args: [],
+        data: [],
       });
     return JSON.parse(result);
   }
