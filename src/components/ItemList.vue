@@ -136,10 +136,11 @@ export default {
   font-size: 13px;
 }
 .imageborder8{
-  border-top: 34px solid #00000000;
+  padding: 34px 36px 21px 40px;
+  /* border-top: 34px solid #00000000;
   border-left: 32px solid #00000000;
   border-bottom: 34px solid #00000000;
-  border-right: 32px solid #00000000;
+  border-right: 32px solid #00000000; */
 }
 .card{
   font-size: 1.2em;
