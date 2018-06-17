@@ -2,7 +2,7 @@
     <div class="back_img">
         <div class="title11">
             <div class="line1">{{$t('inviteFirend')}}</div>
-        </div> 
+        </div>
         <div class="back_color">
             <div class="title_1">
                 <div class="title_2"><b>{{$t('title')}}</b></div>
@@ -15,7 +15,7 @@
                 <div class="btn">{{$t('Linkcpy')}}</div>
             </div>
 
-            <div class="invitelist"> 
+            <div class="invitelist">
                 <ul>
                     <li class="ul1">被邀请人</li>
                     <li class="ul2">抽卡数量</li>
@@ -23,16 +23,16 @@
                     <li class="ul4">返利金额</li>
                 </ul>
             </div>
-            <div class="invitelist" v-for="( item, index ) in items" :key="item.id"> 
+            <div class="invitelist" v-for="( item, index ) in items" :key="item.id">
                   <ul>
                     <li class="ul1"> {{ item.address }}</li>
                     <li class="ul2"> {{ item.cardcount }}</li>
-                    <li class="ul3"> {{ item.paid }}</li>   
-                    <li class="ul4"> {{ item.rebate }}</li>   
+                    <li class="ul3"> {{ item.paid }}</li>
+                    <li class="ul4"> {{ item.rebate }}</li>
                   </ul>
             </div>
 
-            <div>
+            <div  v-show="false">
                 <div class="invite">
                     <div class="line"></div>
                     <div class="title is-6">{{$t('shareapp')}}</div>
@@ -256,7 +256,7 @@ input{
 
 @media screen and (max-width: 450px){
     .back_color{
-    
+
     padding: 9px;
     }
     .input{

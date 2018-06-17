@@ -29,15 +29,15 @@
         <div class="column is-4">
           <div class="content">
             <span> {{$t('Contact Us')}}</span>
-            <p><a href="http://t.me/CryptoHero_Official"
+            <p><a href="https://t.me/Nebulashero"
                target="_blank">
-              @Telegram
+              @Telegram Channel
             </a></p>
-            <p><a href="https://discord.gg/nMXUYGQ"
+            <p><a href="https://discord.gg/MK5GhPn"
                target="_blank">
               @Discord
             </a></p>
-            <p>Wechat Group: add wechat friend "do_best_for_you"</p>
+            <p>Wechat Group: add wechat friend "X71tel"</p>
           </div>
         </div>
       </div>

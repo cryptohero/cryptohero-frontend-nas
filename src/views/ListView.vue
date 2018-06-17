@@ -13,8 +13,10 @@
 		 	<div class="btnContainer">
 				 <div class="cardbtn">
 				  	<a> <img class="btnimg" @click="drawClicked()" width="150" alt="" srcset="/static/assets/btn.png"/> </a>
-				  </div>
-			  </div>
+         </div>
+        <span>{{$t('Recomment')}}</span>
+
+      </div>
 		  </div>
      </section>
     </div>
