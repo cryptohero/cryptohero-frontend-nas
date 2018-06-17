@@ -49,11 +49,21 @@ export default {
   async created() {
 //    this.total = await getTotal();这里去监听了eth合约
 //    const itemIds = await getItemIds(0, this.total);
-    const itemIds = await getItemIds(0, 0);
+//    const itemIds = await getItemIds(0, 0);
     const contrat = new Contract();
-    //默认前12个tokenId
+    const  total = await contrat.getTotalSupply();
+    if(total === 0 ){
+      this.loading = false;
+      return ;
+    }
+    let ids = [];
+    let start = total - 12;
+    for (let i = total; i >= start ; --i) {
+      ids.push(i);
+    }
     //通过tokenId图片相关信息
-    const result = await contrat.getCarInfoByTokenId(itemIds);
+//    const result = await contrat.getCarInfoByTokenId(itemIds);
+    const result = await contrat.getCarInfoByTokenId(ids);
     this.itemIds = result;
     this.loading = false;
   },

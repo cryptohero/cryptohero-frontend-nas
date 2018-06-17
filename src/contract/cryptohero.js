@@ -29,7 +29,7 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1dwSSgbeZEGV81GWhdQmN5XfD4Bt2WDSb7',
       // contractAddress: 'n1jdnw7pHYjh77i7doYcqXUpZF3C3pEjgDQ',
       // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
-      // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',      
+      // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
       // contractAddress: 'n1iub6eVnYJCDKGnTrNgtskj9EHZmtwZVbC',
       contractAddress: 'n1t3SZ4eVWUvWLqM594B251ode6SpoJ3Egp',
       network: 'testnet',
@@ -162,7 +162,16 @@ export default class LinkIdolContract extends Contract {
     });
     return JSON.parse(price);
   }
-
+  async getTotalSupply() { // Added by Dawn
+    const total = await this.call({
+      functionName: 'getTotalSupply',
+    })
+    if(total !== null) {
+      return JSON.parse(total);
+    } else {
+      return 0;
+    }
+  }
   async getCarInfoByTokenId(tokenIds) { // added by Dawn
     const result = await Promise.all(tokenIds.map(async (token) => {
       const heroId = await this.call(
