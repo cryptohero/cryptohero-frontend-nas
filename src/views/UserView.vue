@@ -29,7 +29,7 @@
           <pulse-loader></pulse-loader>
         </div>
 
-        <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem card-image"
+        <div class="column is-3-desktop is-4-tablet is-12-mobile cardItem card-image"
         v-for="item in cardlist"
         @mouseover="lightShow(item.code)"
         @mouseout="lightunShow(item.code)"
