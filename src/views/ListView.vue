@@ -27,7 +27,6 @@
 <script>
 import PulseLoader from 'vue-spinner/src/PulseLoader';
 import ItemList from '@/components/ItemList';
-import { getItemIds } from '@/api';
 import { toReadablePrice } from '@/util';
 import Contract from '@/contract/cryptohero';
 

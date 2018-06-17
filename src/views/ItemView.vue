@@ -14,7 +14,7 @@
             <div class="title_2"><b>{{item.nickname}} · {{item.name}}</b></div>
           </div>
           <!-- <h2>{{item.nickname}} · {{item.name}}</h2> -->
-          <div class="img card-image" 
+          <div class="img card-image"
               @mouseover="lightShow(0)"
               @mouseout="lightunShow(0)">
             <div class="smallcardcharas">
@@ -39,6 +39,15 @@
           <div class="img">
             <ul>
               <li>
+                <div class="text">攻击力:{{item.attack}}</div>
+              </li>
+              <li>
+                <div class="text">攻击范围:{{item.range}}</div>
+              </li>
+              <li>
+                <div class="text">防御力:{{item.defence}}</div>
+              </li>
+              <li>
                 <div class="text">{{$t('NoId')}}{{itemId}}</div>
               </li>
               <li>
@@ -53,14 +62,14 @@
                 <div class="text"> {{$t('Value')}}<input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas</div>
               </li>
             </ul>
-            <a> 
+            <a>
             <div class="price" @click="buyHero()" v-show="!editFlag">
               <div class="price1">
                 {{$t('Buy')}}
               </div>
             </div>
             </a>
-            <a> 
+            <a>
             <div class="price" @click="upatePrice()" v-show="editFlag">
               <div class="price1">
                 {{$t('ModPrice')}}

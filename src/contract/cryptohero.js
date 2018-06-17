@@ -1,6 +1,7 @@
 import { BigNumber } from 'bignumber.js';
 import { NasTool } from '@/api';
 import heroProfile from '@/config/cards.json';// '@/heroProfile.json';
+import heroStatus from '../../static/herostatu.json';
 import Contract from './contract';
 
 import NebPay from 'nebpay.js';
@@ -9,6 +10,7 @@ const nebPay = new NebPay();
 
 function getCardInfoByHeroId(id, tokenId) {
   const basic = heroProfile[id];
+  const status = heroStatus[id];
   if (!basic) {
     console.error(`error detected id is ${id}`);
   }
@@ -18,7 +20,7 @@ function getCardInfoByHeroId(id, tokenId) {
     back: `http://test.cdn.hackx.org/back/back_${id}.jpg`,
     tokenId,
   };
-  return Object.assign(basic, cardImage);
+  return Object.assign(basic, cardImage, status);
   // return basic;
 }
 
@@ -115,6 +117,7 @@ export default class LinkIdolContract extends Contract {
         });
       return getCardInfoByHeroId(heroId, token);
     }));
+    console.error(result)
     return result;
   }
 
