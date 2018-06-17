@@ -39,13 +39,13 @@
           <div class="img">
             <ul>
               <li>
-                <div class="text">攻击力:{{item.attack}}</div>
+                <div class="text"><p>攻击力:{{item.attack}}</p><p v-bind:style="{ background: 'green', border: '2px', width: item.attack + 'px',  height: '10px',margin: '8px'}" ></p></div>
               </li>
               <li>
-                <div class="text">攻击范围:{{item.range}}</div>
+                <div class="text"><p>攻击范围:{{item.range}}</p><p v-bind:style="{ background: 'red', border: '2px', width: item.range + 'px',  height: '10px',margin: '8px'}" ></p></div>
               </li>
               <li>
-                <div class="text">防御力:{{item.defence}}</div>
+                <div class="text"><p>防御力:{{item.defence}}</p><p v-bind:style="{ background: 'blue', border: '2px', width: item.defence + 'px',  height: '10px',margin: '8px'}" ></p></div>
               </li>
               <li>
                 <div class="text">{{$t('NoId')}}{{itemId}}</div>
@@ -397,6 +397,9 @@ export default {
   .text {
     margin: 10px;
     overflow-wrap: break-word;
+    display: flex;
+    display: -webkit-flex;
+
   }
   .imageborder8{
     border-top: 34px solid #00000000;
