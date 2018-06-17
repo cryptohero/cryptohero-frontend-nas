@@ -88,7 +88,7 @@ export default {
       return ad;
     },
     getCardImage(id) {
-      return `http://test.cdn.hackx.org/heros/${id}.jpg`;
+      return `http://test.cdn.hackx.org/heros_new/${id}.jpeg`;
     },
     getCardBack(){
       return `http://test.cdn.hackx.org/cardback/cardback_light.png`;

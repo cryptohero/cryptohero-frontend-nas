@@ -223,10 +223,10 @@
         return this.$store.state.items[this.itemId].isLCYClaimed;
       },
       getCardImage() {
-        return `http://test.cdn.hackx.org/heros/${this.itemId}.jpg`;
+        return `http://test.cdn.hackx.org/heros_new/${this.itemId}.jpeg`;
       },
       getCardBackSideImage() {
-        return `/static/assets/back/${this.itemId}.jpeg`;
+        return `http://test.cdn.hackx.org/backs_new/${this.itemId}.jpeg`;
       },
       isOwner() {
         return this.item.owner === this.me.address;

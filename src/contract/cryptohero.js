@@ -16,8 +16,8 @@ function getCardInfoByHeroId(id, tokenId) {
   }
   const cardImage = {
     code: id,
-    front: `http://test.cdn.hackx.org/heros/${id}.jpg`,
-    back: `http://test.cdn.hackx.org/back/back_${id}.jpg`,
+    front: `http://test.cdn.hackx.org/heros_new/${id}.jpeg`,
+    back: `http://test.cdn.hackx.org/backs_new/${id}.jpeg`,
     tokenId,
   };
   return Object.assign(basic, cardImage, status);
