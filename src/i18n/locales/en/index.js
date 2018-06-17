@@ -4,7 +4,7 @@ const TERMS_CONTENT = require('raw-loader!./terms.html');
 
 module.exports = {
   CryptoHero: 'CryptoHero',
-  'My Cards': 'My Cards',
+  'My Cards': 'My Collection',
   'Sign In': 'Sign In',
   Home: 'Home',
   FAQs: 'FAQs',

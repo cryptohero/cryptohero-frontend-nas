@@ -4,7 +4,7 @@ const TERMS_CONTENT = require('raw-loader!./terms.html');
 
 module.exports = {
   CryptoHero: '首页',
-  'My Cards': '我的卡牌',
+  'My Cards': '我的收藏',
   'Sign In': '我的收藏',
   Home: '首页',
   FAQs: '推荐计划',

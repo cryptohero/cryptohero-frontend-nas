@@ -28,8 +28,8 @@
         <div v-if="loading">
           <pulse-loader></pulse-loader>
         </div>
-        <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem card-image"
-        v-for="item in cardsInfo" :key="item.code"         
+        <div class="column is-3-desktop is-4-tablet is-12-mobile cardItem card-image"
+        v-for="item in cardsInfo" :key="item.code"
         @mouseover="lightShow(item.code)"
         @mouseout="lightunShow(item.code)"
         @click="gotoCoinProfile(item.tokenId)" style="margin-top: 18px;">
@@ -40,9 +40,9 @@
               <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[item.code]">
             </div>
           <img class="cardItemImg imageborder8 image is-5by4" alt="" :src="item.front"/>
-          <div :style="{ backgroundColor: item.color, height: '50px'}">
+          <div class="imageborder3">
             <span>
-            <a  class="name" :style="{ lineHeight: '50px', color: item.textcolor, paddingLeft: '20px' }">
+            <a  class="name" :style="{ lineHeight: '10px', color: item.textcolor, paddingLeft: '30px' }">
               {{item.name}} · {{item.nickname}}</a>
           </span>
           </div>

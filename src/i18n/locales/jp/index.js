@@ -4,7 +4,7 @@ const TERMS_CONTENT = require('raw-loader!./terms.html');
 
 module.exports = {
   CryptoHero: '暗号化英雄',
-  'My Cards': 'コレクションカード',
+  'My Cards': '私のコレクション',
   'Sign In': 'サインイン',
   Home: 'ホーム',
   FAQs: '友たちを誘う',
