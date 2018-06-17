@@ -34,7 +34,7 @@
               </li>
 
               <li>
-                <div class="text"> {{$t('Value')}}<input style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas</div>
+                <div class="text"> {{$t('Value')}}<input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas</div>
               </li>
             </ul>
             <div class="price" @click="buyHero()" v-show="!editFlag">
