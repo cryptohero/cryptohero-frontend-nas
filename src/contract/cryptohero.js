@@ -27,9 +27,10 @@ export default class LinkIdolContract extends Contract {
     super({
       // contractAddress: 'n1jkpnTHaPeEm8S7sQSWf2R4n5WrSebonZ3',
       // contractAddress: 'n1dwSSgbeZEGV81GWhdQmN5XfD4Bt2WDSb7',
-      contractAddress: 'n1gpvXuBn8PoxgwpnyYD9zzE4MUwfPqSijh',
       // contractAddress: 'n1jdnw7pHYjh77i7doYcqXUpZF3C3pEjgDQ',
       // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
+      // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',      
+      contractAddress: 'n1jhTWLxS4hbRWpfcPrhFBSNbxjUU3XGwgX',
       network: 'testnet',
     });
   }
