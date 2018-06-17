@@ -250,15 +250,6 @@ export default {
     margin-left: auto;
     margin-right: auto;
 }
- .image {
-    background : "";
-    /* border: 8px solid #ecdaa8;
-    border-radius: 8px; */
-}
-.card{
-  font-size: 1.2em;
-  background-color: initial;
-}
 @media (max-width: 800px) {
   .cardContainer {
     background-size: cover;

@@ -14,11 +14,27 @@
             <div class="title_2"><b>{{item.nickname}} · {{item.name}}</b></div>
           </div>
           <!-- <h2>{{item.nickname}} · {{item.name}}</h2> -->
-          <div class="img">
-            <img class="big_img" :src="item.front">
+          <div class="img card-image" 
+              @mouseover="lightShow(0)"
+              @mouseout="lightunShow(0)">
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardBack()">
+            </div>
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[0]">
+            </div>
+            <img class="big_img imageborder8 image is-5by4" :src="item.front">
           </div>
-          <div class="img">
-            <img class="big_img" :src="item.back">
+          <div class="img card-image"
+              @mouseover="lightShow(1)"
+              @mouseout="lightunShow(1)">
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardBack()">
+            </div>
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[1]">
+            </div>
+            <img class="big_img imageborder8 image is-5by4" :src="item.back">
           </div>
           <div class="img">
             <ul>
@@ -37,16 +53,20 @@
                 <div class="text"> {{$t('Value')}}<input style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas</div>
               </li>
             </ul>
+            <a> 
             <div class="price" @click="buyHero()" v-show="!editFlag">
               <div class="price1">
                 {{$t('Buy')}}
               </div>
             </div>
+            </a>
+            <a> 
             <div class="price" @click="upatePrice()" v-show="editFlag">
               <div class="price1">
                 {{$t('ModPrice')}}
               </div>
             </div>
+            </a>
           </div>
         </div>
       </div>
@@ -70,6 +90,7 @@ export default {
 
   data() {
     return {
+      lightisShow: [false,false],
       owner: '',
       price: '',
       editFlag: false,
@@ -237,6 +258,22 @@ export default {
       const readable = toReadablePrice(priceInWei);
       return `${readable.price} ${readable.unit}`;
     },
+    lightShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = true;
+      this.$forceUpdate();
+    },
+    lightunShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = false;
+      this.$forceUpdate();
+    },
+    getCardBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback_light.png`;
+    },
+    getCardLightBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback.png`;
+    },
     async onUpdateAd() {
       const ad = prompt(this.$t('UPDATE_SLOGAN_PROMPT'));
       if (ad !== null) {
@@ -352,7 +389,22 @@ export default {
     margin: 10px;
     overflow-wrap: break-word;
   }
+  .imageborder8{
+    border-top: 34px solid #00000000;
+    border-left: 32px solid #00000000;
+    border-bottom: 32px solid #00000000;
+    border-right: 32px solid #00000000;
+  }
+  .smallcardcharas {
+    position: absolute;
+  }
 
+  .charaimg{
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
   @media screen and (max-width: 574px) {
     .line1 {
       font-size: 27px
