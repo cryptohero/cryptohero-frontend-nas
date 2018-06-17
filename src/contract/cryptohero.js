@@ -28,7 +28,8 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1jkpnTHaPeEm8S7sQSWf2R4n5WrSebonZ3',
       // contractAddress: 'n1dwSSgbeZEGV81GWhdQmN5XfD4Bt2WDSb7',
       contractAddress: 'n1gpvXuBn8PoxgwpnyYD9zzE4MUwfPqSijh',
-      //contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
+      // contractAddress: 'n1jdnw7pHYjh77i7doYcqXUpZF3C3pEjgDQ',
+      // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
       network: 'testnet',
     });
   }
@@ -167,7 +168,9 @@ export default class LinkIdolContract extends Contract {
           functionName: 'getCardIdByTokenId',
           args: [token],
         });
-      return getCardInfoByHeroId(heroId, token);
+      if( heroId !== 'null') {
+        return getCardInfoByHeroId(heroId, token);
+      }
     }));
     return result;
   }
