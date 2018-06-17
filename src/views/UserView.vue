@@ -28,8 +28,9 @@
         <div v-if="loading">
           <pulse-loader></pulse-loader>
         </div>
-        <div class="column is-3-desktop is-4-tablet is-12-mobile cardItem card-image"
-        v-for="item in cardsInfo" :key="item.code"
+
+        <div class="column is-4-desktop is-4-tablet is-12-mobile cardItem card-image"
+        v-for="item in cardlist"
         @mouseover="lightShow(item.code)"
         @mouseout="lightunShow(item.code)"
         @click="gotoCoinProfile(item.tokenId)" style="margin-top: 18px;">
@@ -51,6 +52,20 @@
       </div>
     </section>
 
+  <paginate
+    :page-count="pagecount"
+    :page-range="3"
+    :margin-pages="2"
+    :click-handler="clickCallback"
+    :prev-text="'Prev'"
+    :next-text="'Next'"
+    :container-class="'pagination'"
+    :page-class="'pageitem'"
+    :page-link-class="'pageitema'"
+    :next-link-class="'pageitema'"
+    :prev-link-class="'pageitema'">
+  </paginate>
+
 </div>
 </template>
 
@@ -60,6 +75,7 @@ import NasId from '@/contract/nasid';
 import LinkIdol from '@/contract/cryptohero';
 import CardItem from '@/components/CardItem';
 import PulseLoader from 'vue-spinner/src/PulseLoader';
+import Paginate from 'vuejs-paginate';
 
 export default {
   name: 'MyCollectionPage',
@@ -67,6 +83,9 @@ export default {
     lightisShow: [],
     items: [],
     loading: true,
+    allCardsInfo: [],
+    cardlist: [],
+    pagecount: 0
   }),
   asyncComputed: {
     async profile() {
@@ -78,19 +97,8 @@ export default {
   components: {
     CardItem,
     PulseLoader,
+    Paginate
   },
-  // async mounted() {
-  //   console.log("aaaaaa:"+this.cardsInfo)
-  //   if (this.cardsInfo.length >= 6) {
-  //     const formData = new FormData();
-  //     formData.append('address', this.address);
-  //     this.$http.post('http://35.200.102.240/addranknas.php', formData)
-  //       .then((response) => {
-  //         const res = response.body;
-  //         console.log(res);
-  //       });
-  //   }
-  // },
   asyncComputed: {
     async profile() {
       const nasId = new NasId();
@@ -101,6 +109,9 @@ export default {
       const idol = new LinkIdol();
       const result = await idol.getUserCards(this.address);
       this.loading = false;
+      this.allCardsInfo = result;
+      this.cardlist = result.slice(0,60);
+      this.pagecount = Math.ceil(result.length/60);
       return result;
     },
   },
@@ -123,6 +134,11 @@ export default {
       // console.log(id+"qwwwww"+this.lightisShow[id])
       this.lightisShow[id] = false;
       this.$forceUpdate();
+    },
+    clickCallback: function(pageNum) {
+      console.log(pageNum);
+      console.log(this.allCardsInfo);
+      this.cardlist = this.allCardsInfo.slice((pageNum-1)*60,pageNum*60);
     }
   },
   async created() {
@@ -161,6 +177,18 @@ export default {
   },
 };
 </script>
+
+<style type="text/css">
+@media (max-width: 800px) {
+  .pageitem {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+.pageitema {
+  color: #9a7039;
+}
+</style>
 
 <style scoped>
 /*
@@ -250,6 +278,21 @@ export default {
     margin-left: auto;
     margin-right: auto;
 }
+
+.pagination {
+  width: 50vw;
+  background-color: #fdefac;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border-radius: 30px;
+  border: 3px #9a7039 solid;
+}
+
+
 @media (max-width: 800px) {
   .cardContainer {
     background-size: cover;
@@ -267,6 +310,10 @@ export default {
   }
   .cardItemImg{
     width: 100%;
+  }
+
+  .pagination {
+    width: 90vw;
   }
 }
 @media (max-width: 420px) {
