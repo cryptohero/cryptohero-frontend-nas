@@ -22,7 +22,7 @@
     </section>
   <section>
   <div class="button-search">
-    <div class="btn-item"><el-button type="primary" plain @click.native="ObjecSort('code')">按卡位排序</el-button></div class="btn-item">
+    <div class="btn-item"><el-button type="primary" plain @click.native="ObjecSort('code')">按卡位排序</el-button></div>
     <div class="btn-item"><el-button type="success" plain @click.native="ObjecSort('tokenId')">按TokenId排序</el-button></div>
     <div class="btn-item"><el-button type="warning" plain @click.native="ObjecSort('price')">按购买价格排序</el-button> </div>
     <div class="btn-item" style="display: flex">
@@ -269,7 +269,7 @@ export default {
       if (types.length >= 108) {
         const formData = new FormData();
         formData.append('address', this.address);
-        this.$http.post('http://35.200.102.240/addrankshuihunas.php', formData)
+        this.$http.post(this.$store.getters.getServerURL+'addrankshuihunas.php', formData)
           .then((response) => {
             const res = response.body;
             console.log(res);
@@ -401,6 +401,14 @@ export default {
 .btn-item{
   margin: 10px;
 }
+.button-search{
+    width: 100%;
+    height: 77px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 @media (max-width: 800px) {
   .cardContainer {
     background-size: cover;
@@ -414,7 +422,7 @@ export default {
   }
 
   .section2div {
-    padding-top: 100px;
+    padding-top: 22px;
   }
   .cardItemImg{
     width: 100%;
