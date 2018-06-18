@@ -25,10 +25,10 @@
         <div class="field is-grouped">
           <div class="control">
             <div class="select">
-              <select>
-                <option> <el-button type="primary" plain @click.native="ObjecSort('code')">按卡位排序</el-button></option>
-                <option> <el-button type="success" plain @click.native="ObjecSort('tokenId')">按TokenId排序</el-button></option>
-                <option> <el-button type="warning" plain @click.native="ObjecSort('price')">按购买价格排序</el-button> </option>
+              <select v-model="typeFlag" @change="fun(this)">
+                <option value="code">按卡位排序</option>
+                <option value="tokenId">按TokenId排序</option>
+                <option value="price">按购买价格排序</option>
               </select>
             </div>
           </div>
@@ -119,6 +119,7 @@ export default {
     heroName: '',
     saveData:[],
     total: '',
+    typeFlag: '',
   }),
   asyncComputed: {
     async profile() {
@@ -158,6 +159,9 @@ export default {
     },
   },
   methods: {
+    fun() {
+      this.ObjecSort(this.typeFlag);
+    },
     unique(arr) {
   let result = [], hash = {};
   for (let i = 0, elem; (elem = arr[i]) != null; i++) {
