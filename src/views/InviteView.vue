@@ -97,7 +97,7 @@ export default {
   },
   async mounted() {
     // const thisme = "8888888888899999000000000000000";
-    this.$http.get(this.$store.getters.getServerURL+`inviteshuihulist.php?address=${this.me}`)//&t='1'
+    this.$http.get(this.$store.getters.getServerURL+`inviteshuihulist.php?address=${this.me}&t=0&witchnet=test`)//&t='1'
     // this.$http.get(`http://127.0.0.1:8888/inviteshuihulist.php?address=${thisme}&witchnet=test&t=1`)
       .then((response) => {
 
