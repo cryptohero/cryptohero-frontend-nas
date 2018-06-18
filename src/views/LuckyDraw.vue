@@ -106,7 +106,7 @@ export default {
           formData.append('witchnet', "test");
           formData.append('sn', result);
           this.$http
-            .post('http://35.200.102.240/inviteshuihuadd.php', formData)
+            .post(this.$store.getters.getServerURL+'inviteshuihuadd.php', formData)
             .then((response) => {
               const res = response.body;
               console.log(res);

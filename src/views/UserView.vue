@@ -235,7 +235,7 @@ export default {
       if (types.length >= 108) {
         const formData = new FormData();
         formData.append('address', this.address);
-        this.$http.post('http://35.200.102.240/addrankshuihunas.php', formData)
+        this.$http.post(this.$store.getters.getServerURL+'addrankshuihunas.php', formData)
           .then((response) => {
             const res = response.body;
             console.log(res);
