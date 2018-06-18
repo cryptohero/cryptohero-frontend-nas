@@ -8,7 +8,7 @@ import NebPay from 'nebpay.js';
 
 const nebPay = new NebPay();
 
-function getCardInfoByHeroId(id, tokenId) {
+function getCardInfoByHeroId(id, tokenId, prices) {
   const basic = heroProfile[id];
   const status = heroStatus[id];
   if (!basic) {
@@ -20,7 +20,7 @@ function getCardInfoByHeroId(id, tokenId) {
     back: `http://test.cdn.hackx.org/backs_new/${id}.jpeg`,
     tokenId,
   };
-  return Object.assign(basic, cardImage, status);
+  return Object.assign(basic, cardImage, status, prices);
   // return basic;
 }
 
@@ -114,7 +114,9 @@ export default class LinkIdolContract extends Contract {
           functionName: 'getCardIdByTokenId',
           args: [token],
         });
-      return getCardInfoByHeroId(heroId, token);
+      const price = await this.priceOf(token);
+      const prices = {price: price};
+      return getCardInfoByHeroId(heroId, token, prices);
     }));
     return result;
   }
@@ -180,7 +182,9 @@ export default class LinkIdolContract extends Contract {
           args: [token],
         });
       if (heroId !== 'null') {
-        return getCardInfoByHeroId(heroId, token);
+        const price = await this.priceOf(token);
+        const prices = {price: price};
+        return getCardInfoByHeroId(heroId, token, prices);
       }
     }));
     return result;

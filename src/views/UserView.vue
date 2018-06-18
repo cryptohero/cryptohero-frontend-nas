@@ -131,6 +131,7 @@ export default {
       this.saveData = this.allCardsInfo;
       this.cardlist = result.slice(0,8);
       this.pagecount = Math.ceil(result.length/8);
+      console.error(this.saveData)
       var rsp = []
       for(let i = 0 ; i < this.allCardsInfo.length ; i++){
          rsp.push(this.allCardsInfo[i].code);
@@ -150,26 +151,6 @@ export default {
   }
   return result;
 },
-   /* toObject(arr){
-     var obj = new Object();
-     var len = arr.length;
-     for(let i = 0; i < len; i++) {
-       obj[arr[i]] = true;
-     }
-     return obj;
-    },
-    keys(obj) {
-      var arr = [];
-      for(var attr in obj){
-        if(obj.hasOwnPerpoty(attr)){
-          arr.push(attr);
-        }
-      }
-      return arr;
-    },
-    uniqueObject(arr) {
-      return this.keys(this.toObject(arr));
-    },*/
     queryAll() {
       this.allCardsInfo = this.saveData;
       this.cardlist = this.saveData.slice(0, 8);
