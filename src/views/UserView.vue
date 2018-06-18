@@ -19,16 +19,7 @@
       </div>
     </div>
     </section>
-  <section>
-  <div class="button-search">
-    <div class="btn-item"><el-button type="primary" plain>按卡位排序</el-button></div class="btn-item">
-    <div class="btn-item"><el-button type="success" plain>按TokenId排序</el-button></div>
-    <div class="btn-item"><el-button type="warning" plain>按购买价格排序</el-button> </div>
-    <div class="btn-item" style="display: flex"><el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" @keyup.enter.native="search()"></el-input>
-    <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
-    </div>
-  </div>
-  </section>
+
   <section>
       <div class="columns is-multiline is-mobile section2div">
         <div class="title11">
@@ -85,9 +76,7 @@ import LinkIdol from '@/contract/cryptohero';
 import CardItem from '@/components/CardItem';
 import PulseLoader from 'vue-spinner/src/PulseLoader';
 import Paginate from 'vuejs-paginate';
-import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
-import "../../node_modules/element-ui/lib/theme-chalk/index.css"
-import ElButton from "../../node_modules/element-ui/packages/button/src/button.vue";
+
 export default {
   name: 'MyCollectionPage',
   data: () => ({
@@ -106,8 +95,6 @@ export default {
     },
   },
   components: {
-    ElButton,
-    ElInput,
     CardItem,
     PulseLoader,
     Paginate
@@ -122,38 +109,13 @@ export default {
       const idol = new LinkIdol();
       const result = await idol.getUserCards(this.address);
       this.loading = false;
-      this.allCardsInfo = result.sort(this.compare('code'));
-      this.cardlist = result.slice(0,8);
-      this.pagecount = Math.ceil(result.length/8);
+      this.allCardsInfo = result;
+      this.cardlist = result.slice(0,60);
+      this.pagecount = Math.ceil(result.length/60);
       return result;
     },
   },
   methods: {
-    compare(prop) {
-      return function (obj1, obj2) {
-        var val1 = obj1[prop];
-        var val2 = obj2[prop];
-        if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
-          val1 = Number(val1);
-          val2 = Number(val2);
-        }
-        if (val1 < val2) {
-          return -1;
-        } else if (val1 > val2) {
-          return 1;
-        } else {
-          return 0;
-        }
-      }
-    },
-    search(){
-      console.log(this.allCardsInfo)
-     const arr = this.allCardsInfo.sort(this.compare('code'));
-      console.log(arr);
-      this.allCardsInfo = arr;
-      this.cardlist = arr.slice(0,8);
-      this.pagecount = Math.ceil(arr.length/8);
-    },
     gotoCoinProfile(code) {
       this.$router.push({ path: `/item/${code}` });
     },
@@ -176,7 +138,7 @@ export default {
     clickCallback: function(pageNum) {
       console.log(pageNum);
       console.log(this.allCardsInfo);
-      this.cardlist = this.allCardsInfo.slice((pageNum-1)*8,pageNum*8);
+      this.cardlist = this.allCardsInfo.slice((pageNum-1)*60,pageNum*60);
     }
   },
   async created() {
@@ -226,14 +188,6 @@ export default {
 .pageitema {
   color: #9a7039;
 }
-
-  .button-search{
-    display: flex;
-    display: -webkit-flex;
-  }
-  .btn-item{
-    margin: 10px;
-  }
 </style>
 
 <style scoped>
