@@ -93,28 +93,31 @@ export default {
       const result = await contract.draw(referrer, this.getDisplayTotal);
       // console.log("crytpresp00:"+result);
 
-      // const result1 = await contract.checkSerialNumber(result);
-      // console.log("crytpresp:"+result1);
-
       if(result != "cancel") {
-        if(this.$route.params.address != undefined && this.$store.state.me != this.$route.params.address) {
-          const formData = new FormData();
-          formData.append('address', this.$store.state.me);
-          formData.append('inviteaddress', this.$route.params.address);
-          formData.append('cardnum', this.count);
-          formData.append('price', this.getPrice);
-          formData.append('witchnet', "test");
-          formData.append('sn', result);
-          this.$http
-            .post(this.$store.getters.getServerURL+'inviteshuihuadd.php', formData)
-            .then((response) => {
-              const res = response.body;
-              console.log(res);
-              alert("抽卡成功，到我的收藏里看看吧");
-            });
-        }else{
-          alert("抽卡成功，到我的收藏里看看吧");
-        }
+        setTimeout(async () => {  
+                    const result1 = await contract.checkSerialNumber(result);
+                    if (JSON.parse(result1)["msg"] === "success") {
+                      if(this.$route.params.address != undefined && this.$store.state.me != this.$route.params.address) {
+                        const formData = new FormData();
+                        formData.append('address', this.$store.state.me);
+                        formData.append('inviteaddress', this.$route.params.address);
+                        formData.append('cardnum', this.count);
+                        formData.append('price', this.getPrice);
+                        formData.append('witchnet', "test");
+                        formData.append('sn', result);
+                        this.$http
+                          .post(this.$store.getters.getServerURL+'inviteshuihuadd.php', formData)
+                          .then((response) => {
+                            const res = response.body;
+                            console.log(res);
+                            alert("抽卡成功，到我的收藏里看看吧");
+                          });
+                      }else{
+                        alert("抽卡成功，到我的收藏里看看吧");
+                      }
+                    }
+                    // console.log("crytpresp:"+JSON.parse(result1)["msg"]);  
+            }, 20000);  
       }
     },
   },
