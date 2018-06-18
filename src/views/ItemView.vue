@@ -37,7 +37,7 @@
             <img class="big_img imageborder8 image is-5by4" :src="item.back">
           </div>
           <div class="img">
-            <ul>
+            <ul style="margin-top: 19px;">
               <li>
                 <div class="text"><p>{{$t('Nature1')}}{{item.attack}}</p><p v-bind:style="{ background: 'green', border: '2px', width: item.attack + 'px',  height: '10px',margin: '8px'}" ></p></div>
               </li>
@@ -46,6 +46,20 @@
               </li>
               <li>
                 <div class="text"><p>{{$t('Nature3')}}{{item.defence}}</p><p v-bind:style="{ background: 'blue', border: '2px', width: item.defence + 'px',  height: '10px',margin: '8px'}" ></p></div>
+              </li>
+              
+              <li>
+                <div class="text"><p>{{$t('Nature4')}}{{item.star}}</p></div>
+              </li>
+              
+              <li>
+                <div class="text"><p>{{$t('Nature5')}}{{item.position}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature6')}}{{item.arms}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature7')}}{{item.skills}}</p></div>
               </li>
               <li>
                 <div class="text">{{$t('NoId')}}{{itemId}}</div>
@@ -395,7 +409,6 @@ export default {
   }
 
   .text {
-    margin: 10px;
     overflow-wrap: break-word;
     display: flex;
     display: -webkit-flex;
