@@ -108,7 +108,6 @@ export default class LinkIdolContract extends Contract {
 
   async getUserCards(address) {
     const tokenIds = await this.getTokenIDsByAddress(address);
-    console.error(tokenIds);
     const result = await Promise.all(tokenIds.map(async (token) => {
       const heroId = await this.call(
         {
@@ -117,7 +116,6 @@ export default class LinkIdolContract extends Contract {
         });
       return getCardInfoByHeroId(heroId, token);
     }));
-    console.error(result);
     return result;
   }
 
@@ -140,7 +138,6 @@ export default class LinkIdolContract extends Contract {
         functionName: 'setTokenPrice',
         data: [tokenId, value],
       });
-    console.log(result);
     return JSON.parse(result);
   }
   async claim() {
@@ -171,9 +168,9 @@ export default class LinkIdolContract extends Contract {
     })
     if(total !== null) {
       return JSON.parse(total);
-    } 
+    }
       return 0;
-    
+
   }
   async getCarInfoByTokenId(tokenIds) { // added by Dawn
     const result = await Promise.all(tokenIds.map(async (token) => {
