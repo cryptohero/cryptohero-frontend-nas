@@ -47,22 +47,22 @@
               <li>
                 <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature3')}}{{item.defence}}</p><p v-bind:style="{ background: 'blue', border: '2px', width: item.defence + 'px',  height: '10px',margin: '8px'}" ></p></div>
               </li>
-              
+
               <li>
-                <div class="text"><p>{{$t('Nature4')}}{{item.star}}</p></div>
+                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature4')}}{{item.star}}</p></div>
               </li>
-              
+
               <li>
-                <div class="text"><p>{{$t('Nature5')}}{{item.position}}</p></div>
-              </li>
-              <li>
-                <div class="text"><p>{{$t('Nature6')}}{{item.arms}}</p></div>
+                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature5')}}{{item.position}}</p></div>
               </li>
               <li>
-                <div class="text"><p>{{$t('Nature7')}}{{item.skills}}</p></div>
+                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature6')}}{{item.arms}}</p></div>
               </li>
               <li>
-                <div class="text">{{$t('NoId')}}{{itemId}}</div>
+                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature7')}}{{item.skills}}</p></div>
+              </li>
+              <li>
+                <div class="text"  style="white-space:nowrap;">{{$t('NoId')}}{{itemId}}</div>
               </li>
               <li>
                 <div class="text">{{$t('Owner')}}
