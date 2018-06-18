@@ -26,6 +26,7 @@
           <div class="control">
             <div class="select">
               <select v-model="typeFlag" @change="fun(this)">
+                <option value="" style="display: none;" disabled selected>卡牌排序选择</option>
                 <option value="code">按卡位排序</option>
                 <option value="tokenId">按TokenId排序</option>
                 <option value="price">按购买价格排序</option>
