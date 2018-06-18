@@ -58,5 +58,5 @@ module.exports = {
   NoId: 'Serial Number: ',
   Value: 'Value: ',
   ModPrice: 'Modify Price',
-  Recomment: '《星云水浒》是一款以中国四大名著之一《水浒传》为题材的集卡类区块链游戏，卡牌总量恒定210000张，已写进智能合约。每一张卡牌都有唯一的编号，每一笔交易都在链上可查。当玩家购买了该卡牌，就拥有了对这张卡牌的所有权，可以自由交易、转卖，集齐108位水浒英雄的玩家将会赢得丰厚大奖。',
+  Recomment: '"NebulasHero" is a block chain game with card collection based on "The Water Margin" which is one of China\'s four famous books. The total number of cards is 210,000, which has been written into smart contract. Every card is unique and every transaction can be checked in the chain. When the player purchases the card, he or she will owns the card and can freely trade and resell it. The player who collects 108 heroes of NebulasHero will win a rich award.',
 };
