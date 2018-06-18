@@ -221,7 +221,7 @@ export default {
     clickCallback: function(pageNum) {
       console.log(pageNum);
       console.log(this.allCardsInfo);
-      this.cardlist = this.allCardsInfo.slice((pageNum-1)*60,pageNum*60);
+      this.cardlist = this.allCardsInfo.slice((pageNum-1)*8,pageNum*8);
     }
   },
   async created() {
