@@ -25,7 +25,9 @@
             </div>
             <div class="invitelist" v-for="( item, index ) in items" :key="item.id">
                   <ul>
-                    <li class="ul1 ul1addr"> {{ item.address.slice(-6).toUpperCase() }}</li>
+                    <router-link class="ul1 ul1addr" :to="{ name: 'User', params:{address: item.address}}"> 
+                        {{ item.address.slice(-6).toUpperCase() }}
+                    </router-link>
                     <li class="ul2"> {{ item.cardcount }}</li>
                     <li class="ul3"> {{ item.paid }}</li>
                     <li class="ul4"> {{ item.rebate }}</li>
