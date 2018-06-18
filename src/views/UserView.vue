@@ -87,9 +87,9 @@ import LinkIdol from '@/contract/cryptohero';
 import CardItem from '@/components/CardItem';
 import PulseLoader from 'vue-spinner/src/PulseLoader';
 import Paginate from 'vuejs-paginate';
-import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
-import "../../node_modules/element-ui/lib/theme-chalk/index.css"
 import ElButton from "../../node_modules/element-ui/packages/button/src/button.vue";
+import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
+import '../../node_modules/element-ui/lib/theme-chalk/index.css';
 export default {
   name: 'MyCollectionPage',
   data: () => ({
@@ -111,6 +111,8 @@ export default {
     },
   },
   components: {
+    ElInput,
+    ElButton,
     CardItem,
     PulseLoader,
     Paginate,
@@ -358,7 +360,13 @@ export default {
   border: 3px #9a7039 solid;
 }
 
-
+.button-search{
+  display: flex;
+  display: -webkit-flex;
+}
+.btn-item{
+  margin: 10px;
+}
 @media (max-width: 800px) {
   .cardContainer {
     background-size: cover;
