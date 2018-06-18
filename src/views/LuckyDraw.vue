@@ -86,7 +86,7 @@ export default {
     async draw() {
       const contract = new Contract();
       var referrer = ""
-      if(this.$store.state.me != this.$route.params.address){
+      if(this.$store.state.me !== this.$route.params.address) {
         referrer = this.$route.params.address;
       }
       // console.log("crytpresp:"+referrer);
