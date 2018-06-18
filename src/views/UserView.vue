@@ -15,7 +15,7 @@
     </div>
       <div class="usercontent">
         <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
-        <p class="useraddress">集卡数量：{{total}} /115张</p>
+        <p class="useraddress">集卡数量：{{total}} /115张 <el-button type="success" round @click.native="claim()">集齐</el-button> </p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
@@ -159,6 +159,11 @@ export default {
     },
   },
   methods: {
+   async claim() {
+     const contract = new LinkIdol();
+     const result = await contract.claim();
+     console.error(result);
+    },
     fun() {
       this.ObjecSort(this.typeFlag);
     },
@@ -260,7 +265,7 @@ export default {
     },
   },
   watch: {
-    cardsInfo(cards) {
+   /* cardsInfo(cards) {
       // console.log(`newTypes:${cards}`);
       const cardtypes = cards.map((card) => {
         return card["code"];
@@ -277,7 +282,7 @@ export default {
             console.log(res);
           });
       }
-    },
+    },*/
   },
 };
 </script>

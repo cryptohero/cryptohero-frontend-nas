@@ -148,6 +148,8 @@ export default class LinkIdolContract extends Contract {
         functionName: 'claim',
         data: [],
       });
+    console.log('result');
+     console.log(result)
     return JSON.parse(result);
   }
   async ownerOf(tokenId) { // added by Dawn
