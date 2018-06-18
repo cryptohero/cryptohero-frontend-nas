@@ -143,16 +143,31 @@ export default {
     async cardsInfo() {
       const idol = new LinkIdol();
       const result = await idol.getUserCards(this.address);
-      this.total = result.length;
       this.loading = false;
       this.allCardsInfo = result.sort(this.compare('code'));
       this.saveData = this.allCardsInfo;
       this.cardlist = result.slice(0,8);
       this.pagecount = Math.ceil(result.length/8);
+      console.error(this.saveData)
+      var rsp = []
+      for(let i = 0 ; i < this.allCardsInfo.length ; i++){
+         rsp.push(this.allCardsInfo[i].code);
+      }
+     this.total =  this.unique(rsp).length;
       return result;
     },
   },
   methods: {
+    unique(arr) {
+  let result = [], hash = {};
+  for (let i = 0, elem; (elem = arr[i]) != null; i++) {
+    if (!hash[elem]) {
+      result.push(elem);
+      hash[elem] = true;
+    }
+  }
+  return result;
+},
     queryAll() {
       this.allCardsInfo = this.saveData;
       this.cardlist = this.saveData.slice(0, 8);
@@ -223,13 +238,13 @@ export default {
     clickCallback: function(pageNum) {
       console.log(pageNum);
       console.log(this.allCardsInfo);
-      this.cardlist = this.allCardsInfo.slice((pageNum-1)*60,pageNum*60);
+      this.cardlist = this.allCardsInfo.slice((pageNum-1)*8,pageNum*8);
     }
   },
   async created() {
-    for(var i=0;i<cardsInfo().length;i++){
+   /* for(var i=0;i<cardsInfo().length;i++){
       this.lightisShow[i] = false;
-    }
+    }*/
     console.log('created');
   },
   computed: {

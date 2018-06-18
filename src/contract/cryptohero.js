@@ -8,7 +8,7 @@ import NebPay from 'nebpay.js';
 
 const nebPay = new NebPay();
 
-function getCardInfoByHeroId(id, tokenId) {
+function getCardInfoByHeroId(id, tokenId, prices) {
   const basic = heroProfile[id];
   const status = heroStatus[id];
   if (!basic) {
@@ -20,7 +20,7 @@ function getCardInfoByHeroId(id, tokenId) {
     back: `http://test.cdn.hackx.org/backs_new/${id}.jpeg`,
     tokenId,
   };
-  return Object.assign(basic, cardImage, status);
+  return Object.assign(basic, cardImage, status, prices);
   // return basic;
 }
 
@@ -108,16 +108,16 @@ export default class LinkIdolContract extends Contract {
 
   async getUserCards(address) {
     const tokenIds = await this.getTokenIDsByAddress(address);
-    console.error(tokenIds);
     const result = await Promise.all(tokenIds.map(async (token) => {
       const heroId = await this.call(
         {
           functionName: 'getCardIdByTokenId',
           args: [token],
         });
-      return getCardInfoByHeroId(heroId, token);
+      const price = await this.priceOf(token);
+      const prices = {price: price};
+      return getCardInfoByHeroId(heroId, token, prices);
     }));
-    console.error(result);
     return result;
   }
 
@@ -140,7 +140,6 @@ export default class LinkIdolContract extends Contract {
         functionName: 'setTokenPrice',
         data: [tokenId, value],
       });
-    console.log(result);
     return JSON.parse(result);
   }
   async claim() {
@@ -171,9 +170,9 @@ export default class LinkIdolContract extends Contract {
     })
     if(total !== null) {
       return JSON.parse(total);
-    } 
+    }
       return 0;
-    
+
   }
   async getCarInfoByTokenId(tokenIds) { // added by Dawn
     const result = await Promise.all(tokenIds.map(async (token) => {
@@ -183,7 +182,9 @@ export default class LinkIdolContract extends Contract {
           args: [token],
         });
       if (heroId !== 'null') {
-        return getCardInfoByHeroId(heroId, token);
+        const price = await this.priceOf(token);
+        const prices = {price: price};
+        return getCardInfoByHeroId(heroId, token, prices);
       }
     }));
     return result;
