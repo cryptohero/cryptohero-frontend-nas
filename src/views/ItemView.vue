@@ -39,19 +39,19 @@
           <div class="img">
             <ul>
               <li>
-                <div class="text"><p>{{$t('Nature1')}}{{item.attack}}</p><p v-bind:style="{ background: 'green', border: '2px', width: item.attack + 'px',  height: '10px',margin: '8px'}" ></p></div>
+                <div class="text" style="white-space:nowrap;"><p>{{$t('Nature1')}}{{item.attack}}</p><p v-bind:style="{ background: 'green', border: '2px', width: item.attack + 'px',  height: '10px',margin: '8px'}" ></p></div>
               </li>
               <li>
-                <div class="text"><p>{{$t('Nature2')}}{{item.range}}</p><p v-bind:style="{ background: 'red', border: '2px', width: item.range + 'px',  height: '10px',margin: '8px'}" ></p></div>
+                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature2')}}{{item.range}}</p><p v-bind:style="{ background: 'red', border: '2px', width: item.range + 'px',  height: '10px',margin: '8px'}" ></p></div>
               </li>
               <li>
-                <div class="text"><p>{{$t('Nature3')}}{{item.defence}}</p><p v-bind:style="{ background: 'blue', border: '2px', width: item.defence + 'px',  height: '10px',margin: '8px'}" ></p></div>
+                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature3')}}{{item.defence}}</p><p v-bind:style="{ background: 'blue', border: '2px', width: item.defence + 'px',  height: '10px',margin: '8px'}" ></p></div>
               </li>
               <li>
                 <div class="text">{{$t('NoId')}}{{itemId}}</div>
               </li>
               <li>
-                <div class="text">{{$t('Owner')}}：
+                <div class="text">{{$t('Owner')}}
                   <router-link :to="{ name: 'User', params:{address: carOwner}}">
                     {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
                   </router-link>

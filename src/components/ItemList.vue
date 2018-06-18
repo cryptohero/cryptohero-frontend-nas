@@ -33,7 +33,7 @@
           </div>
           <div class="card-content">
             <div class="content is-small">
-              <h4>{{item.nickname}} · {{item.name}}
+              <h4 :style="{paddingLeft: '10px', paddingRight: '15px'}">{{item.nickname}} · {{item.name}}
                 <div class="btnn">{{$t('Details')}}</div>
               </h4>
               <!-- <ul>

@@ -15,7 +15,7 @@
     </div>
       <div class="usercontent">
         <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
-        <p class="useraddress">集卡数量：{{total}} /115张 <el-button type="success" round @click.native="claim()">集齐</el-button> </p>
+        <p class="useraddress">{{$t('Content4')}}{{total}} /115 {{$t('CardUnit')}} <el-button type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
@@ -27,9 +27,9 @@
             <div class="select">
               <select v-model="typeFlag" @change="fun(this)">
                 <option value="" style="display: none;" disabled selected>卡牌排序选择</option>
-                <option value="code">按卡位排序</option>
-                <option value="tokenId">按TokenId排序</option>
-                <option value="price">按购买价格排序</option>
+                <option value="code">{{$t('Sort1')}}</option>
+                <option value="tokenId">{{$t('Sort2')}}</option>
+                <option value="price">{{$t('Sort3')}}</option>
               </select>
             </div>
           </div>
@@ -40,11 +40,11 @@
      </div>
       </div>
    <div class="button-search">
-     <div class="btn-item"><el-button type="primary" plain @click.native="ObjecSort('code')">按卡位排序</el-button></div>
-     <div class="btn-item"><el-button type="success" plain @click.native="ObjecSort('tokenId')">按TokenId排序</el-button></div>
-     <div class="btn-item"><el-button type="warning" plain @click.native="ObjecSort('price')">按购买价格排序</el-button> </div>
+     <div class="btn-item"><el-button type="primary" plain @click.native="ObjecSort('code')">{{$t('Sort1')}}</el-button></div>
+     <div class="btn-item"><el-button type="success" plain @click.native="ObjecSort('tokenId')">{{$t('Sort2')}}</el-button></div>
+     <div class="btn-item"><el-button type="warning" plain @click.native="ObjecSort('price')">{{$t('Sort3')}}</el-button> </div>
      <div class="btn-item" style="display: flex">
-       <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
+       <el-input :placeholder="$t('Reminder')" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
     <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
      </div>
   </div>
