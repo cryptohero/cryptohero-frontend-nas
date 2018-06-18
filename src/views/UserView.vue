@@ -15,16 +15,18 @@
     </div>
       <div class="usercontent">
         <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
+        <p class="useraddress">集卡数量：{{total}} /114张</p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
     </section>
   <section>
   <div class="button-search">
-    <div class="btn-item"><el-button type="primary" plain>按卡位排序</el-button></div class="btn-item">
-    <div class="btn-item"><el-button type="success" plain>按TokenId排序</el-button></div>
-    <div class="btn-item"><el-button type="warning" plain>按购买价格排序</el-button> </div>
-    <div class="btn-item" style="display: flex"><el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" @keyup.enter.native="search()"></el-input>
+    <div class="btn-item"><el-button type="primary" plain @click.native="ObjecSort('code')">按卡位排序</el-button></div class="btn-item">
+    <div class="btn-item"><el-button type="success" plain @click.native="ObjecSort('tokenId')">按TokenId排序</el-button></div>
+    <div class="btn-item"><el-button type="warning" plain @click.native="ObjecSort('price')">按购买价格排序</el-button> </div>
+    <div class="btn-item" style="display: flex">
+      <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
     <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
     </div>
   </div>
@@ -88,6 +90,7 @@ import Paginate from 'vuejs-paginate';
 import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
 import "../../node_modules/element-ui/lib/theme-chalk/index.css"
 import ElButton from "../../node_modules/element-ui/packages/button/src/button.vue";
+import { Enumerable } from '@/assets/lib/linq.min.js';
 export default {
   name: 'MyCollectionPage',
   data: () => ({
@@ -96,7 +99,10 @@ export default {
     loading: true,
     allCardsInfo: [],
     cardlist: [],
-    pagecount: 0
+    pagecount: 0,
+    heroName: '',
+    saveData:[],
+    total: '',
   }),
   asyncComputed: {
     async profile() {
@@ -110,7 +116,8 @@ export default {
     ElInput,
     CardItem,
     PulseLoader,
-    Paginate
+    Paginate,
+    Enumerable,
   },
   asyncComputed: {
     async profile() {
@@ -121,14 +128,40 @@ export default {
     async cardsInfo() {
       const idol = new LinkIdol();
       const result = await idol.getUserCards(this.address);
+      this.total = result.length;
       this.loading = false;
       this.allCardsInfo = result.sort(this.compare('code'));
+      this.saveData = this.allCardsInfo;
       this.cardlist = result.slice(0,8);
       this.pagecount = Math.ceil(result.length/8);
       return result;
     },
   },
   methods: {
+    queryAll() {
+      this.allCardsInfo = this.saveData;
+      this.cardlist = this.saveData.slice(0, 8);
+      this.pagecount = Math.ceil(this.saveData.length / 8);
+    },
+    queryResult(name) {
+      var res = [];
+      for(let i = 0; i < this.allCardsInfo.length ; i++) {
+        if(this.heroName === this.allCardsInfo[i].name) {
+          res.push(this.allCardsInfo[i]);
+        }
+      }
+      this.allCardsInfo = res.sort(this.compare(name));
+      this.cardlist = this.allCardsInfo.slice(0,8);
+      this.pagecount = Math.ceil(this.allCardsInfo.length/8);
+    },
+    ObjecSort(name) {
+      if(!this.heroName) {
+        this.allCardsInfo = this.saveData;
+      }
+      this.allCardsInfo.sort(this.compare(name));
+      this.cardlist = this.allCardsInfo.slice(0,8);
+      this.pagecount = Math.ceil(this.allCardsInfo.length/8);
+    },
     compare(prop) {
       return function (obj1, obj2) {
         var val1 = obj1[prop];
@@ -146,13 +179,12 @@ export default {
         }
       }
     },
-    search(){
-      console.log(this.allCardsInfo)
-     const arr = this.allCardsInfo.sort(this.compare('code'));
-      console.log(arr);
-      this.allCardsInfo = arr;
-      this.cardlist = arr.slice(0,8);
-      this.pagecount = Math.ceil(arr.length/8);
+    search() {
+      if(!this.heroName) {
+        this.queryAll();
+      } else {
+        this.queryResult('code');
+      }
     },
     gotoCoinProfile(code) {
       this.$router.push({ path: `/item/${code}` });
