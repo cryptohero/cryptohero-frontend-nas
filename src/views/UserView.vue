@@ -15,7 +15,7 @@
     </div>
       <div class="usercontent">
         <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
-        <p class="useraddress">集卡数量：{{total}} /114张</p>
+        <p class="useraddress">集卡数量：{{total}} /115张</p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
@@ -114,7 +114,6 @@ export default {
     CardItem,
     PulseLoader,
     Paginate,
-    Enumerable,
   },
   asyncComputed: {
     async profile() {
