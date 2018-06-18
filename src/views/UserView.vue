@@ -90,7 +90,6 @@ import Paginate from 'vuejs-paginate';
 import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
 import "../../node_modules/element-ui/lib/theme-chalk/index.css"
 import ElButton from "../../node_modules/element-ui/packages/button/src/button.vue";
-import { Enumerable } from '@/assets/lib/linq.min.js';
 export default {
   name: 'MyCollectionPage',
   data: () => ({
@@ -112,8 +111,6 @@ export default {
     },
   },
   components: {
-    ElButton,
-    ElInput,
     CardItem,
     PulseLoader,
     Paginate,
@@ -208,7 +205,7 @@ export default {
     clickCallback: function(pageNum) {
       console.log(pageNum);
       console.log(this.allCardsInfo);
-      this.cardlist = this.allCardsInfo.slice((pageNum-1)*8,pageNum*8);
+      this.cardlist = this.allCardsInfo.slice((pageNum-1)*60,pageNum*60);
     }
   },
   async created() {
@@ -258,14 +255,6 @@ export default {
 .pageitema {
   color: #9a7039;
 }
-
-  .button-search{
-    display: flex;
-    display: -webkit-flex;
-  }
-  .btn-item{
-    margin: 10px;
-  }
 </style>
 
 <style scoped>
