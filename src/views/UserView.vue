@@ -21,14 +21,31 @@
     </div>
     </section>
   <section>
-  <div class="button-search">
-    <div class="btn-item"><el-button type="primary" plain @click.native="ObjecSort('code')">按卡位排序</el-button></div>
-    <div class="btn-item"><el-button type="success" plain @click.native="ObjecSort('tokenId')">按TokenId排序</el-button></div>
-    <div class="btn-item"><el-button type="warning" plain @click.native="ObjecSort('price')">按购买价格排序</el-button> </div>
-    <div class="btn-item" style="display: flex">
-      <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
+      <div class="navbar-item">
+        <div class="field is-grouped">
+          <div class="control">
+            <div class="select">
+              <select>
+                <option> <el-button type="primary" plain @click.native="ObjecSort('code')">按卡位排序</el-button></option>
+                <option> <el-button type="success" plain @click.native="ObjecSort('tokenId')">按TokenId排序</el-button></option>
+                <option> <el-button type="warning" plain @click.native="ObjecSort('price')">按购买价格排序</el-button> </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="btn-item" style="display: flex">
+       <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
     <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
-    </div>
+     </div>
+      </div>
+   <div class="button-search">
+     <div class="btn-item"><el-button type="primary" plain @click.native="ObjecSort('code')">按卡位排序</el-button></div>
+     <div class="btn-item"><el-button type="success" plain @click.native="ObjecSort('tokenId')">按TokenId排序</el-button></div>
+     <div class="btn-item"><el-button type="warning" plain @click.native="ObjecSort('price')">按购买价格排序</el-button> </div>
+     <div class="btn-item" style="display: flex">
+       <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
+    <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
+     </div>
   </div>
   </section>
   <section>
@@ -346,7 +363,6 @@ export default {
     margin-left: auto;
     margin-right: auto;
 }
-
 .pagination {
   width: 50vw;
   background-color: #fdefac;
@@ -375,6 +391,9 @@ export default {
     justify-content: center;
     flex-wrap: wrap;
 }
+.navbar-item{
+  display: none;
+}
 @media (max-width: 800px) {
   .cardContainer {
     background-size: cover;
@@ -399,6 +418,19 @@ export default {
   }
 }
 @media (max-width: 420px) {
+  .select select {
+    background-color: #fff1ba;
+    color: #606266;
+}
+  .navbar-item{
+  margin-top: 200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.button-search{
+  display:none;
+}
   .usercontent{
     padding-top: 27%;
 }
