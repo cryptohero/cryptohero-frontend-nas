@@ -15,11 +15,40 @@
     </div>
       <div class="usercontent">
         <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
+        <p class="useraddress">集卡数量：{{total}} /115张 <el-button type="success" round @click.native="claim()">集齐</el-button> </p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
     </section>
-
+  <section>
+      <div class="navbar-item">
+        <div class="field is-grouped">
+          <div class="control">
+            <div class="select">
+              <select v-model="typeFlag" @change="fun(this)">
+                <option value="" style="display: none;" disabled selected>卡牌排序选择</option>
+                <option value="code">按卡位排序</option>
+                <option value="tokenId">按TokenId排序</option>
+                <option value="price">按购买价格排序</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="btn-item" style="display: flex">
+       <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
+    <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
+     </div>
+      </div>
+   <div class="button-search">
+     <div class="btn-item"><el-button type="primary" plain @click.native="ObjecSort('code')">按卡位排序</el-button></div>
+     <div class="btn-item"><el-button type="success" plain @click.native="ObjecSort('tokenId')">按TokenId排序</el-button></div>
+     <div class="btn-item"><el-button type="warning" plain @click.native="ObjecSort('price')">按购买价格排序</el-button> </div>
+     <div class="btn-item" style="display: flex">
+       <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
+    <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
+     </div>
+  </div>
+  </section>
   <section>
       <div class="columns is-multiline is-mobile section2div">
         <div class="title11">
@@ -76,7 +105,9 @@ import LinkIdol from '@/contract/cryptohero';
 import CardItem from '@/components/CardItem';
 import PulseLoader from 'vue-spinner/src/PulseLoader';
 import Paginate from 'vuejs-paginate';
-
+import ElButton from "../../node_modules/element-ui/packages/button/src/button.vue";
+import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
+import '../../node_modules/element-ui/lib/theme-chalk/index.css';
 export default {
   name: 'MyCollectionPage',
   data: () => ({
@@ -85,7 +116,11 @@ export default {
     loading: true,
     allCardsInfo: [],
     cardlist: [],
-    pagecount: 0
+    pagecount: 0,
+    heroName: '',
+    saveData:[],
+    total: '',
+    typeFlag: '',
   }),
   asyncComputed: {
     async profile() {
@@ -95,9 +130,11 @@ export default {
     },
   },
   components: {
+    ElInput,
+    ElButton,
     CardItem,
     PulseLoader,
-    Paginate
+    Paginate,
   },
   asyncComputed: {
     async profile() {
@@ -109,13 +146,86 @@ export default {
       const idol = new LinkIdol();
       const result = await idol.getUserCards(this.address);
       this.loading = false;
-      this.allCardsInfo = result;
-      this.cardlist = result.slice(0,60);
-      this.pagecount = Math.ceil(result.length/60);
+      this.allCardsInfo = result.sort(this.compare('code'));
+      this.saveData = this.allCardsInfo;
+      this.cardlist = result.slice(0,8);
+      this.pagecount = Math.ceil(result.length/8);
+      console.error(this.saveData)
+      var rsp = []
+      for(let i = 0 ; i < this.allCardsInfo.length ; i++){
+         rsp.push(this.allCardsInfo[i].code);
+      }
+     this.total =  this.unique(rsp).length;
       return result;
     },
   },
   methods: {
+   async claim() {
+     const contract = new LinkIdol();
+     const result = await contract.claim();
+     console.error(result);
+    },
+    fun() {
+      this.ObjecSort(this.typeFlag);
+    },
+    unique(arr) {
+  let result = [], hash = {};
+  for (let i = 0, elem; (elem = arr[i]) != null; i++) {
+    if (!hash[elem]) {
+      result.push(elem);
+      hash[elem] = true;
+    }
+  }
+  return result;
+},
+    queryAll() {
+      this.allCardsInfo = this.saveData;
+      this.cardlist = this.saveData.slice(0, 8);
+      this.pagecount = Math.ceil(this.saveData.length / 8);
+    },
+    queryResult(name) {
+      var res = [];
+      for(let i = 0; i < this.allCardsInfo.length ; i++) {
+        if(this.heroName === this.allCardsInfo[i].name) {
+          res.push(this.allCardsInfo[i]);
+        }
+      }
+      this.allCardsInfo = res.sort(this.compare(name));
+      this.cardlist = this.allCardsInfo.slice(0,8);
+      this.pagecount = Math.ceil(this.allCardsInfo.length/8);
+    },
+    ObjecSort(name) {
+      if(!this.heroName) {
+        this.allCardsInfo = this.saveData;
+      }
+      this.allCardsInfo.sort(this.compare(name));
+      this.cardlist = this.allCardsInfo.slice(0,8);
+      this.pagecount = Math.ceil(this.allCardsInfo.length/8);
+    },
+    compare(prop) {
+      return function (obj1, obj2) {
+        var val1 = obj1[prop];
+        var val2 = obj2[prop];
+        if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+          val1 = Number(val1);
+          val2 = Number(val2);
+        }
+        if (val1 < val2) {
+          return -1;
+        } else if (val1 > val2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+    },
+    search() {
+      if(!this.heroName) {
+        this.queryAll();
+      } else {
+        this.queryResult('code');
+      }
+    },
     gotoCoinProfile(code) {
       this.$router.push({ path: `/item/${code}` });
     },
@@ -138,13 +248,13 @@ export default {
     clickCallback: function(pageNum) {
       console.log(pageNum);
       console.log(this.allCardsInfo);
-      this.cardlist = this.allCardsInfo.slice((pageNum-1)*60,pageNum*60);
+      this.cardlist = this.allCardsInfo.slice((pageNum-1)*8,pageNum*8);
     }
   },
   async created() {
-    for(var i=0;i<cardsInfo().length;i++){
+   /* for(var i=0;i<cardsInfo().length;i++){
       this.lightisShow[i] = false;
-    }
+    }*/
     console.log('created');
   },
   computed: {
@@ -156,7 +266,7 @@ export default {
     },
   },
   watch: {
-    cardsInfo(cards) {
+   /* cardsInfo(cards) {
       // console.log(`newTypes:${cards}`);
       const cardtypes = cards.map((card) => {
         return card["code"];
@@ -167,13 +277,13 @@ export default {
       if (types.length >= 108) {
         const formData = new FormData();
         formData.append('address', this.address);
-        this.$http.post('http://35.200.102.240/addrankshuihunas.php', formData)
+        this.$http.post(this.$store.getters.getServerURL+'addrankshuihunas.php', formData)
           .then((response) => {
             const res = response.body;
             console.log(res);
           });
       }
-    },
+    },*/
   },
 };
 </script>
@@ -278,7 +388,6 @@ export default {
     margin-left: auto;
     margin-right: auto;
 }
-
 .pagination {
   width: 50vw;
   background-color: #fdefac;
@@ -292,7 +401,24 @@ export default {
   border: 3px #9a7039 solid;
 }
 
-
+.button-search{
+  display: flex;
+  display: -webkit-flex;
+}
+.btn-item{
+  margin: 10px;
+}
+.button-search{
+    width: 100%;
+    height: 77px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.navbar-item{
+  display: none;
+}
 @media (max-width: 800px) {
   .cardContainer {
     background-size: cover;
@@ -306,7 +432,7 @@ export default {
   }
 
   .section2div {
-    padding-top: 100px;
+    padding-top: 22px;
   }
   .cardItemImg{
     width: 100%;
@@ -317,6 +443,19 @@ export default {
   }
 }
 @media (max-width: 420px) {
+  .select select {
+    background-color: #fff1ba;
+    color: #606266;
+}
+  .navbar-item{
+  margin-top: 200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.button-search{
+  display:none;
+}
   .usercontent{
     padding-top: 27%;
 }

@@ -14,8 +14,9 @@
 				 <div class="cardbtn">
 				  	<a> <img class="btnimg" @click="drawClicked()" width="150" alt="" srcset="/static/assets/btn.png"/> </a>
          </div>
-        <span>{{$t('Recomment')}}</span>
-
+         <div class="txt">
+        <span>{{$t('Recomment')}}</span>  
+        </div>
       </div>
 		  </div>
      </section>
@@ -119,8 +120,14 @@ export default {
     display: block;
     margin-left: auto;
     margin-right: auto;
+        display: block;
+    margin-bottom: 30px;
 }
-
+.txt{
+  border:  5px solid darkgoldenrod;
+  padding: 10px;
+  background-color: blanchedalmond;
+}
 @media screen and (max-width: 414px){
   .cardcharas{
     display: none;
@@ -135,5 +142,9 @@ export default {
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+.columns.is-gapless:last-child {
+    
+    margin-top: 180px;
 }
 </style>
