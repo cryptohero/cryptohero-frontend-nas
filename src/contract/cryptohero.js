@@ -33,7 +33,7 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
       // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
       // contractAddress: 'n1iub6eVnYJCDKGnTrNgtskj9EHZmtwZVbC',
-      contractAddress: 'n1t3SZ4eVWUvWLqM594B251ode6SpoJ3Egp',
+      contractAddress: 'n211Kai95nap9tWAAHGu9qMiVDTdzd1D4ij',
       network: 'testnet',
     });
   }
@@ -117,7 +117,7 @@ export default class LinkIdolContract extends Contract {
         });
       return getCardInfoByHeroId(heroId, token);
     }));
-    console.error(result)
+    console.error(result);
     return result;
   }
 
@@ -125,7 +125,7 @@ export default class LinkIdolContract extends Contract {
     return this.getCardInfoByHeroId(heroId);
   }
   async buyToken(id, price) {
-    const  value = price;
+    const value = price;
     const result = await this.send(
       {
         functionName: 'buyToken',
@@ -171,9 +171,9 @@ export default class LinkIdolContract extends Contract {
     })
     if(total !== null) {
       return JSON.parse(total);
-    } else {
+    } 
       return 0;
-    }
+    
   }
   async getCarInfoByTokenId(tokenIds) { // added by Dawn
     const result = await Promise.all(tokenIds.map(async (token) => {
@@ -182,7 +182,7 @@ export default class LinkIdolContract extends Contract {
           functionName: 'getCardIdByTokenId',
           args: [token],
         });
-      if( heroId !== 'null') {
+      if (heroId !== 'null') {
         return getCardInfoByHeroId(heroId, token);
       }
     }));
