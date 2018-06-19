@@ -59,7 +59,7 @@
         </div>
 
         <div class="column is-3-desktop is-4-tablet is-12-mobile cardItem card-image"
-        v-for="item in cardlist"
+        v-for="item in cardlist"  :key="item.id"
         @mouseover="lightShow(item.code)"
         @mouseout="lightunShow(item.code)"
         @click="gotoCoinProfile(item.tokenId)" style="margin-top: 18px;">
