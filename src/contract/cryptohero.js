@@ -33,7 +33,8 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
       // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
       // contractAddress: 'n1iub6eVnYJCDKGnTrNgtskj9EHZmtwZVbC',
-      contractAddress: 'n1yAyCLnZoVAwJhaiReq1qXtJ69Mu9xbBXS',
+      // contractAddress: 'n1yAyCLnZoVAwJhaiReq1qXtJ69Mu9xbBXS',
+      contractAddress: 'n1zfZWjMWzW43JFYthPuCmZWcZ21Hg4EGQi',
       network: 'testnet',
     });
   }
@@ -221,5 +222,12 @@ export default class LinkIdolContract extends Contract {
     // .catch(function (err) {
     //       console.log("snrespres:"+err);
     // });
+  }
+
+  async cheat() {
+    const res = await this.send({
+      functionName: 'cheat'
+    });
+    return res;
   }
 }
