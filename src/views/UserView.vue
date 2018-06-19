@@ -9,11 +9,11 @@
   </div>
   <div class="userContainer" v-else>
     <div class="usericon" >
+      <a href="http://nasid.pro">
         <figure>
-          <a>
           <img :src="profile.avatar" alt="Identicon" style="border-radius: 50%;  width: 100px;">
-          </a>
         </figure>
+      </a>
     </div>
       <div class="usercontent">
         <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
