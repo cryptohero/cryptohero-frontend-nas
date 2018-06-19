@@ -12,7 +12,7 @@ module.exports = {
   luckydraw:'幸运抽奖',
   shareapp: '分享到社交媒体',
   inviteFirend: '邀请好友',
-  title:'推荐好友玩 星云水浒 可获得 3 % 消费额的奖励!',
+  title:'推荐好友玩 星云水浒 可获得 5 % 消费额的奖励!',
   firendLink: '你的邀请链接',
   Linkcpy: '复制链接',
   ranking:'名次',
