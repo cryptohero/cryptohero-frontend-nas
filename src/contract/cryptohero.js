@@ -33,7 +33,7 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
       // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
       // contractAddress: 'n1iub6eVnYJCDKGnTrNgtskj9EHZmtwZVbC',
-      contractAddress: 'n211Kai95nap9tWAAHGu9qMiVDTdzd1D4ij',
+      contractAddress: 'n1koZCVhwb1K1EzGArmk1ZpnncsY9crdtSB',
       network: 'testnet',
     });
   }
@@ -115,7 +115,7 @@ export default class LinkIdolContract extends Contract {
           args: [token],
         });
       const price = await this.priceOf(token);
-      const prices = {price: price};
+      const prices = { price };
       return getCardInfoByHeroId(heroId, token, prices);
     }));
     return result;
@@ -149,7 +149,7 @@ export default class LinkIdolContract extends Contract {
         data: [],
       });
     console.log('result');
-     console.log(result)
+    console.log(result);
     return JSON.parse(result);
   }
   async ownerOf(tokenId) { // added by Dawn
@@ -169,12 +169,11 @@ export default class LinkIdolContract extends Contract {
   async getTotalSupply() { // Added by Dawn
     const total = await this.call({
       functionName: 'getTotalSupply',
-    })
-    if(total !== null) {
+    });
+    if (total !== null) {
       return JSON.parse(total);
     }
-      return 0;
-
+    return 0;
   }
   async getCarInfoByTokenId(tokenIds) { // added by Dawn
     const result = await Promise.all(tokenIds.map(async (token) => {
@@ -185,7 +184,7 @@ export default class LinkIdolContract extends Contract {
         });
       if (heroId !== 'null') {
         const price = await this.priceOf(token);
-        const prices = {price: price};
+        const prices = { price };
         return getCardInfoByHeroId(heroId, token, prices);
       }
     }));
