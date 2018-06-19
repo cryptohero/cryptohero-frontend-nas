@@ -83,17 +83,17 @@
               </li>
 
               <li>
-                <div class="text1"><p>{{item.star}}</p></div>
+                <div class="text1"><p class="text2">{{item.star}}</p></div>
               </li>
 
               <li>
-                <div class="text1"><p>{{item.position}}</p></div>
+                <div class="text1"><p class="text2">{{item.position}}</p></div>
               </li>
               <li>
-                <div class="text1"><p>{{item.arms}}</p></div>
+                <div class="text1"><p class="text2">{{item.arms}}</p></div>
               </li>
               <li>
-                <div class="text1"><p>{{item.skills}}</p></div>
+                <div class="text1"><p class="text2">{{item.skills}}</p></div>
               </li>
               <li>
                 <div class="text1">{{itemId}}</div>
@@ -455,6 +455,12 @@ export default {
     display: flex;
     display: -webkit-flex;
     color: #a10a0a;
+    flex-wrap: nowrap;
+  }
+   .text2 {
+    overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
   }
   .imageborder8{
         padding: 41px;
