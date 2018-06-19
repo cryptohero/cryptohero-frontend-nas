@@ -151,7 +151,14 @@ export default class LinkIdolContract extends Contract {
     console.log('result');
     console.log(result);
     return JSON.parse(result);
-  }
+  } 
+  async isTokenClaimed(tokenId) { // added by Gloria
+    const isTokenClaimed = await this.call({
+      functionName: 'isTokenClaimed',
+      args: [tokenId],
+    });
+    return isTokenClaimed;
+  }  
   async ownerOf(tokenId) { // added by Dawn
     const owner = await this.call({
       functionName: 'ownerOf',

@@ -63,10 +63,13 @@
               <li>
                 <div class="text">{{$t('NoId')}}</div>
               </li>
+              
               <li>
                 <div class="text">{{$t('Owner')}}</div>
               </li>
-
+               <li>
+                <div class="text">{{$t('Owner')}}</div>
+              </li>
               <li>
                 <div class="text"> {{$t('Value')}}</div>
               </li>
@@ -103,6 +106,15 @@
                   <router-link :to="{ name: 'User', params:{address: carOwner}}">
                     {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
                   </router-link>
+        
+                </div>
+              </li>
+               <li>
+                <div class="text">
+                  <router-link :to="{ name: 'User', params:{address: isTokenClaimed}}">
+                    {{isTokenClaimed}}
+                  </router-link>
+        
                 </div>
               </li>
 
@@ -182,6 +194,15 @@ export default {
         const result = await idol.getUserCards(this.address);
         return result;
       }, */
+    async isTokenClaimed() {
+      const idol = new Contract();
+      const heroId = this.$route.params.id;
+      result = await idol.isTokenClaimed(heroId);      
+      if (result !== true) result = false;
+      console.log(result);
+      alert(result);
+      return result;
+    },      
     async carOwner() {
       const idol = new Contract();
       const heroId = this.$route.params.id;
