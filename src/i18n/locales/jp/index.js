@@ -14,7 +14,7 @@ module.exports = {
   shareapp: '友たちにシェアする',
   inviteFirend: '友たちを誘う',
   luckydraw:'幸運くじ',
-  title:'友達が星雲水滸に誘いましょう、3 %の消費金をもらえますよ！',
+  title:'友達が星雲水滸に誘いましょう、5 %の消費金をもらえますよ！',
   ranking:'順位',
   key:'財布コード：',
   KeyAddress: '財布コード',
