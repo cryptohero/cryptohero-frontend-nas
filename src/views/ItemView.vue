@@ -37,35 +37,69 @@
             <img class="big_img imageborder8 image is-5by4" :src="item.back">
           </div>
           <div class="img">
-            <ul style="margin-top: 19px;">
+            <ul style="float: left;margin-top: 32px;">
               <li>
-                <div class="text" style="white-space:nowrap;"><p>{{$t('Nature1')}}{{item.attack}}</p><p v-bind:style="{ background: 'green', border: '2px', width: item.attack + 'px',  height: '10px',margin: '8px'}" ></p></div>
+                <div class="text"><p>{{$t('Nature1')}}</p></div>
               </li>
               <li>
-                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature2')}}{{item.range}}</p><p v-bind:style="{ background: 'red', border: '2px', width: item.range + 'px',  height: '10px',margin: '8px'}" ></p></div>
+                <div class="text"><p>{{$t('Nature2')}}</p></div>
               </li>
               <li>
-                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature3')}}{{item.defence}}</p><p v-bind:style="{ background: 'blue', border: '2px', width: item.defence + 'px',  height: '10px',margin: '8px'}" ></p></div>
+                <div class="text"><p>{{$t('Nature3')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature4')}}</p></div>
+              </li>
+              
+              <li>
+                <div class="text"><p>{{$t('Nature5')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature6')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature7')}}</p></div>
+              </li>
+              <li>
+                <div class="text">{{$t('NoId')}}</div>
+              </li>
+              <li>
+                <div class="text">{{$t('Owner')}}</div>
               </li>
 
               <li>
-                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature4')}}{{item.star}}</p></div>
+                <div class="text"> {{$t('Value')}}</div>
+              </li>
+            </ul>
+            <ul style="margin-top: 32px;">
+              <li>
+                <div class="text1"><p>{{item.attack}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #62d1ae , #5db23b) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p></div>
+              </li>
+              <li>
+                <div class="text1"><p>{{item.range}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050)', border: '2px', width: item.range + 'px',  height: '10px',margin: '6px'}" ></p></div>
+              </li>
+              <li>
+                <div class="text1"><p>{{item.defence}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #96789a , #7a86ae)', border: '2px', width: item.defence + 'px',  height: '10px',margin: '6px'}" ></p></div>
               </li>
 
               <li>
-                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature5')}}{{item.position}}</p></div>
+                <div class="text1"><p>{{item.star}}</p></div>
+              </li>
+
+              <li>
+                <div class="text1"><p>{{item.position}}</p></div>
               </li>
               <li>
-                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature6')}}{{item.arms}}</p></div>
+                <div class="text1"><p>{{item.arms}}</p></div>
               </li>
               <li>
-                <div class="text"  style="white-space:nowrap;"><p>{{$t('Nature7')}}{{item.skills}}</p></div>
+                <div class="text1"><p>{{item.skills}}</p></div>
               </li>
               <li>
-                <div class="text"  style="white-space:nowrap;">{{$t('NoId')}}{{itemId}}</div>
+                <div class="text1">{{itemId}}</div>
               </li>
               <li>
-                <div class="text">{{$t('Owner')}}
+                <div class="text">
                   <router-link :to="{ name: 'User', params:{address: carOwner}}">
                     {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
                   </router-link>
@@ -73,9 +107,10 @@
               </li>
 
               <li>
-                <div class="text"> {{$t('Value')}}<input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas</div>
+                <div class="text"><input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas<div class="butt">推荐</div></div>
               </li>
             </ul>
+
             <a>
             <div class="price" @click="buyHero()" v-show="!editFlag">
               <div class="price1">
@@ -331,6 +366,7 @@ export default {
     background: url(/static/assets/card_profile_top.png) no-repeat top, url(/static/assets/card_profile_end.png) no-repeat bottom, url(/static/assets/card_profile.png) repeat-y;
     background-size: 100%;
     padding: 3% 4% 4%;
+    
   }
 
   .back_color {
@@ -375,14 +411,14 @@ export default {
   }
 
   .img {
-    width: 224px;
+    width: 266px;
     height: 340px;
-    margin: 20px
+    margin: 2px;
+    
   }
 
   .big_img {
     width: 100%;
-    border: 10px solid #ecdaa8;
     border-radius: 10px;
   }
 
@@ -409,21 +445,33 @@ export default {
   }
 
   .text {
-    overflow-wrap: break-word;
+    /* overflow-wrap: break-word; */
     display: flex;
     display: -webkit-flex;
-
+    color: #553b11;
+  }
+  .text1 {
+    /* overflow-wrap: break-word; */
+    display: flex;
+    display: -webkit-flex;
+    color: #a10a0a;
   }
   .imageborder8{
-    border-top: 34px solid #00000000;
-    border-left: 32px solid #00000000;
-    border-bottom: 32px solid #00000000;
-    border-right: 32px solid #00000000;
+   padding: 41px;
   }
   .smallcardcharas {
     position: absolute;
+  
   }
-
+ .butt{
+    background-color: #f7260b;
+    padding: -2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    color: #fde481;
+    border: 2px solid #e6c035;
+    margin-left: 17px;
+}
   .charaimg{
     width: 100%;
     display: block;
