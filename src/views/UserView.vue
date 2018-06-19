@@ -24,7 +24,8 @@
       <div class="navbar-item">
         <div class="field is-grouped">
           <div class="control">
-            <div class="select">
+            <div  style="display: flex;display: -webkit-flex">
+            <div class="select" style="margin: 5px" v-show="actionFlag">
               <select v-model="typeFlag" @change="fun(this)">
                 <option value="" style="display: none;" disabled selected>卡牌排序选择</option>
                 <option value="code">{{$t('Sort1')}}</option>
@@ -32,21 +33,29 @@
                 <option value="price">{{$t('Sort3')}}</option>
               </select>
             </div>
+            <el-button  style="margin: 5px" type="error" plain @click.native="NotClection()">未集卡牌</el-button>
+            <el-button  style="margin: 5px" type="info" plain @click.native="HadClection()">已集卡牌</el-button>
+            </div>
+            <div class="btn-item" style="display: flex">
+            <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
+            </div>
           </div>
         </div>
-        <div class="btn-item" style="display: flex">
-       <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
+        <!--<div class="btn-item" style="display: flex">-->
+       <!--<el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>-->
     <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
-     </div>
+     <!--</div>-->
       </div>
    <div class="button-search">
-     <div class="btn-item"><el-button type="primary" plain @click.native="ObjecSort('code')">{{$t('Sort1')}}</el-button></div>
-     <div class="btn-item"><el-button type="success" plain @click.native="ObjecSort('tokenId')">{{$t('Sort2')}}</el-button></div>
-     <div class="btn-item"><el-button type="warning" plain @click.native="ObjecSort('price')">{{$t('Sort3')}}</el-button> </div>
+     <div class="btn-item"  v-show="actionFlag"><el-button type="primary" plain @click.native="ObjecSort('code')">{{$t('Sort1')}}</el-button></div>
+     <div class="btn-item"  v-show="actionFlag"><el-button type="success" plain @click.native="ObjecSort('tokenId')">{{$t('Sort2')}}</el-button></div>
+     <div class="btn-item"  v-show="actionFlag"><el-button type="warning" plain @click.native="ObjecSort('price')">{{$t('Sort3')}}</el-button> </div>
      <div class="btn-item" style="display: flex">
        <el-input :placeholder="$t('Reminder')" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
     <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
      </div>
+     <div class="btn-item"><el-button type="error" plain @click.native="NotClection()">未集卡牌</el-button></div>
+     <div class="btn-item"><el-button type="info" plain @click.native="HadClection()">已集卡牌</el-button></div>
   </div>
   </section>
   <section>
@@ -108,6 +117,7 @@ import Paginate from 'vuejs-paginate';
 import ElButton from "../../node_modules/element-ui/packages/button/src/button.vue";
 import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
 import '../../node_modules/element-ui/lib/theme-chalk/index.css';
+import { Message } from 'element-ui';
 export default {
   name: 'MyCollectionPage',
   data: () => ({
@@ -118,9 +128,13 @@ export default {
     cardlist: [],
     pagecount: 0,
     heroName: '',
-    saveData:[],
+    saveData: [],
     total: '',
     typeFlag: '',
+    uniqueNum: [],
+    notNum: [],
+    unCollectData: [],
+    actionFlag: true,
   }),
   asyncComputed: {
     async profile() {
@@ -130,6 +144,7 @@ export default {
     },
   },
   components: {
+    Message,
     ElInput,
     ElButton,
     CardItem,
@@ -150,16 +165,47 @@ export default {
       this.saveData = this.allCardsInfo;
       this.cardlist = result.slice(0,8);
       this.pagecount = Math.ceil(result.length/8);
-      console.error(this.saveData)
       var rsp = []
-      for(let i = 0 ; i < this.allCardsInfo.length ; i++){
+      for(let i = 0; i < this.allCardsInfo.length ; i++){
          rsp.push(this.allCardsInfo[i].code);
       }
-     this.total =  this.unique(rsp).length;
+      this.uniqueNum = this.unique(rsp);
+     this.total =  this.uniqueNum.length;
+      return result;
+    },
+    async NotClectionCards() {
+      const arr = []
+      const clNum = this.uniqueNum;
+      for(let i = 0; i < 115; i++) {
+        if(clNum.indexOf(i) === -1) {
+          arr.push(i);
+        }
+      }
+      this.notNum = arr;
+      const contract = new LinkIdol();
+      const result = await contract.getNotCollectCards(arr);
+      this.unCollectData = result
       return result;
     },
   },
   methods: {
+    NotClection() {
+      this.allCardsInfo = this.unCollectData.sort(this.compare('code'));
+      this.cardlist = this.allCardsInfo.slice(0,8);
+      this.pagecount = Math.ceil(this.allCardsInfo.length/8);
+      this.actionFlag = false;
+    },
+    HadClection(){
+      this.allCardsInfo = this.saveData.sort(this.compare('code'));
+      this.cardlist = this.allCardsInfo.slice(0,8);
+      this.pagecount = Math.ceil(this.allCardsInfo.length/8);
+      this.actionFlag = true;
+    },
+    minusFun(arr1, arr2) {
+      return arr1.uniquelize().each(function (o) {
+        return arr2.contains(0) ? null : o;
+      });
+    },
    async claim() {
      const contract = new LinkIdol();
      const result = await contract.claim();
@@ -227,7 +273,14 @@ export default {
       }
     },
     gotoCoinProfile(code) {
-      this.$router.push({ path: `/item/${code}` });
+      if(this.actionFlag){
+        this.$router.push({ path: `/item/${code}` });
+      } else {
+        Message.warning({
+          message: '请到首页购买，或抽牌，谢谢!',
+          type: 'warning'
+        });
+      }
     },
     getCardBack(){
       return `http://test.cdn.hackx.org/cardback/cardback_light.png`;
@@ -246,8 +299,6 @@ export default {
       this.$forceUpdate();
     },
     clickCallback: function(pageNum) {
-      console.log(pageNum);
-      console.log(this.allCardsInfo);
       this.cardlist = this.allCardsInfo.slice((pageNum-1)*8,pageNum*8);
     }
   },

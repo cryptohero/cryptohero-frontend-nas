@@ -114,6 +114,12 @@ export default class LinkIdolContract extends Contract {
       });
     return JSON.parse(result);
   }
+  async getNotCollectCards(arr){
+    const result = await Promise.all(arr.map(async (heroId) => {
+        return getCardInfoByHeroId(heroId);
+      }));
+      return result;
+  }
   async getUserCards(address) {
     // const tokenIds = await this.getTokenIDsByAddress(address);
     // const result = await Promise.all(tokenIds.map(async (token) => {
@@ -164,14 +170,14 @@ export default class LinkIdolContract extends Contract {
       });
     console.log('claimresult:'+result);
     return JSON.parse(result);
-  } 
+  }
   async isTokenClaimed(tokenId) { // added by Gloria
     const isTokenClaimed = await this.call({
       functionName: 'isTokenClaimed',
       args: [tokenId],
     });
     return JSON.parse(isTokenClaimed);
-  }  
+  }
   async ownerOf(tokenId) { // added by Dawn
     const owner = await this.call({
       functionName: 'ownerOf',
