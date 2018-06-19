@@ -68,7 +68,7 @@
                 <div class="text">{{$t('Owner')}}</div>
               </li>
                <li>
-                <div class="text">{{$t('Owner')}}</div>
+                <div class="text">{{$t('isClaimed')}}</div>
               </li>
               <li>
                 <div class="text"> {{$t('Value')}}</div>
@@ -111,10 +111,7 @@
               </li>
                <li>
                 <div class="text">
-                  <router-link :to="{ name: 'User', params:{address: isTokenClaimed}}">
-                    {{isTokenClaimed}}
-                  </router-link>
-        
+                    {{isTokenClaimed}}                  
                 </div>
               </li>
 
@@ -197,11 +194,8 @@ export default {
     async isTokenClaimed() {
       const idol = new Contract();
       const heroId = this.$route.params.id;
-      result = await idol.isTokenClaimed(heroId);      
-      if (result !== true) result = false;
-      console.log(result);
-      alert(result);
-      return result;
+      const result = await idol.isTokenClaimed(heroId);      
+      return result ? true : false;
     },      
     async carOwner() {
       const idol = new Contract();

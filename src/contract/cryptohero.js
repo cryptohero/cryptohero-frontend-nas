@@ -170,7 +170,7 @@ export default class LinkIdolContract extends Contract {
       functionName: 'isTokenClaimed',
       args: [tokenId],
     });
-    return isTokenClaimed;
+    return JSON.parse(isTokenClaimed);
   }  
   async ownerOf(tokenId) { // added by Dawn
     const owner = await this.call({
