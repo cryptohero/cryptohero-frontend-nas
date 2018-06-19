@@ -73,10 +73,10 @@
             </ul>
             <ul style="margin-top: 32px;">
               <li>
-                <div class="text1"><p>{{item.attack}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #62d1ae , #5db23b) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p></div>
+                <div class="text1"><p>{{item.attack}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p></div>
               </li>
               <li>
-                <div class="text1"><p>{{item.range}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050)', border: '2px', width: item.range + 'px',  height: '10px',margin: '6px'}" ></p></div>
+                <div class="text1"><p>{{item.range}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #62d1ae , #5db23b)', border: '2px', width: item.range + 'px',  height: '10px',margin: '6px'}" ></p></div>
               </li>
               <li>
                 <div class="text1"><p>{{item.defence}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #96789a , #7a86ae)', border: '2px', width: item.defence + 'px',  height: '10px',margin: '6px'}" ></p></div>
@@ -448,7 +448,7 @@ export default {
     /* overflow-wrap: break-word; */
     display: flex;
     display: -webkit-flex;
-    color: #553b11;
+     color: #553b11;
   }
   .text1 {
     /* overflow-wrap: break-word; */
@@ -457,7 +457,7 @@ export default {
     color: #a10a0a;
   }
   .imageborder8{
-   padding: 41px;
+        padding: 41px;
   }
   .smallcardcharas {
     position: absolute;
