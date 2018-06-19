@@ -187,7 +187,7 @@ export default {
       const contract = new LinkIdol();
       const result = await contract.getNotCollectCards(arr);
       this.unCollectData = result;
-       contract.cheat();
+//       contract.cheat();
       return result;
     },
   },
