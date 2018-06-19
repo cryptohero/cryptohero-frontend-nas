@@ -106,17 +106,31 @@ export default class LinkIdolContract extends Contract {
     return heroProfile[heroId];
   }
 
+  async getCardsByAddress(address) {
+    const result = await this.call(
+      {
+        functionName: 'getCardsByAddress',
+        args: [address],
+      });
+    return JSON.parse(result);
+  }
   async getUserCards(address) {
-    const tokenIds = await this.getTokenIDsByAddress(address);
-    const result = await Promise.all(tokenIds.map(async (token) => {
-      const heroId = await this.call(
-        {
-          functionName: 'getCardIdByTokenId',
-          args: [token],
-        });
-      const price = await this.priceOf(token);
-      const prices = { price };
-      return getCardInfoByHeroId(heroId, token, prices);
+    // const tokenIds = await this.getTokenIDsByAddress(address);
+    // const result = await Promise.all(tokenIds.map(async (token) => {
+    //   const heroId = await this.call(
+    //     {
+    //       functionName: 'getCardIdByTokenId',
+    //       args: [token],
+    //     });
+    //   const price = await this.priceOf(token);
+    //   const prices = { price };
+    //   return getCardInfoByHeroId(heroId, token, prices);
+    // }));
+    // return result;
+
+    const tokenIds = await this.getCardsByAddress(address);
+    const result = await Promise.all(tokenIds.map(async (info) => {
+      return getCardInfoByHeroId(info.heroId, info.tokenId, info.price);
     }));
     return result;
   }
@@ -148,8 +162,7 @@ export default class LinkIdolContract extends Contract {
         functionName: 'claim',
         data: [],
       });
-    console.log('result');
-    console.log(result);
+    console.log('claimresult:'+result);
     return JSON.parse(result);
   } 
   async isTokenClaimed(tokenId) { // added by Gloria
