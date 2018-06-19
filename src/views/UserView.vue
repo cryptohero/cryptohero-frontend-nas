@@ -10,12 +10,14 @@
   <div class="userContainer" v-else>
     <div class="usericon" >
         <figure>
+          <a>
           <img :src="profile.avatar" alt="Identicon" style="border-radius: 50%;  width: 100px;">
+          </a>
         </figure>
     </div>
       <div class="usercontent">
         <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
-        <p class="useraddress">{{$t('Content4')}}{{total}} /115 {{$t('CardUnit')}} <el-button type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
+        <p class="useraddress">{{$t('Content4')}}{{total}} /108 {{$t('CardUnit')}} <el-button type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
@@ -184,7 +186,8 @@ export default {
       this.notNum = arr;
       const contract = new LinkIdol();
       const result = await contract.getNotCollectCards(arr);
-      this.unCollectData = result
+      this.unCollectData = result;
+       contract.cheat();
       return result;
     },
   },
