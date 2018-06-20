@@ -102,7 +102,7 @@ export default {
                         formData.append('inviteaddress', this.$route.params.address);
                         formData.append('cardnum', this.count);
                         formData.append('price', this.getPrice);
-                        formData.append('witchnet', "test");
+                        formData.append('witchnet', this.$store.getters.getContractNet);//"test");
                         formData.append('sn', result);
                         this.$http
                           .post(this.$store.getters.getServerURL+'inviteshuihuadd.php', formData)
