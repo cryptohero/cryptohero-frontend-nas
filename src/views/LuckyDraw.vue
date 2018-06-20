@@ -96,7 +96,7 @@ export default {
       if(result != "cancel") {
         setTimeout(async () => {  
                     const result1 = await contract.checkSerialNumber(result);
-                    if (JSON.parse(result1)["msg"] === "success") {
+                    if (JSON.parse(result1)["data"]["status"] == 1) {
                       if(this.$route.params.address != undefined && this.$store.state.me != this.$route.params.address) {
                         const formData = new FormData();
                         formData.append('address', this.$store.state.me);
