@@ -31,8 +31,9 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1maHwrheEGvU9KBDssVnFGKQ9HrX2fTt7n',
       // contractAddress: 'n1phe2rcC1yAzRg3tiAxmPc3ZcxebZNKetw',
       // contractAddress: 'n21Rp5D8VHr8n759zUMVBVAW1ec3UFuoZfM',
-      contractAddress: 'n1xFLCVzZDcrJtQVCHnVFkKfiaThxGU456i',
-      network: 'testnet',
+      // Mainnet
+      contractAddress: 'n22HKqrwEz12HEBPrvKcYCPUZxihsYCBLop',
+      network: 'mainnet',
     });
   }
 
@@ -56,7 +57,7 @@ export default class LinkIdolContract extends Contract {
           value,
           data: [referrer],
           options: {
-            callback: NebPay.config.testnetUrl,
+            callback: NebPay.config.mainnetUrl,
             listener(serialNumber, data) {
               console.log(`serialNumberrrr:${serialNumber} data: ${JSON.stringify(data)}`);
               if (data === 'Error: Transaction rejected by user' || data === false || data === true) {
@@ -170,7 +171,7 @@ export default class LinkIdolContract extends Contract {
           functionName: 'claim',
           data: [],
           options: {
-            callback: NebPay.config.testnetUrl,
+            callback: NebPay.config.mainnetUrl,
             listener(serialNumber, data) {
               console.log(`serialNumberrrr:${serialNumber} data: ${JSON.stringify(data)}`);
               if (data === 'Error: Transaction rejected by user' || data === false || data === true) {
@@ -231,7 +232,7 @@ export default class LinkIdolContract extends Contract {
 
   async checkSerialNumber(sn) {
     return await nebPay.queryPayInfo(sn, {
-      callback: NebPay.config.testnetUrl,
+      callback: NebPay.config.mainnetUrl,
     });
     // .then(function (resp) {
     //       console.log("snrespres:"+resp);
