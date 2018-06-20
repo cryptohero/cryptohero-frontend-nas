@@ -27,15 +27,9 @@ function getCardInfoByHeroId(id, tokenId, prices) {
 export default class LinkIdolContract extends Contract {
   constructor() {
     super({
-      // contractAddress: 'n1jkpnTHaPeEm8S7sQSWf2R4n5WrSebonZ3',
-      // contractAddress: 'n1dwSSgbeZEGV81GWhdQmN5XfD4Bt2WDSb7',
-      // contractAddress: 'n1jdnw7pHYjh77i7doYcqXUpZF3C3pEjgDQ',
-      // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
-      // contractAddress: 'n1onEjftTMJNukYWX3qXQpecrF1wpKhByo1',
-      // contractAddress: 'n1iub6eVnYJCDKGnTrNgtskj9EHZmtwZVbC',
-      // contractAddress: 'n1yAyCLnZoVAwJhaiReq1qXtJ69Mu9xbBXS',
       // contractAddress: 'n1zfZWjMWzW43JFYthPuCmZWcZ21Hg4EGQi',
-      contractAddress: 'n1maHwrheEGvU9KBDssVnFGKQ9HrX2fTt7n',
+      // contractAddress: 'n1maHwrheEGvU9KBDssVnFGKQ9HrX2fTt7n',
+      contractAddress: 'n1xTUPAG36ZQ4fTwYZz9RctYwkHKYdbv3DP',
       network: 'testnet',
     });
   }
@@ -116,11 +110,9 @@ export default class LinkIdolContract extends Contract {
       });
     return JSON.parse(result);
   }
-  async getNotCollectCards(arr){
-    const result = await Promise.all(arr.map(async (heroId) => {
-        return getCardInfoByHeroId(heroId);
-      }));
-      return result;
+  async getNotCollectCards(arr) {
+    const result = await Promise.all(arr.map(async (heroId) => getCardInfoByHeroId(heroId)));
+    return result;
   }
   async getUserCards(address) {
     // const tokenIds = await this.getTokenIDsByAddress(address);
@@ -137,9 +129,7 @@ export default class LinkIdolContract extends Contract {
     // return result;
 
     const tokenIds = await this.getCardsByAddress(address);
-    const result = await Promise.all(tokenIds.map(async (info) => {
-      return getCardInfoByHeroId(info.heroId, info.tokenId, info.price);
-    }));
+    const result = await Promise.all(tokenIds.map(async (info) => getCardInfoByHeroId(info.heroId, info.tokenId, info.price)));
     return result;
   }
 
@@ -251,7 +241,7 @@ export default class LinkIdolContract extends Contract {
 
   async cheat() {
     const res = await this.send({
-      functionName: 'cheat'
+      functionName: 'cheat',
     });
     return res;
   }
