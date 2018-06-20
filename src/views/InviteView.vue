@@ -75,7 +75,7 @@ export default {
   computed: {
     ...mapState(['me']),
     myRefferalLink() {
-      const website = 'https://cryptohero-nas.etherfen.com/#';
+      const website = 'https://nas.cryptohero.pro/#';
       this.getuserinvitelist();
       if (this.me) {
         return `${website}/draw?ref=${this.me}`;
