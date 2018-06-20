@@ -69,7 +69,7 @@ export default {
     },
     getDisplayTotal() {
       // return new BigNumber(this.getPrice).times(this.count).toNumber();
-      const d = new BigNumber(0.0001);
+      const d = new BigNumber(0.00001);
       const a0 = new BigNumber(this.getPrice);
       const n = new BigNumber(this.count);
       return a0.times(n).plus((n.minus(1)).times(n).times(d).div(2));
@@ -102,8 +102,9 @@ export default {
                     if (JSON.parse(result1)["data"]["status"] == 1) {
                       if(referrer) {
                         const formData = new FormData();
-                        formData.append('address', referrer);
-                        formData.append('inviteaddress', this.$route.params.address);
+                        formData.append('address', this.$store.state.me);
+                        // formData.append('address', referrer);
+                        formData.append('inviteaddress', referrer);//this.$route.params.address);
                         formData.append('cardnum', this.count);
                         formData.append('price', this.getPrice);
                         formData.append('witchnet', this.$store.getters.getContractNet);//"test");
