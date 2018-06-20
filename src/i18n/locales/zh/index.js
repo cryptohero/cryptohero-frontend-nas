@@ -66,7 +66,7 @@ module.exports = {
   Fight: '搏一搏!',
   Details: '查看详情',
   CardDetails: '卡牌详情',
-  NoId: '编号：',
+  NoId: '唯一编号：',
   Value: '价格：',
   ModPrice: '修改价格',
   Nature1: '攻击力：',
