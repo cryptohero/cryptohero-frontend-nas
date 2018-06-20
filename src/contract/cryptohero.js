@@ -155,13 +155,31 @@ export default class LinkIdolContract extends Contract {
     return JSON.parse(result);
   }
   async claim() {
-    const result = await this.send(
+    // const result = await this.send(
+    //   {
+    //     functionName: 'claim',
+    //     data: [],
+    //   });
+    // console.log('claimresult:'+result);
+    // return JSON.parse(result);
+    return new Promise((resolve) => {
+    const result = this.send(
       {
         functionName: 'claim',
         data: [],
+        options: {
+          callback: NebPay.config.testnetUrl,
+          listener(serialNumber, data) {
+            console.log(`serialNumberrrr:${serialNumber} data: ${JSON.stringify(data)}`);
+            if (data === 'Error: Transaction rejected by user' || data === false || data === true) {
+              resolve('cancel');
+            } else {
+              resolve(serialNumber);
+            }
+          }
+        }
       });
-    console.log(`claimresult:${result}`);
-    return JSON.parse(result);
+    });
   }
   async isTokenClaimed(tokenId) { // added by Gloria
     const isTokenClaimed = await this.call({

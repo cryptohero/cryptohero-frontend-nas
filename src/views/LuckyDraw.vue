@@ -95,7 +95,7 @@ export default {
       if(result != "cancel") {
         setTimeout(async () => {  
                     const result1 = await contract.checkSerialNumber(result);
-                    if (JSON.parse(result1)["msg"] === "success") {
+                    if (JSON.parse(result1)["data"]["status"] == 1) {
                       if(referrer) {
                         const formData = new FormData();
                         formData.append('address', referrer);

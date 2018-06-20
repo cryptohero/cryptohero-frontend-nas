@@ -212,7 +212,10 @@ export default {
    async claim() {
      const contract = new LinkIdol();
      const result = await contract.claim();
-     console.error(result);
+     console.error("claimres:"+result);
+     if(result != "cancel") {
+       this.rankAfterClaim(result);
+     }
     },
     fun() {
       this.ObjecSort(this.typeFlag);
@@ -303,6 +306,24 @@ export default {
     },
     clickCallback: function(pageNum) {
       this.cardlist = this.allCardsInfo.slice((pageNum-1)*8,pageNum*8);
+    },
+    rankAfterClaim(snres) {
+      // 0 failed, 1 success, 2 pending
+      const contract = new LinkIdol();
+      setTimeout(async () => {  
+        const result1 = await contract.checkSerialNumber(snres);
+        console.error("claimres:"+result1)
+        if (JSON.parse(result1)["data"]["status"] == 1) {
+          console.error("claimres:"+JSON.parse(result1)["data"]["status"])
+          const formData = new FormData();
+          formData.append('address', this.address);
+          this.$http.post(this.$store.getters.getServerURL+'addrankshuihunas.php', formData)
+            .then((response) => {
+              const res = response.body;
+              console.log(res);
+            });
+        }
+      }, 30000);
     }
   },
   async created() {
@@ -319,26 +340,26 @@ export default {
       return this.$route.params.address || this.me;
     },
   },
-  watch: {
-   /* cardsInfo(cards) {
-      // console.log(`newTypes:${cards}`);
-      const cardtypes = cards.map((card) => {
-        return card["code"];
-      });
-      // console.log("newTypes:"+cardtypes)
-      const types = Array.from(new Set(cardtypes));
-      // console.log("newTypes:"+types.length)
-      if (types.length >= 108) {
-        const formData = new FormData();
-        formData.append('address', this.address);
-        this.$http.post(this.$store.getters.getServerURL+'addrankshuihunas.php', formData)
-          .then((response) => {
-            const res = response.body;
-            console.log(res);
-          });
-      }
-    },*/
-  },
+  // watch: {
+  //   cardsInfo(cards) {
+  //     // console.log(`newTypes:${cards}`);
+  //     const cardtypes = cards.map((card) => {
+  //       return card["code"];
+  //     });
+  //     // console.log("newTypes:"+cardtypes)
+  //     const types = Array.from(new Set(cardtypes));
+  //     // console.log("newTypes:"+types.length)
+  //     if (types.length >= 108) {
+  //       const formData = new FormData();
+  //       formData.append('address', this.address);
+  //       this.$http.post(this.$store.getters.getServerURL+'addrankshuihunas.php', formData)
+  //         .then((response) => {
+  //           const res = response.body;
+  //           console.log(res);
+  //         });
+  //     }
+  //   },
+  // },
 };
 </script>
 
