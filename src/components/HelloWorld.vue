@@ -13,7 +13,6 @@
 
 <script>
 
-import { getGift } from '@/api';
 
 export default {
   name: 'HelloWorld',
@@ -27,8 +26,8 @@ export default {
   },
   methods: {
     onBuy: async () => {
-      const gift = await getGift(1);
-      console.log(gift);
+      // const gift = await getGift(1);
+      // console.log(gift);
     },
   },
   created() {

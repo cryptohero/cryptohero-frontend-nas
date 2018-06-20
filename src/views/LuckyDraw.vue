@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie';
 import Contract from '@/contract/cryptohero';
 import { BigNumber } from 'bignumber.js';
 import { mapState } from 'vuex';
@@ -67,7 +68,11 @@ export default {
       return `${this.count} 张`;
     },
     getDisplayTotal() {
-      return new BigNumber(this.getPrice).times(this.count).toNumber();
+      // return new BigNumber(this.getPrice).times(this.count).toNumber();
+      const d = new BigNumber(0.00001);
+      const a0 = new BigNumber(this.getPrice);
+      const n = new BigNumber(this.count);
+      return a0.times(n).plus((n.minus(1)).times(n).times(d).div(2));
     },
   },
   methods: {
@@ -85,36 +90,38 @@ export default {
     },
     async draw() {
       const contract = new Contract();
-      var referrer = ""
-      if(this.$store.state.me != this.$route.params.address){
-        referrer = this.$route.params.address;
-      }
+      const referrer = Cookie.get('referrer') || '';
+
       // console.log("crytpresp:"+referrer);
       const result = await contract.draw(referrer, this.getDisplayTotal);
       // console.log("crytpresp00:"+result);
 
-      // const result1 = await contract.checkSerialNumber(result);
-      // console.log("crytpresp:"+result1);
-
       if(result != "cancel") {
-        if(this.$route.params.address != undefined && this.$store.state.me != this.$route.params.address) {
-          const formData = new FormData();
-          formData.append('address', this.$store.state.me);
-          formData.append('inviteaddress', this.$route.params.address);
-          formData.append('cardnum', this.count);
-          formData.append('price', this.getPrice);
-          formData.append('witchnet', "test");
-          formData.append('sn', result);
-          this.$http
-            .post('http://35.200.102.240/inviteshuihuadd.php', formData)
-            .then((response) => {
-              const res = response.body;
-              console.log(res);
-              alert("抽卡成功，到我的收藏里看看吧");
-            });
-        }else{
-          alert("抽卡成功，到我的收藏里看看吧");
-        }
+        setTimeout(async () => {  
+                    const result1 = await contract.checkSerialNumber(result);
+                    if (JSON.parse(result1)["data"]["status"] == 1) {
+                      if(referrer) {
+                        const formData = new FormData();
+                        formData.append('address', this.$store.state.me);
+                        // formData.append('address', referrer);
+                        formData.append('inviteaddress', referrer);//this.$route.params.address);
+                        formData.append('cardnum', this.count);
+                        formData.append('price', this.getPrice);
+                        formData.append('witchnet', this.$store.getters.getContractNet);//"test");
+                        formData.append('sn', result);
+                        this.$http
+                          .post(this.$store.getters.getServerURL+'inviteshuihuadd.php', formData)
+                          .then((response) => {
+                            const res = response.body;
+                            console.log(res);
+                            alert("抽卡成功，到我的收藏里看看吧");
+                          });
+                      }else{
+                        alert("抽卡成功，到我的收藏里看看吧");
+                      }
+                    }
+                    // console.log("crytpresp:"+JSON.parse(result1)["msg"]);  
+            }, 20000);  
       }
     },
   },
