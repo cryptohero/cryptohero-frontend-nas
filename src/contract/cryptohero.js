@@ -8,7 +8,7 @@ import NebPay from 'nebpay.js';
 
 const nebPay = new NebPay();
 
-function getCardInfoByHeroId(id, tokenId, prices) {
+function getCardInfoByHeroId(id, tkId, prices) {
   const basic = heroProfile[id];
   const status = heroStatus[id];
   if (!basic) {
@@ -18,9 +18,11 @@ function getCardInfoByHeroId(id, tokenId, prices) {
     code: id,
     front: `http://test.cdn.hackx.org/heros_new/${id}.jpeg`,
     back: `http://test.cdn.hackx.org/backs_new/${id}.jpeg`,
-    tokenId,
   };
-  return Object.assign(basic, cardImage, status, prices);
+
+  const res = Object.assign(basic, cardImage, status, prices);
+  const result = Object.assign({ tokenId: tkId }, res);
+  return result;
   // return basic;
 }
 
