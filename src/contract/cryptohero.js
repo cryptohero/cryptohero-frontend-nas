@@ -29,8 +29,11 @@ export default class LinkIdolContract extends Contract {
     super({
       // contractAddress: 'n1zfZWjMWzW43JFYthPuCmZWcZ21Hg4EGQi',
       // contractAddress: 'n1maHwrheEGvU9KBDssVnFGKQ9HrX2fTt7n',
-      contractAddress: 'n1phe2rcC1yAzRg3tiAxmPc3ZcxebZNKetw',
-      network: 'testnet',
+      // contractAddress: 'n1phe2rcC1yAzRg3tiAxmPc3ZcxebZNKetw',
+      // contractAddress: 'n21Rp5D8VHr8n759zUMVBVAW1ec3UFuoZfM',
+      // Mainnet
+      contractAddress: 'n22HKqrwEz12HEBPrvKcYCPUZxihsYCBLop',
+      network: 'mainnet',
     });
   }
 
@@ -54,7 +57,7 @@ export default class LinkIdolContract extends Contract {
           value,
           data: [referrer],
           options: {
-            callback: NebPay.config.testnetUrl,
+            callback: NebPay.config.mainnetUrl,
             listener(serialNumber, data) {
               console.log(`serialNumberrrr:${serialNumber} data: ${JSON.stringify(data)}`);
               if (data === 'Error: Transaction rejected by user' || data === false || data === true) {
@@ -96,7 +99,7 @@ export default class LinkIdolContract extends Contract {
   async getCardInfoByTokenId(token) {
     const heroId = await this.call(
       {
-        functionName: 'getCardIdByTokenId',
+        functionName: 'getHeroIdByTokenId',
         args: [token],
       });
     return heroProfile[heroId];
@@ -119,7 +122,7 @@ export default class LinkIdolContract extends Contract {
     // const result = await Promise.all(tokenIds.map(async (token) => {
     //   const heroId = await this.call(
     //     {
-    //       functionName: 'getCardIdByTokenId',
+    //       functionName: 'getHeroIdByTokenId',
     //       args: [token],
     //     });
     //   const price = await this.priceOf(token);
@@ -163,22 +166,22 @@ export default class LinkIdolContract extends Contract {
     // console.log('claimresult:'+result);
     // return JSON.parse(result);
     return new Promise((resolve) => {
-    const result = this.send(
-      {
-        functionName: 'claim',
-        data: [],
-        options: {
-          callback: NebPay.config.testnetUrl,
-          listener(serialNumber, data) {
-            console.log(`serialNumberrrr:${serialNumber} data: ${JSON.stringify(data)}`);
-            if (data === 'Error: Transaction rejected by user' || data === false || data === true) {
-              resolve('cancel');
-            } else {
-              resolve(serialNumber);
-            }
-          }
-        }
-      });
+      const result = this.send(
+        {
+          functionName: 'claim',
+          data: [],
+          options: {
+            callback: NebPay.config.mainnetUrl,
+            listener(serialNumber, data) {
+              console.log(`serialNumberrrr:${serialNumber} data: ${JSON.stringify(data)}`);
+              if (data === 'Error: Transaction rejected by user' || data === false || data === true) {
+                resolve('cancel');
+              } else {
+                resolve(serialNumber);
+              }
+            },
+          },
+        });
     });
   }
   async isTokenClaimed(tokenId) { // added by Gloria
@@ -215,7 +218,7 @@ export default class LinkIdolContract extends Contract {
     const result = await Promise.all(tokenIds.map(async (token) => {
       const heroId = await this.call(
         {
-          functionName: 'getCardIdByTokenId',
+          functionName: 'getHeroIdByTokenId',
           args: [token],
         });
       if (heroId !== 'null') {
@@ -229,7 +232,7 @@ export default class LinkIdolContract extends Contract {
 
   async checkSerialNumber(sn) {
     return await nebPay.queryPayInfo(sn, {
-      callback: NebPay.config.testnetUrl,
+      callback: NebPay.config.mainnetUrl,
     });
     // .then(function (resp) {
     //       console.log("snrespres:"+resp);
