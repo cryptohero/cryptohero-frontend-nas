@@ -102,8 +102,9 @@ export default {
                     if (JSON.parse(result1)["data"]["status"] == 1) {
                       if(referrer) {
                         const formData = new FormData();
-                        formData.append('address', referrer);
-                        formData.append('inviteaddress', this.$route.params.address);
+                        formData.append('address', this.$store.state.me);
+                        // formData.append('address', referrer);
+                        formData.append('inviteaddress', referrer);//this.$route.params.address);
                         formData.append('cardnum', this.count);
                         formData.append('price', this.getPrice);
                         formData.append('witchnet', this.$store.getters.getContractNet);//"test");
