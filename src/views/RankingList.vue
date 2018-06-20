@@ -1,24 +1,24 @@
 <template>
 <div class="back_img">
     <div class="title">
-         <div class="line1"> {{title}}</div>
-    </div> 
+         <div class="line1">{{$t('Ranking')}}</div>
+    </div>
     <div class="back">
     <div class="title-line">
-    
+
     </div>
-    <div class="ranking-ul"> 
+    <div class="ranking-ul">
      <ul style=" background-color:#97ceea; height: 50px; border: 3px solid #a48554;border-radius: 40px;background-color: #e8cc97;">
-        <li class="rank1" style=" line-height: 25px;">名次</li>
-        <li class="key1" > 钱包地址</li>
-        <li class="time1" > 合成时间</li>   
+        <li class="rank1" style=" line-height: 25px;">{{$t('ranking')}}</li>
+        <li class="key1" > {{$t('KeyAddress')}}</li>
+        <li class="time1" >{{$t('time')}}</li>
     </ul>
      </div>
-    <div  v-for="( item, index ) in items" :key="item.id" class="ranking-ul"> 
+    <div  v-for="( item, index ) in items" :key="item.id" class="ranking-ul">
       <ul>
         <li v-bind:id="'ranking'+index" class="rank"> <b>{{ index+1 }}</b></li>
         <li class="key"> {{ item.address }}</li>
-        <li class="time"> {{ item.collecttime }}</li>   
+        <li class="time"> {{ item.collecttime }}</li>
       </ul>
    </div>
    </div>
@@ -40,7 +40,7 @@ export default {
    }
   },
   async mounted() {
-    this.$http.get('http://35.200.102.240/getranklistshuihunas.php')
+    this.$http.get(this.$store.getters.getServerURL+'getranklistshuihunas.php')
       .then((response) => {
         this.items = response.body;
       });
@@ -54,7 +54,7 @@ export default {
 }
  .back_img{
      /* height: 1200px; */
-     background: url(/static/assets/card_profile_top.png) no-repeat top , 
+     background: url(/static/assets/card_profile_top.png) no-repeat top ,
      url(/static/assets/card_profile_end.png) no-repeat bottom,
      url(/static/assets/card_profile.png) repeat-y ;
     background-size: 100%;
@@ -72,7 +72,7 @@ export default {
      width: 100%;
      height: 50px;
      display: flex;
-    justify-content: center 
+    justify-content: center
 }
 
 .line1{
@@ -99,7 +99,7 @@ export default {
      margin: 0px auto;
      border-bottom: 1px solid #97ceea;
 }
- li{  
+ li{
      text-align: center;
      float:left ;
      font-size: 18px;
@@ -108,7 +108,7 @@ export default {
      margin-top: 16px;
     height: 30px;
 }
- 
+
  .rank, .id ,.key, .time{
      height: 60px;
 }
@@ -146,7 +146,7 @@ export default {
      font-size: 0;
 }
 #ranking1{
-     
+
      background: url(/static/assets/Secondplace.png) no-repeat center;
      font-size: 0;
      background-size: 100%;
@@ -220,12 +220,21 @@ export default {
         width: 10vw;
     }
 }
+@media screen and (max-width: 440px) {
+    .time1 {
+        display: none;
+    }
+    .time {
+        display: none;
+    }
+
+}
 
 /* @media screen and (max-width: 1060px) {
      .time, .time1{
          display: none;
 }
-    
+
  }
   @media screen and (max-width: 770px) {
  .key, .key1{
@@ -245,10 +254,10 @@ export default {
 }
      .title{
          width: 100%;
- 
+
 }
 .line{
-     width: 14%;     
+     width: 14%;
 }
 }*/
 </style>

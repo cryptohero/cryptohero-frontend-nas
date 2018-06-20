@@ -1,28 +1,55 @@
 <template>
     <div class="back_img">
         <div class="title11">
-         <div class="line1"> {{title}}</div>
-    </div> 
+            <div class="line1">{{$t('inviteFirend')}}</div>
+        </div>
         <div class="back_color">
             <div class="title_1">
-                <div class="title_2"><b>推荐好友玩 星云水浒 可获得 3 % 消费额的奖励!</b></div>
+                <div class="title_2"><b>{{$t('title')}}</b></div>
             </div>
             <div class="input1">
-            <div class="title is-5 title3">你的邀请链接: </div>
-            <div class="input">
-                <input type="search"  value="请解锁 MetaMask 钱包再刷新访问"> 
+                <div class="title is-5 title3">{{$t('firendLink')}} </div>
+                <div class="input">
+                    <input type="search" :value="myRefferalLink" disabled>
+                </div>
+                <div class="btn">{{$t('Linkcpy')}}</div>
             </div>
-                <div class="btn">复制链接</div>
+
+            <div class="invitelist">
+                <ul>
+                    <li class="ul1">被邀请人</li>
+                    <li class="ul2">抽卡数量</li>
+                    <li class="ul3">充值金额</li>
+                    <li class="ul4">返利金额</li>
+                </ul>
             </div>
-            <div>
+            <div class="invitelist" v-for="( item, index ) in items" :key="item.id">
+                  <ul>
+                    <router-link class="ul1 ul1addr" :to="{ name: 'User', params:{address: item.address}}"> 
+                        {{ item.address.slice(-6).toUpperCase() }}
+                    </router-link>
+                    <li class="ul2"> {{ item.cardcount }}</li>
+                    <li class="ul3"> {{ item.paid }}</li>
+                    <li class="ul4"> {{ item.rebate }}</li>
+                  </ul>
+            </div>
+
+            <div  v-show="false">
                 <div class="invite">
                     <div class="line"></div>
-                    <div class="title is-6">分享到社交媒体</div>
+                    <div class="title is-6">{{$t('shareapp')}}</div>
                     <div class="line"></div>
                 </div>
                 <div class="app_list">
                     <ul>
-                    <li v-for="n in 8" :key="n.id" ><img v-bind:src="'/static/assets/invite/'+index+'.png'"> </li>
+                    <li><img src="/static/assets/invite/1.png"> </li>
+                    <li><img src="/static/assets/invite/2.png"> </li>
+                    <li><img src="/static/assets/invite/3.png"> </li>
+                    <li><img src="/static/assets/invite/4.png"> </li>
+                    <li><img src="/static/assets/invite/5.png"> </li>
+                    <li><img src="/static/assets/invite/6.png"> </li>
+                    <li><img src="/static/assets/invite/7.png"> </li>
+                    <li><img src="/static/assets/invite/8.png"> </li>
                     </ul>
                 </div>
             </div>
@@ -30,25 +57,75 @@
     </div>
 </template>
 <script>
-export default {
-    name: 'InviteView',
-    data(){
-   return{
-        title:"邀请好友",
-methods :{
-         Invite: function(index){
-             return "Invite_"+ index
-         }
-     },
+import Clipboard from 'clipboard';
+import { mapState } from 'vuex';
 
-        }
+export default {
+  created() {
+    const clipboard = new Clipboard('.button');
+    clipboard.on('success', (e) => {
+      e.clearSelection();
+    });
+  },
+  name: 'InviteView',
+  data: () => ({
+    title: '邀请好友',
+    items: []
+  }),
+  computed: {
+    ...mapState(['me']),
+    myRefferalLink() {
+      const website = 'https://cryptohero-nas.etherfen.com/#';
+      this.getuserinvitelist();
+      if (this.me) {
+        return `${website}/draw?ref=${this.me}`;
+      }
+      return '请安装钱包插件再来';
+    },
+  },
+  methods: {
+    invite(index) {
+      return `Invite_${index}`;
+    },
+  // },
+  // async mounted() {
+    async getuserinvitelist() {
+        this.$http.get(this.$store.getters.getServerURL+`inviteshuihulist.php?address=${this.me}&t=0&witchnet=${this.$store.getters.getContractNet}`)
+        .then((response) => {
+            var addresstypes = {}
+            response.body.map(async (addrinfo) => {
+                if (addresstypes[addrinfo["address"]]) {
+                    addresstypes[addrinfo["address"]]["cardcount"]+=parseInt(addrinfo["cardcount"]);
+                    addresstypes[addrinfo["address"]]["paid"]+=parseFloat(addrinfo["paid"]);
+                    addresstypes[addrinfo["address"]]["rebate"]+=parseFloat(addrinfo["rebate"]);
+                } else {
+                    addresstypes[addrinfo["address"]] = {};
+                    addresstypes[addrinfo["address"]]["cardcount"]=parseInt(addrinfo["cardcount"]);
+                    addresstypes[addrinfo["address"]]["paid"]=parseFloat(addrinfo["paid"]);
+                    addresstypes[addrinfo["address"]]["rebate"]=parseFloat(addrinfo["rebate"]);
+                }
+            });
+
+            const keys = Object.keys(addresstypes);
+            const thisself = this;
+              keys.forEach((addr) => {
+                var info = addresstypes[addr];
+                console.log(info);
+                info["address"] = addr;
+                thisself.items.push(info);
+              });
+
+            // this.items = response.body;
+            // this.updatetx();
+          });
     }
+  }
 };
 </script>
 
 <style scoped>
 .back_img{
-    background: url(/static/assets/card_profile_top.png) no-repeat top , 
+    background: url(/static/assets/card_profile_top.png) no-repeat top ,
      url(/static/assets/card_profile_end.png) no-repeat bottom,
      url(/static/assets/card_profile.png) repeat-y ;
     background-size: 100%;
@@ -63,7 +140,7 @@ methods :{
      width: 100%;
      height: 50px;
      display: flex;
-    justify-content: center 
+    justify-content: center
 }
 .line1{
      width: 30%;
@@ -82,7 +159,7 @@ methods :{
     background-color: #e8cc97;
 }
 .input1{
-    margin: 30px 0px 240px 0px;
+    margin: 30px 0px 30px 0px;
     display: flex;
     align-content: space-between;
     justify-content: center;
@@ -115,12 +192,13 @@ methods :{
 }
 input{
     width: 100%;
-    background:none;    
-    outline:none;    
+    background:none;
+    outline:none;
     border:0px;
-    color: #906718;  
+    color: #906718;
 }
 .invite{
+    margin-top: 30px;
     width: 100%;
     display: flex;
     align-content: space-between;
@@ -133,14 +211,49 @@ input{
     background-color: #5c3000;
 }
 .app_list{
-    width: 200px;
+    width: 300px;
     height: 50px;
     border: 0px;
     border-radius: 40px;
     background-color: #e0c48f;
     margin: 0px auto;
 }
+.app_list ul li{
+    float: left;
+}
+.app_list ul li img{
+    width: 30px;
+    height: 30px;
+    margin-top: 11px;
+    margin-left: 6px;
+}
+
+.invitelist ul {
+    display: flex;
+    height: 30px;
+    text-align: center;
+}
+.ul1 {
+    flex: 20%;
+}
+.ul2 {
+    flex: 10%;
+}
+.ul3 {
+    flex: 25%;
+}
+.ul4 {
+    flex: 25%;
+}
+.ul1addr {
+    font-family: monospace;
+}
+
 @media screen and (max-width: 450px){
+    .back_color{
+
+    padding: 9px;
+    }
     .input{
     width: 90%;
     }
@@ -152,6 +265,10 @@ input{
 }
 .line1{
     font-size: 19px;
+}
+.app_list ul li img[data-v-7bd60c08] {
+    margin-top: 10px;
+    margin-left: 6px;
 }
 }
 </style>

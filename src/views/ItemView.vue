@@ -1,139 +1,236 @@
 <template>
   <div>
+    <div v-if="loading"
+         class="loader-wrapper">
+      <pulse-loader></pulse-loader>
+    </div>
     <div v-if="item">
       <div class="back_img">
         <div class="title">
-         <div class="line1">卡牌详情</div>
-    </div> 
-       <div class="back_color"> 
-         <div class="title_1">
-                <div class="title_2"><b>{{item.nickname}} · {{item.name}}</b></div>
+          <div class="line1">{{$t('CardDetails')}}</div>
+        </div>
+        <div class="back_color">
+          <div class="title_1">
+            <div class="title_2"><b>{{item.nickname}} · {{item.name}}</b></div>
+          </div>
+          <!-- <h2>{{item.nickname}} · {{item.name}}</h2> -->
+          <div class="img card-image"
+              @mouseover="lightShow(0)"
+              @mouseout="lightunShow(0)">
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardBack()">
             </div>
-         <!-- <h2>{{item.nickname}} · {{item.name}}</h2> -->
-         <div class="img">
-           <img class="big_img" :src="getCardImage">
-         </div>
-         <div class="img">
-           <img class="big_img" :src="getCardBackSideImage">
-         </div>
-         <div class="price">
-           <div class="price1">
-          售价：1NAS
-           </div>
-         </div>
-         <!-- <div class="column
-           is-full-mobile"> -->
-          <!-- <div class="content"> -->
-           
-            <!-- Experimental Start -->
-            <!-- <div class="card">
-                <div class="card-image">
-                  <figure class="image is-1by1" style="margin: 0">
-                    <img :src="getOwnerAvatar" alt="Holder image">
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="media">
-                    <div class="media-content">
-                      <p class="title is-4">{{$t('Owner')}} {{ownerTag}}</p>
-                      <p class="subtitle is-6"> {{$t('Current Price')}}：{{toDisplayedPrice(item.price)}} </p>
-                      <p class="subtitle is-6"> {{$t('isLuckyClaim')}}: {{ isConvert ? 'Yes' : 'No'}} </p>
-                      <p class="subtitle is-6"> {{$t('Slogan')}}: {{ad}} </p>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-            <!-- Experimental End -->
-
-             <!-- <router-link :to="{ name: 'User', params:{address: item.owner}}">
-            <figure class="image is-128x128">
-              <img class="item-image"
-              :src="getOwnerAvatar">
-            </figure>
-            </router-link>
-            <ul>
-              <li>{{$t('Owner')}}：
-                <router-link :to="{ name: 'User', params:{address: item.owner}}">
-                  {{ownerTag}}
-                </router-link>
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[0]">
+            </div>
+            <img class="big_img imageborder8 image is-5by4" :src="item.front">
+          </div>
+          <div class="img card-image"
+              @mouseover="lightShow(1)"
+              @mouseout="lightunShow(1)">
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardBack()">
+            </div>
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[1]">
+            </div>
+            <img class="big_img imageborder8 image is-5by4" :src="item.back">
+          </div>
+          <div class="img">
+            <ul style="float: left;margin-top: 32px;">
+              <li>
+                <div class="text"><p>{{$t('Nature1')}}</p></div>
               </li>
-              <li>{{$t('Current Price')}}：{{toDisplayedPrice(item.price)}}</li>
-              <li>{{$t('isLuckyClaim')}}：{{ isConvert ? 'Yes' : 'No'}}</li>
+              <li>
+                <div class="text"><p>{{$t('Nature2')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature3')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature4')}}</p></div>
+              </li>
+              
+              <li>
+                <div class="text"><p>{{$t('Nature5')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature6')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature7')}}</p></div>
+              </li>
+              <li>
+                <div class="text">{{$t('NoId')}}</div>
+              </li>
+              
+              <li>
+                <div class="text">{{$t('Owner')}}</div>
+              </li>
+               <li>
+                <div class="text">{{$t('isClaimed')}}</div>
+              </li>
+              <li>
+                <div class="text"> {{$t('Value')}}</div>
+              </li>
             </ul>
-            <p class="item-slogan">{{$t('Slogan')}}: {{ad}}</p> -->
-            <!-- <article v-if="notOwner"
-                     class="message is-warning">
-              <div class="message-body">
-                {{$t('EDIT_SLOGAN_TIP')}}
+            <ul style="margin-top: 32px;">
+              <li>
+                <div class="text1"><p>{{item.attack}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p></div>
+              </li>
+              <li>
+                <div class="text1"><p>{{item.range}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #62d1ae , #5db23b)', border: '2px', width: item.range + 'px',  height: '10px',margin: '6px'}" ></p></div>
+              </li>
+              <li>
+                <div class="text1"><p>{{item.defence}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #96789a , #7a86ae)', border: '2px', width: item.defence + 'px',  height: '10px',margin: '6px'}" ></p></div>
+              </li>
+
+              <li>
+                <div class="text1"><p class="text2">{{item.star}}</p></div>
+              </li>
+
+              <li>
+                <div class="text1"><p class="text2">{{item.position}}</p></div>
+              </li>
+              <li>
+                <div class="text1"><p class="text2">{{item.arms}}</p></div>
+              </li>
+              <li>
+                <div class="text1"><p class="text2">{{item.skills}}</p></div>
+              </li>
+              <li>
+                <div class="text1">{{itemId}}</div>
+              </li>
+              <li>
+                <div class="text">
+                  <router-link :to="{ name: 'User', params:{address: carOwner}}">
+                    {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
+                  </router-link>
+        
+                </div>
+              </li>
+               <li>
+                <div class="text">
+                    {{isTokenClaimed}}                  
+                </div>
+              </li>
+
+              <li>
+                <div class="text"><input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas<div class="butt">推荐</div></div>
+              </li>
+            </ul>
+
+            <a>
+            <div class="price" @click="buyHero()" v-show="!editFlag">
+              <div class="price1">
+                {{$t('Buy')}}
               </div>
-            </article> -->
-          <!-- </div> -->
-
-          <!-- <template v-if="notOwner">
-            <div class="buttons">
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1)">{{ $t('BUY_BTN') }}</button>
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1.1)">{{ $t('PREMIUM_BUY_BTN', { rate: '10%' }) }}</button>
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1.2)">{{ $t('PREMIUM_BUY_BTN', { rate: '20%' }) }}</button>
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1.3)">{{ $t('PREMIUM_BUY_BTN', { rate: '30%' }) }}</button>
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1.4)">{{ $t('PREMIUM_BUY_BTN', { rate: '40%' }) }}</button>
-              <button class="button is-danger is-outlined"
-                      @click="onBuy(1.5)">{{ $t('PREMIUM_BUY_BTN', { rate: '50%' }) }}</button>
             </div>
-            <article class="message is-danger">
-              <div class="message-body">
-                {{$t('BUY_PRICE_TIP')}}
+            </a>
+            <a>
+            <div class="price" @click="upatePrice()" v-show="editFlag">
+              <div class="price1">
+                {{$t('ModPrice')}}
               </div>
-            </article>
-          </template> -->
-
-          <!-- <template v-if="isOwner">
-            <div class="buttons">
-            <button
-                  class="button is-warning"
-                  @click="onUpdateAd">{{$t('Edit Slogan')}}</button>
-            <button
-                  class="button is-info"
-                  v-if="!isConvert"
-                  @click="exchangeToken">{{$t('Claim Lucky Token')}}</button>
-
             </div>
-
-          </template>
-         </div> -->
-       </div>
-      </div> 
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div v-else-if="item === null">
+    <div v-else>
       Token doesn't exist
     </div>
   </div>
 </template>
 
 <script>
-import { buyItem, exchangeLuckyToken, setGg, setNextPrice } from '@/api';
+import { mapState } from 'vuex';
+import NasId from '@/contract/nasid';
+import Contract from '@/contract/cryptohero';
+import { NasTool } from '@/api';
 import { toReadablePrice } from '@/util';
-import Dravatar from 'dravatar';
+import PulseLoader from 'vue-spinner/src/PulseLoader';
 
 export default {
   name: 'item-view',
 
-  data: () => ({}),
-
+  data() {
+    return {
+      lightisShow: [false,false],
+      owner: '',
+      price: '',
+      editFlag: false,
+      loading: true,
+    };
+  },
+  components: {
+    PulseLoader,
+  },
+  async created() {
+    console.log(this.$route.params.id);
+  },
   asyncComputed: {
-    async getOwnerAvatar() {
-      const uri = await Dravatar(this.ownerAddress);
-      return uri;
+    async getCardsLeft() {
+      const contract = new Contract();
+      const result = await contract.getDrawCardsLeft();
+      return result;
+    },
+    /*     async getPrice() {
+             const contract = new Contract();
+             const result = await contract.getDrawPrice();
+             return new BigNumber(result).div(1000000000000000000).toString();
+           }, */
+    async profile() {
+      const nasId = new NasId();
+      const result = await nasId.fetchAccountDetail(this.address);
+      return result;
+    },
+    /*    async cardsInfo() {
+        const idol = new Contract();
+        const result = await idol.getUserCards(this.address);
+        return result;
+      }, */
+    async isTokenClaimed() {
+      const idol = new Contract();
+      const heroId = this.$route.params.id;
+      const result = await idol.isTokenClaimed(heroId);      
+      return result ? true : false;
+    },      
+    async carOwner() {
+      const idol = new Contract();
+      const heroId = this.$route.params.id;
+      const result = await idol.ownerOf(heroId);
+      if (this.address === result) {
+        this.editFlag = true;
+      } else {
+        this.editFlag = false;
+      }
+      return result;
+    },
+    async heroPrice() {
+      const idol = new Contract();
+      const tokenId = this.$route.params.id;
+      const result = await idol.priceOf(tokenId);
+      return NasTool.fromWeiToNas(result).toString();
+    },
+    async item() {
+      const contract = new Contract();
+      const result = await contract.getCardInfoByTokenId(this.$route.params.id);
+      this.loading = false;
+      return result;
     },
   },
 
   computed: {
+    ...mapState({
+      me: state => state.me,
+    }),
+    address() {
+      return this.$route.params.address || this.me;
+    },
     ownerTag() {
-      return this.item.owner.slice(-6).toUpperCase();
+      return this.item.owner ? this.item.owner.slice(-6).toUpperCase() : '';
     },
     itemId() {
       return this.$route.params.id;
@@ -144,9 +241,16 @@ export default {
     ownerAddress() {
       return this.item.owner;
     },
-    item() {
-      return this.$store.state.items[this.itemId];
-    },
+    /* item() {
+        // console.error("tiemtiemitem:LLL", this.$store.state.items[this.itemId])
+//        return this.$store.state.items[this.itemId];
+//        console.log(heroJsonFile[this.itemId])
+        const contract = new Contract();
+        console.log('carInfo')
+        const result = await contract.getCarInfo(this.itemId);
+        console.log(result)
+        return result;
+      }, */
     ad() {
       return this.$store.state.ads[this.itemId];
     },
@@ -154,10 +258,10 @@ export default {
       return this.$store.state.items[this.itemId].isLCYClaimed;
     },
     getCardImage() {
-      return `http://test.cdn.hackx.org/heros/${this.itemId}.jpg`;
+      return `http://test.cdn.hackx.org/heros_new/${this.itemId}.jpeg`;
     },
     getCardBackSideImage() {
-      return `/static/assets/back/${this.itemId}.jpeg`;
+      return `http://test.cdn.hackx.org/backs_new/${this.itemId}.jpeg`;
     },
     isOwner() {
       return this.item.owner === this.me.address;
@@ -166,14 +270,48 @@ export default {
       return !this.isOwner;
     },
   },
-  async created() {
-    this.$store.dispatch('FETCH_ITEM', this.itemId);
-    this.$store.dispatch('FETCH_AD', this.itemId);
+
+  watch: {
+    cardsInfo(cards) {
+      // console.log(`newTypes:${cards}`);
+      // console.log("cards:"+cards.length)
+    /*    if (cards.length >= 6) {
+          const formData = new FormData();
+          formData.append('address', this.address);
+          this.$http.post('http://35.200.102.240/addranknas.php', formData)
+            .then((response) => {
+              const res = response.body;
+              console.log(res);
+            });
+        } */
+    },
   },
+  mounted() {
 
-  watch: {},
-
+  },
   methods: {
+    async updatePrice() {
+      const contract = new Contract();
+      const result = await contract.setTokenPrice({ tokenId: this.itemId, value: this.heroPrice });
+      return result;
+    },
+    async draw() {
+      const contract = new Contract();
+      const result = await contract.draw(this.carOwner, this.heroPrice);
+      //        alert(result);
+    },
+    gotoCoinProfile(code) {
+      this.$router.push({ path: `/coin/${code}` });
+    },
+    async buyHero() {
+      const contract = new Contract();
+      const result = await contract.buyToken(this.itemId, this.heroPrice);
+      return result;
+      // this.draw();
+    },
+    upatePrice() {
+      this.updatePrice();
+    },
     onBuy(rate) {
       if (this.$store.state.signInError) {
         return this.$router.push({ name: 'Login' });
@@ -192,6 +330,22 @@ export default {
     toDisplayedPrice(priceInWei) {
       const readable = toReadablePrice(priceInWei);
       return `${readable.price} ${readable.unit}`;
+    },
+    lightShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = true;
+      this.$forceUpdate();
+    },
+    lightunShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = false;
+      this.$forceUpdate();
+    },
+    getCardBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback_light.png`;
+    },
+    getCardLightBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback.png`;
     },
     async onUpdateAd() {
       const ad = prompt(this.$t('UPDATE_SLOGAN_PROMPT'));
@@ -220,90 +374,140 @@ export default {
     },
   },
 };
-</script>
- <style scoped>
- .back_img{
-    background: url(/static/assets/card_profile_top.png) no-repeat top , 
-     url(/static/assets/card_profile_end.png) no-repeat bottom,
-     url(/static/assets/card_profile.png) repeat-y ;
-    background-size: 100%;
-    padding:3% 4% 4%;
-}
- .back_color{
-  padding: 20px;
-  display: flex;
-  align-content: space-between;
-  flex-wrap: wrap;
-  background-color: blanchedalmond;
-  justify-content: center;
- }
- .title{
-     width: 100%;
-     height: 50px;
-     display: flex;
-    justify-content: center 
-}
 
-.line1{
-     width: 30%;
-     height: 40px;
-     float: left;
-     color:#f8d195;
-     font-size: 37px;
-     text-align: center;
-}
- .title_1{
+</script>
+<style scoped>
+  .back_img {
+    background: url(/static/assets/card_profile_top.png) no-repeat top, url(/static/assets/card_profile_end.png) no-repeat bottom, url(/static/assets/card_profile.png) repeat-y;
+    background-size: 100%;
+    padding: 3% 4% 4%;
+    
+  }
+
+  .back_color {
+    padding: 20px;
+    display: flex;
+    align-content: space-between;
+    flex-wrap: wrap;
+    background-color: blanchedalmond;
+    justify-content: center;
+  }
+
+  .title {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center
+  }
+
+  .line1 {
+    width: 30%;
+    height: 40px;
+    float: left;
+    color: #f8d195;
+    font-size: 37px;
+    text-align: center;
+  }
+
+  .title_1 {
     margin: 0px auto;
     width: 90%;
     height: 50px;
     border: 3px solid #a48554;
     border-radius: 40px;
     background-color: #e8cc97;
-}
-.title_2{
+  }
+
+  .title_2 {
     padding: 5px;
     text-align: center;
     font-size: 20px;
     color: #5c3000;
-}
- .img{
-   width: 300px;
-   height: 450px;
-   margin: 20px
- }
- .big_img{
-   width: 100%;
+  }
+
+  .img {
+    width: 266px;
+    height: 340px;
+    margin: 2px;
+    
+  }
+
+  .big_img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .item-slogan {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  .price {
+    width: 100%;
+    height: 73px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .price1 {
+    width: 201px;
+    height: 75px;
+    background: url(/static/assets/card_profile_price.png) no-repeat center;
+    text-align: center;
+    line-height: 76px;
+    color: #ffffff;
+  }
+
+  .text {
+    /* overflow-wrap: break-word; */
+    display: flex;
+    display: -webkit-flex;
+     color: #553b11;
+  }
+  .text1 {
+    /* overflow-wrap: break-word; */
+    display: flex;
+    display: -webkit-flex;
+    color: #a10a0a;
+    flex-wrap: nowrap;
+  }
+   .text2 {
+    overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+  }
+  .imageborder8{
+        padding: 41px;
+  }
+  .smallcardcharas {
+    position: absolute;
   
-   border: 10px solid #ecdaa8;
-   border-radius: 10px;
- }
-.item-slogan {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-all;
+  }
+ .butt{
+    background-color: #f7260b;
+    padding: -2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    color: #fde481;
+    border: 2px solid #e6c035;
+    margin-left: 17px;
 }
-.price{
-  width: 100%;
-  height: 73px;
-  display: flex;
-  justify-content: center;
-}
-.price1{
-  width: 201px;
-  height: 75px;
-  background: url(/static/assets/card_profile_price.png) no-repeat center;
-  text-align: center;
-  line-height: 76px;
-  color: #ffffff;
-}
- @media screen and (max-width: 574px) {
-  .line1{
-     font-size: 27px
-   }
- }
- @media screen and (max-width: 350px) {
-  .line1{
-     font-size: 19px
-   }
- }
+  .charaimg{
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media screen and (max-width: 574px) {
+    .line1 {
+      font-size: 27px
+    }
+  }
+
+  @media screen and (max-width: 350px) {
+    .line1 {
+      font-size: 19px
+    }
+  }
 </style>

@@ -21,4 +21,10 @@ export default {
   }
   // this.$store.getters.getTodoById(2) // -> { id: 2, text: '...', done: false }
   */
+  getServerURL: () => {
+    return "https://api.cryptohero.pro/"
+  },
+  getContractNet: () => {
+    return "testnet" // "mainnet" // 
+  }
 };

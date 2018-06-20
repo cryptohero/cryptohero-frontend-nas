@@ -7,11 +7,14 @@
 // Pass a function that returns an object, the returned object is used as the root state.
 // This is useful when you want to reuse the state object especially for module reuse.
 // https://vuex.vuejs.org/en/modules.html#module-reuse
+
+import cards from '../config/cards.json';
+
 export default () => ({
   locale: '',
   me: null,
   signInError: null,
-  items: {},
+  items: cards,
   ads: {},
   /* Example
   msg: 'HelloWord',

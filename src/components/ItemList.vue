@@ -1,26 +1,40 @@
 <template>
-  <div class="columns is-multiline is-mobile">
-    <router-link v-for="item in items"
+  <div class="columns is-multiline is-gapless is-mobile">
+    <router-link v-for="item in itemIds"
                  v-if="item"
-                 :to="{ name: 'Item', params:{id: item.id}}"
-                 :key=item.id.toString()
+                 :to="{ name: 'Item', params:{id: item.tokenId}}"
+                 :key=item.code.toString()
                  class="column
            is-full-mobile
            is-one-quarter-tablet
            is-one-quarter-desktop
            is-one-quarter-widescreen
-           is-one-quarter-fullhd">
-      <template v-if="1 <= item.id && item.id <= 114">
-        <div class="card">
-          <div class="card-image">
+           is-one-quarter-fullhd"
+           >
+      <template v-if="0 <= item.code && item.code <= 114">
+        <!-- <div class="card"> -->
+          <div class="card-image"
+              @mouseover="lightShow(item.code)"
+              @mouseout="lightunShow(item.code)"
+              >
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardBack()">
+            </div>
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[item.code]">
+            </div>
+            <div class="imageborder8">
             <figure class="image is-5by4">
-              <img v-lazy="getCardImage(item.id)">
+              <img v-lazy="getCardImage(item.code)">
             </figure>
+            </div>
+
+
           </div>
           <div class="card-content">
             <div class="content is-small">
-              <h4>{{item.nickname}} · {{item.name}}
-                <div class="btnn">查看详情</div>
+              <h4 :style="{paddingLeft: '10px', paddingRight: '15px'}">{{item.nickname}} · {{item.name}}
+                <div class="btnn">{{$t('Details')}}</div>
               </h4>
               <!-- <ul>
                 <li>{{$t('Owner')}}：
@@ -30,11 +44,11 @@
                   </router-link>
                 </li>
                 <li>{{$t('Current Price')}}: {{toDisplayedPrice(item.price)}}</li>
-              </ul> 
+              </ul>
               <p class="item-slogan">{{$t('Slogan')}}: {{toDisplayedAd(item.id)}}</p>-->
             </div>
           </div>
-        </div>
+        <!-- </div> -->
       </template>
     </router-link>
   </div>
@@ -42,20 +56,23 @@
 
 <script>
 import { toReadablePrice } from '@/util';
-
 export default {
   name: 'item-lists',
   props: ['itemIds'],
 
-  data: () => ({}),
-
+  data: () => ({
+    lightisShow: [],
+  }),
   computed: {
-    items() {
-      return this.itemIds.map((id) => {
+    /*   items() {
+   return this.itemIds.map((id) => {
+       // console.log(id);
         const item = this.$store.state.items[id];
+        console.error(item);
+        item.id = id;
         return item || { id };
       });
-    },
+    },*/
   },
 
   methods: {
@@ -71,17 +88,37 @@ export default {
       return ad;
     },
     getCardImage(id) {
-      return `http://test.cdn.hackx.org/heros/${id}.jpg`;
+      return `http://test.cdn.hackx.org/heros_new/${id}.jpeg`;
     },
+    getCardBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback_light.png`;
+    },
+    getCardLightBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback.png`;
+    },
+    lightShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = true;
+      this.$forceUpdate();
+    },
+    lightunShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = false;
+      this.$forceUpdate();
+    }
   },
 
-  created() {},
+  created() {
+    for(var i=0;i<=114;i++){
+      this.lightisShow[i] = false;
+    }
+  },
 
   watch: {
     itemIds(newItemIds) {
       newItemIds.forEach((itemId) => {
-        this.$store.dispatch('FETCH_ITEM', itemId);
-        this.$store.dispatch('FETCH_AD', itemId);
+        // this.$store.dispatch('FETCH_ITEM', itemId);
+        // this.$store.dispatch('FETCH_AD', itemId);
       });
     },
   },
@@ -89,11 +126,23 @@ export default {
 </script>
  <style scoped>
  .image {
-    border: 8px solid #ecdaa8;
-    border-radius: 8px;
+    background : "";
+     padding: 16%
+    /* border: 8px solid #ecdaa8;
+    border-radius: 8px; */
+}
+.opacitycolumn{
+  fill-opacity: 0;
 }
 .content h4 {
   color: #ffc627;
+  font-size: 13px;
+}
+.imageborder8{
+  /* border-top: 34px solid #00000000;
+  border-left: 32px solid #00000000;
+  border-bottom: 34px solid #00000000;
+  border-right: 32px solid #00000000; */
 }
 .card{
   font-size: 1.2em;
@@ -114,6 +163,9 @@ flex-wrap: wrap;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-all;
+}
+.smallcardcharas {
+  position: absolute;
 }
 </style>
 

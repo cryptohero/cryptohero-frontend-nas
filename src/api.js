@@ -39,20 +39,20 @@ export const init = async () => {
 
 init().then();
 
-export const getMe = async () => {
-  if (!window.web3) {
-    throw Error('NO_METAMASK');
-  }
-  return new Promise((resolve, reject) => {
-    web3.eth.getAccounts((error, accounts) => {
-      const address = accounts[0];
-      if (address) {
-        return resolve({ address });
-      }
-      return reject(new Error('METAMASK_LOCKED'));
-    });
+export const getMe = async () => new Promise((resolve) => {
+  window.postMessage({
+    target: 'contentscript',
+    data: {
+    },
+    method: 'getAccount',
+  }, '*');
+  window.addEventListener('message', ({ data }) => {
+    if (data.data && data.data.account) {
+      resolve(data.data.account);
+    }
   });
-};
+});
+
 
 export const getAnnouncements = async () => {
   const response = await request
@@ -258,10 +258,15 @@ export const isConvert = cardId => new Promise((resolve, reject) => {
 export const getTotal = () => Promise.promisify(cryptoWaterMarginContract.totalSupply)();
 
 export const getItemIds = async (offset, limit) => {
-  let ids = await Promise.promisify(cryptoWaterMarginContract.itemsForSaleLimit)(offset, limit);
+  /*let ids = await Promise.promisify(cryptoWaterMarginContract.itemsForSaleLimit)(offset, limit);
   ids = ids.map(id => id.toNumber());
   ids.sort((a, b) => a - b);
-  return Array.from(new Set(ids));
+  return Array.from(new Set(ids));*/
+  let ids = [];
+  for (let i=1;i<=12;++i) {
+    ids.push(i);
+  }
+  return ids;
 };
 
 export const isItemMaster = async (id) => {
@@ -297,3 +302,15 @@ export const getLocale = async () => (
 export const setLocale = async (locale) => {
   Cookie.set('locale', locale, { expires: 365 });
 };
+
+export class NasTool {
+  static fromNasToWei(value) {
+    return new BigNumber('1000000000000000000').times(value);
+  }
+  static fromWeiToNas(value) {
+    if (value instanceof BigNumber) {
+      return value.dividedBy('1000000000000000000');
+    }
+    return new BigNumber(value).dividedBy('1000000000000000000');
+  }
+}
