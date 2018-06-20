@@ -90,7 +90,7 @@ export default {
   // },
   // async mounted() {
     async getuserinvitelist() {
-        this.$http.get(this.$store.getters.getServerURL+`inviteshuihulist.php?address=${this.me}&t=0&witchnet=test`)
+        this.$http.get(this.$store.getters.getServerURL+`inviteshuihulist.php?address=${this.me}&t=0&witchnet=${this.$store.getters.getContractNet}`)
         .then((response) => {
             var addresstypes = {}
             response.body.map(async (addrinfo) => {

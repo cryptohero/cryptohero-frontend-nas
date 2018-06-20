@@ -23,5 +23,8 @@ export default {
   */
   getServerURL: () => {
     return "https://api.cryptohero.pro/"
+  },
+  getContractNet: () => {
+    return "testnet" // "mainnet" // 
   }
 };
