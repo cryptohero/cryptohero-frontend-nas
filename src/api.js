@@ -1,7 +1,5 @@
-import Promise from 'bluebird';
 import Cookie from 'js-cookie';
 import { BigNumber } from 'bignumber.js';
-import * as config from '@/config';
 import request from 'superagent';
 import timeout from 'timeout-then';
 

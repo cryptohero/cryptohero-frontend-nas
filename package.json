@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "bignumber.js": "^6.0.0",
-    "bluebird": "^3.5.1",
     "clipboard": "^2.0.1",
     "ethereum-blockies-png": "^0.1.2",
     "js-cookie": "^2.2.0",
