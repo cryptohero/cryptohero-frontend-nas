@@ -29,7 +29,7 @@ export default class LinkIdolContract extends Contract {
     super({
       // contractAddress: 'n1zfZWjMWzW43JFYthPuCmZWcZ21Hg4EGQi',
       // contractAddress: 'n1maHwrheEGvU9KBDssVnFGKQ9HrX2fTt7n',
-      contractAddress: 'n1xTUPAG36ZQ4fTwYZz9RctYwkHKYdbv3DP',
+      contractAddress: 'n1phe2rcC1yAzRg3tiAxmPc3ZcxebZNKetw',
       network: 'testnet',
     });
   }
@@ -111,7 +111,7 @@ export default class LinkIdolContract extends Contract {
     return JSON.parse(result);
   }
   async getNotCollectCards(arr) {
-    const result = await Promise.all(arr.map(async (heroId) => getCardInfoByHeroId(heroId)));
+    const result = await Promise.all(arr.map(async heroId => getCardInfoByHeroId(heroId)));
     return result;
   }
   async getUserCards(address) {
@@ -129,7 +129,7 @@ export default class LinkIdolContract extends Contract {
     // return result;
 
     const tokenIds = await this.getCardsByAddress(address);
-    const result = await Promise.all(tokenIds.map(async (info) => getCardInfoByHeroId(info.heroId, info.tokenId, info.price)));
+    const result = await Promise.all(tokenIds.map(async info => getCardInfoByHeroId(info.heroId, info.tokenId, info.price)));
     return result;
   }
 
