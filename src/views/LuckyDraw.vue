@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie';
 import Contract from '@/contract/cryptohero';
 import { BigNumber } from 'bignumber.js';
 import { mapState } from 'vuex';
@@ -85,10 +86,8 @@ export default {
     },
     async draw() {
       const contract = new Contract();
-      var referrer = ""
-      if(this.$store.state.me != this.$route.params.address){
-        referrer = this.$route.params.address;
-      }
+      const referrer = Cookie.get('referrer') || '';
+
       // console.log("crytpresp:"+referrer);
       const result = await contract.draw(referrer, this.getDisplayTotal);
       // console.log("crytpresp00:"+result);
@@ -96,14 +95,14 @@ export default {
       if(result != "cancel") {
         setTimeout(async () => {  
                     const result1 = await contract.checkSerialNumber(result);
-                    if (JSON.parse(result1)["msg"] === "success") {
-                      if(this.$route.params.address != undefined && this.$store.state.me != this.$route.params.address) {
+                    if (JSON.parse(result1)["data"]["status"] == 1) {
+                      if(referrer) {
                         const formData = new FormData();
-                        formData.append('address', this.$store.state.me);
+                        formData.append('address', referrer);
                         formData.append('inviteaddress', this.$route.params.address);
                         formData.append('cardnum', this.count);
                         formData.append('price', this.getPrice);
-                        formData.append('witchnet', "test");
+                        formData.append('witchnet', this.$store.getters.getContractNet);//"test");
                         formData.append('sn', result);
                         this.$http
                           .post(this.$store.getters.getServerURL+'inviteshuihuadd.php', formData)

@@ -78,7 +78,7 @@ export default {
       const website = 'https://cryptohero-nas.etherfen.com/#';
       this.getuserinvitelist();
       if (this.me) {
-        return `${website}/draw/${this.me}`;
+        return `${website}/draw?ref=${this.me}`;
       }
       return '请安装钱包插件再来';
     },
@@ -90,7 +90,7 @@ export default {
   // },
   // async mounted() {
     async getuserinvitelist() {
-        this.$http.get(this.$store.getters.getServerURL+`inviteshuihulist.php?address=${this.me}&t=0&witchnet=test`)
+        this.$http.get(this.$store.getters.getServerURL+`inviteshuihulist.php?address=${this.me}&t=0&witchnet=${this.$store.getters.getContractNet}`)
         .then((response) => {
             var addresstypes = {}
             response.body.map(async (addrinfo) => {
