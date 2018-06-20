@@ -1051,5 +1051,65 @@
         "arms":["马王鞭"],
         "skills":["疯狗咆哮弹","连环套马鞭"]
        
-    }
+    },
+    "109":{
+        "attack":"None",
+        "range":"None",
+        "defence":"None",
+        "star":"None",
+        "position":"None",
+        "arms":["None"],
+        "skills":["None"]
+
+    },    
+    "110":{
+        "attack":"None",
+        "range":"None",
+        "defence":"None",
+        "star":"None",
+        "position":"None",
+        "arms":["None"],
+        "skills":["None"]
+
+    },    
+    "111":{
+        "attack":"None",
+        "range":"None",
+        "defence":"None",
+        "star":"None",
+        "position":"None",
+        "arms":["None"],
+        "skills":["None"]
+
+    },     
+    "112":{
+        "attack":"None",
+        "range":"None",
+        "defence":"None",
+        "star":"None",
+        "position":"None",
+        "arms":["None"],
+        "skills":["None"]
+
+    },    
+    "113":{
+        "attack":"None",
+        "range":"None",
+        "defence":"None",
+        "star":"None",
+        "position":"None",
+        "arms":["None"],
+        "skills":["None"]
+
+    },  
+    "114":{
+        "attack":"None",
+        "range":"None",
+        "defence":"None",
+        "star":"None",
+        "position":"None",
+        "arms":["None"],
+        "skills":["None"]
+
+    }                    
 }
