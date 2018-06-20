@@ -40,7 +40,7 @@ export default {
    }
   },
   async mounted() {
-    this.$http.get('http://35.200.102.240/getranklistshuihunas.php')
+    this.$http.get(this.$store.getters.getServerURL+'getranklistshuihunas.php')
       .then((response) => {
         this.items = response.body;
       });

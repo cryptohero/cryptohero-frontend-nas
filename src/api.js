@@ -8,13 +8,26 @@ import timeout from 'timeout-then';
 import cryptoWaterMarginABI from './abi/cryptoWaterMargin.json';
 import convertContractABI from './abi/convertContract.json';
 
-// Sometimes, web3.version.network might be undefined,
-// as a workaround, use defaultNetwork in that case.
-const network = config.network[web3.version.network] || config.defaultNetwork;
-const cryptoWaterMarginContract = web3.eth.contract(cryptoWaterMarginABI).at(network.contract);
+export class NasTool {
+  static fromNasToWei(value) {
+    return new BigNumber('1000000000000000000').times(value);
+  }
+  static fromWeiToNas(value) {
+    if (value instanceof BigNumber) {
+      return value.dividedBy('1000000000000000000');
+    }
+    return new BigNumber(value).dividedBy('1000000000000000000');
+  }
+}
 
-// This contract supposed to convert CWM to Lucky
-const convertContract = web3.eth.contract(convertContractABI).at(network.convert);
+
+// // Sometimes, web3.version.network might be undefined,
+// // as a workaround, use defaultNetwork in that case.
+// const network = config.network[web3.version.network] || config.defaultNetwork;
+// const cryptoWaterMarginContract = web3.eth.contract(cryptoWaterMarginABI).at(network.contract);
+
+// // This contract supposed to convert CWM to Lucky
+// const convertContract = web3.eth.contract(convertContractABI).at(network.convert);
 
 let store = [];
 let isInit = false;
@@ -258,12 +271,12 @@ export const isConvert = cardId => new Promise((resolve, reject) => {
 export const getTotal = () => Promise.promisify(cryptoWaterMarginContract.totalSupply)();
 
 export const getItemIds = async (offset, limit) => {
-  /*let ids = await Promise.promisify(cryptoWaterMarginContract.itemsForSaleLimit)(offset, limit);
+  /* let ids = await Promise.promisify(cryptoWaterMarginContract.itemsForSaleLimit)(offset, limit);
   ids = ids.map(id => id.toNumber());
   ids.sort((a, b) => a - b);
-  return Array.from(new Set(ids));*/
-  let ids = [];
-  for (let i=1;i<=12;++i) {
+  return Array.from(new Set(ids)); */
+  const ids = [];
+  for (let i = 1; i <= 12; ++i) {
     ids.push(i);
   }
   return ids;
@@ -275,6 +288,17 @@ export const isItemMaster = async (id) => {
 
   return me && me.address && item && item.owner && me.address === item.owner;
 };
+
+export function getDrawCount(value, drawPrice) {
+  let result = 0;
+  let offset = 0;
+  while (value > drawPrice + offset) {
+    result += 1;
+    value -= drawPrice + offset;
+    offset += NasTool.fromNasToWei(0.0001);
+  }
+  return result;
+}
 
 export const getItemsOf = async (address) => {
   let ids = await Promise.promisify(
@@ -303,14 +327,3 @@ export const setLocale = async (locale) => {
   Cookie.set('locale', locale, { expires: 365 });
 };
 
-export class NasTool {
-  static fromNasToWei(value) {
-    return new BigNumber('1000000000000000000').times(value);
-  }
-  static fromWeiToNas(value) {
-    if (value instanceof BigNumber) {
-      return value.dividedBy('1000000000000000000');
-    }
-    return new BigNumber(value).dividedBy('1000000000000000000');
-  }
-}

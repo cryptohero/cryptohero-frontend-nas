@@ -13,8 +13,11 @@
 		 	<div class="btnContainer">
 				 <div class="cardbtn">
 				  	<a> <img class="btnimg" @click="drawClicked()" width="150" alt="" srcset="/static/assets/btn.png"/> </a>
-				  </div>
-			  </div>
+         </div>
+         <div class="txt">
+        <span>{{$t('Recomment')}}</span>  
+        </div>
+      </div>
 		  </div>
      </section>
     </div>
@@ -25,7 +28,6 @@
 <script>
 import PulseLoader from 'vue-spinner/src/PulseLoader';
 import ItemList from '@/components/ItemList';
-import { getItemIds } from '@/api';
 import { toReadablePrice } from '@/util';
 import Contract from '@/contract/cryptohero';
 
@@ -49,11 +51,21 @@ export default {
   async created() {
 //    this.total = await getTotal();这里去监听了eth合约
 //    const itemIds = await getItemIds(0, this.total);
-    const itemIds = await getItemIds(0, 0);
+//    const itemIds = await getItemIds(0, 0);
     const contrat = new Contract();
-    //默认前12个tokenId
+    const  total = await contrat.getTotalSupply();
+    if(total === 0 ){
+      this.loading = false;
+      return ;
+    }
+    let ids = [];
+    let start = total - 12;
+    for (let i = total; i >= start ; --i) {
+      ids.push(i);
+    }
     //通过tokenId图片相关信息
-    const result = await contrat.getCarInfoByTokenId(itemIds);
+//    const result = await contrat.getCarInfoByTokenId(itemIds);
+    const result = await contrat.getCarInfoByTokenId(ids);
     this.itemIds = result;
     this.loading = false;
   },
@@ -108,8 +120,14 @@ export default {
     display: block;
     margin-left: auto;
     margin-right: auto;
+        display: block;
+    margin-bottom: 30px;
 }
-
+.txt{
+  border:  5px solid darkgoldenrod;
+  padding: 10px;
+  background-color: blanchedalmond;
+}
 @media screen and (max-width: 414px){
   .cardcharas{
     display: none;
@@ -124,5 +142,9 @@ export default {
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+.columns.is-gapless:last-child {
+    
+    margin-top: 180px;
 }
 </style>

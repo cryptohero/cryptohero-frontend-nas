@@ -14,39 +14,126 @@
             <div class="title_2"><b>{{item.nickname}} · {{item.name}}</b></div>
           </div>
           <!-- <h2>{{item.nickname}} · {{item.name}}</h2> -->
-          <div class="img">
-            <img class="big_img" :src="item.front">
+          <div class="img card-image"
+              @mouseover="lightShow(0)"
+              @mouseout="lightunShow(0)">
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardBack()">
+            </div>
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[0]">
+            </div>
+            <img class="big_img imageborder8 image is-5by4" :src="item.front">
+          </div>
+          <div class="img card-image"
+              @mouseover="lightShow(1)"
+              @mouseout="lightunShow(1)">
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardBack()">
+            </div>
+            <div class="smallcardcharas">
+              <img class="charaimg" v-lazy="getCardLightBack()" v-show="!lightisShow[1]">
+            </div>
+            <img class="big_img imageborder8 image is-5by4" :src="item.back">
           </div>
           <div class="img">
-            <img class="big_img" :src="item.back">
-          </div>
-          <div class="img">
-            <ul>
+            <ul style="float: left;margin-top: 32px;">
               <li>
-                <div class="text">{{$t('NoId')}}{{itemId}}</div>
+                <div class="text"><p>{{$t('Nature1')}}</p></div>
               </li>
               <li>
-                <div class="text">{{$t('Owner')}}：
+                <div class="text"><p>{{$t('Nature2')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature3')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature4')}}</p></div>
+              </li>
+              
+              <li>
+                <div class="text"><p>{{$t('Nature5')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature6')}}</p></div>
+              </li>
+              <li>
+                <div class="text"><p>{{$t('Nature7')}}</p></div>
+              </li>
+              <li>
+                <div class="text">{{$t('NoId')}}</div>
+              </li>
+              
+              <li>
+                <div class="text">{{$t('Owner')}}</div>
+              </li>
+               <li>
+                <div class="text">{{$t('isClaimed')}}</div>
+              </li>
+              <li>
+                <div class="text"> {{$t('Value')}}</div>
+              </li>
+            </ul>
+            <ul style="margin-top: 32px;">
+              <li>
+                <div class="text1"><p>{{item.attack}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p></div>
+              </li>
+              <li>
+                <div class="text1"><p>{{item.range}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #62d1ae , #5db23b)', border: '2px', width: item.range + 'px',  height: '10px',margin: '6px'}" ></p></div>
+              </li>
+              <li>
+                <div class="text1"><p>{{item.defence}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #96789a , #7a86ae)', border: '2px', width: item.defence + 'px',  height: '10px',margin: '6px'}" ></p></div>
+              </li>
+
+              <li>
+                <div class="text1"><p class="text2">{{item.star}}</p></div>
+              </li>
+
+              <li>
+                <div class="text1"><p class="text2">{{item.position}}</p></div>
+              </li>
+              <li>
+                <div class="text1"><p class="text2">{{item.arms}}</p></div>
+              </li>
+              <li>
+                <div class="text1"><p class="text2">{{item.skills}}</p></div>
+              </li>
+              <li>
+                <div class="text1">{{itemId}}</div>
+              </li>
+              <li>
+                <div class="text">
                   <router-link :to="{ name: 'User', params:{address: carOwner}}">
                     {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
                   </router-link>
+        
+                </div>
+              </li>
+               <li>
+                <div class="text">
+                    {{isTokenClaimed}}                  
                 </div>
               </li>
 
               <li>
-                <div class="text"> {{$t('Value')}}<input style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas</div>
+                <div class="text"><input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas<div class="butt">推荐</div></div>
               </li>
             </ul>
+
+            <a>
             <div class="price" @click="buyHero()" v-show="!editFlag">
               <div class="price1">
                 {{$t('Buy')}}
               </div>
             </div>
+            </a>
+            <a>
             <div class="price" @click="upatePrice()" v-show="editFlag">
               <div class="price1">
                 {{$t('ModPrice')}}
               </div>
             </div>
+            </a>
           </div>
         </div>
       </div>
@@ -70,6 +157,7 @@ export default {
 
   data() {
     return {
+      lightisShow: [false,false],
       owner: '',
       price: '',
       editFlag: false,
@@ -103,6 +191,12 @@ export default {
         const result = await idol.getUserCards(this.address);
         return result;
       }, */
+    async isTokenClaimed() {
+      const idol = new Contract();
+      const heroId = this.$route.params.id;
+      const result = await idol.isTokenClaimed(heroId);      
+      return result ? true : false;
+    },      
     async carOwner() {
       const idol = new Contract();
       const heroId = this.$route.params.id;
@@ -164,10 +258,10 @@ export default {
       return this.$store.state.items[this.itemId].isLCYClaimed;
     },
     getCardImage() {
-      return `http://test.cdn.hackx.org/heros/${this.itemId}.jpg`;
+      return `http://test.cdn.hackx.org/heros_new/${this.itemId}.jpeg`;
     },
     getCardBackSideImage() {
-      return `/static/assets/back/${this.itemId}.jpeg`;
+      return `http://test.cdn.hackx.org/backs_new/${this.itemId}.jpeg`;
     },
     isOwner() {
       return this.item.owner === this.me.address;
@@ -237,6 +331,22 @@ export default {
       const readable = toReadablePrice(priceInWei);
       return `${readable.price} ${readable.unit}`;
     },
+    lightShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = true;
+      this.$forceUpdate();
+    },
+    lightunShow: function(id) {
+      // console.log(id+"qwwwww"+this.lightisShow[id])
+      this.lightisShow[id] = false;
+      this.$forceUpdate();
+    },
+    getCardBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback_light.png`;
+    },
+    getCardLightBack(){
+      return `http://test.cdn.hackx.org/cardback/cardback.png`;
+    },
     async onUpdateAd() {
       const ad = prompt(this.$t('UPDATE_SLOGAN_PROMPT'));
       if (ad !== null) {
@@ -271,6 +381,7 @@ export default {
     background: url(/static/assets/card_profile_top.png) no-repeat top, url(/static/assets/card_profile_end.png) no-repeat bottom, url(/static/assets/card_profile.png) repeat-y;
     background-size: 100%;
     padding: 3% 4% 4%;
+    
   }
 
   .back_color {
@@ -315,14 +426,14 @@ export default {
   }
 
   .img {
-    width: 224px;
+    width: 266px;
     height: 340px;
-    margin: 20px
+    margin: 2px;
+    
   }
 
   .big_img {
     width: 100%;
-    border: 10px solid #ecdaa8;
     border-radius: 10px;
   }
 
@@ -349,10 +460,45 @@ export default {
   }
 
   .text {
-    margin: 10px;
-    overflow-wrap: break-word;
+    /* overflow-wrap: break-word; */
+    display: flex;
+    display: -webkit-flex;
+     color: #553b11;
   }
-
+  .text1 {
+    /* overflow-wrap: break-word; */
+    display: flex;
+    display: -webkit-flex;
+    color: #a10a0a;
+    flex-wrap: nowrap;
+  }
+   .text2 {
+    overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+  }
+  .imageborder8{
+        padding: 41px;
+  }
+  .smallcardcharas {
+    position: absolute;
+  
+  }
+ .butt{
+    background-color: #f7260b;
+    padding: -2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    color: #fde481;
+    border: 2px solid #e6c035;
+    margin-left: 17px;
+}
+  .charaimg{
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
   @media screen and (max-width: 574px) {
     .line1 {
       font-size: 27px

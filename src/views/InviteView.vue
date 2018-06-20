@@ -2,7 +2,7 @@
     <div class="back_img">
         <div class="title11">
             <div class="line1">{{$t('inviteFirend')}}</div>
-        </div> 
+        </div>
         <div class="back_color">
             <div class="title_1">
                 <div class="title_2"><b>{{$t('title')}}</b></div>
@@ -15,7 +15,7 @@
                 <div class="btn">{{$t('Linkcpy')}}</div>
             </div>
 
-            <div class="invitelist"> 
+            <div class="invitelist">
                 <ul>
                     <li class="ul1">被邀请人</li>
                     <li class="ul2">抽卡数量</li>
@@ -23,16 +23,18 @@
                     <li class="ul4">返利金额</li>
                 </ul>
             </div>
-            <div class="invitelist" v-for="( item, index ) in items" :key="item.id"> 
+            <div class="invitelist" v-for="( item, index ) in items" :key="item.id">
                   <ul>
-                    <li class="ul1"> {{ item.address }}</li>
+                    <router-link class="ul1 ul1addr" :to="{ name: 'User', params:{address: item.address}}"> 
+                        {{ item.address.slice(-6).toUpperCase() }}
+                    </router-link>
                     <li class="ul2"> {{ item.cardcount }}</li>
-                    <li class="ul3"> {{ item.paid }}</li>   
-                    <li class="ul4"> {{ item.rebate }}</li>   
+                    <li class="ul3"> {{ item.paid }}</li>
+                    <li class="ul4"> {{ item.rebate }}</li>
                   </ul>
             </div>
 
-            <div>
+            <div  v-show="false">
                 <div class="invite">
                     <div class="line"></div>
                     <div class="title is-6">{{$t('shareapp')}}</div>
@@ -74,8 +76,9 @@ export default {
     ...mapState(['me']),
     myRefferalLink() {
       const website = 'https://cryptohero-nas.etherfen.com/#';
+      this.getuserinvitelist();
       if (this.me) {
-        return `${website}/draw/${this.me}`;
+        return `${website}/draw?ref=${this.me}`;
       }
       return '请安装钱包插件再来';
     },
@@ -84,49 +87,38 @@ export default {
     invite(index) {
       return `Invite_${index}`;
     },
-    // updatetx() {
-    //     var snlist = [];
-    //     const thisme = "8888888888899999000000000000000";
-    //     this.$http.get(`http://127.0.0.1:8888/inviteshuihulist.php?address=${thisme}&witchnet=test&t=0`)
-    //       .then((response) => {
-    //         response.body.map(async (addrinfo) => {
-    //             snlist.push(addrinfo["serialnum"]);
-    //         });
-    //       });
-    // }
-  },
-  async mounted() {
-    // const thisme = "8888888888899999000000000000000";
-    this.$http.get(`http://35.200.102.240/inviteshuihulist.php?address=${this.me}`)//&t='1'
-    // this.$http.get(`http://127.0.0.1:8888/inviteshuihulist.php?address=${thisme}&witchnet=test&t=1`)
-      .then((response) => {
+  // },
+  // async mounted() {
+    async getuserinvitelist() {
+        this.$http.get(this.$store.getters.getServerURL+`inviteshuihulist.php?address=${this.me}&t=0&witchnet=${this.$store.getters.getContractNet}`)
+        .then((response) => {
+            var addresstypes = {}
+            response.body.map(async (addrinfo) => {
+                if (addresstypes[addrinfo["address"]]) {
+                    addresstypes[addrinfo["address"]]["cardcount"]+=parseInt(addrinfo["cardcount"]);
+                    addresstypes[addrinfo["address"]]["paid"]+=parseFloat(addrinfo["paid"]);
+                    addresstypes[addrinfo["address"]]["rebate"]+=parseFloat(addrinfo["rebate"]);
+                } else {
+                    addresstypes[addrinfo["address"]] = {};
+                    addresstypes[addrinfo["address"]]["cardcount"]=parseInt(addrinfo["cardcount"]);
+                    addresstypes[addrinfo["address"]]["paid"]=parseFloat(addrinfo["paid"]);
+                    addresstypes[addrinfo["address"]]["rebate"]=parseFloat(addrinfo["rebate"]);
+                }
+            });
 
-        var addresstypes = {}
-        response.body.map(async (addrinfo) => {
-            if (addresstypes[addrinfo["address"]]) {
-                addresstypes[addrinfo["address"]]["cardcount"]+=parseInt(addrinfo["cardcount"]);
-                addresstypes[addrinfo["address"]]["paid"]+=parseFloat(addrinfo["paid"]);
-                addresstypes[addrinfo["address"]]["rebate"]+=parseFloat(addrinfo["rebate"]);
-            } else {
-                addresstypes[addrinfo["address"]] = {};
-                addresstypes[addrinfo["address"]]["cardcount"]=parseInt(addrinfo["cardcount"]);
-                addresstypes[addrinfo["address"]]["paid"]=parseFloat(addrinfo["paid"]);
-                addresstypes[addrinfo["address"]]["rebate"]=parseFloat(addrinfo["rebate"]);
-            }
-        });
+            const keys = Object.keys(addresstypes);
+            const thisself = this;
+              keys.forEach((addr) => {
+                var info = addresstypes[addr];
+                console.log(info);
+                info["address"] = addr;
+                thisself.items.push(info);
+              });
 
-        const keys = Object.keys(addresstypes);
-        const thisself = this;
-          keys.forEach((addr) => {
-            var info = addresstypes[addr];
-            console.log(info);
-            info["address"] = addr;
-            thisself.items.push(info);
+            // this.items = response.body;
+            // this.updatetx();
           });
-
-        // this.items = response.body;
-        // this.updatetx();
-      });
+    }
   }
 };
 </script>
@@ -242,21 +234,24 @@ input{
     text-align: center;
 }
 .ul1 {
-    flex: 40%;
+    flex: 20%;
 }
 .ul2 {
     flex: 10%;
 }
 .ul3 {
-    flex: 15%;
+    flex: 25%;
 }
 .ul4 {
-    flex: 15%;
+    flex: 25%;
+}
+.ul1addr {
+    font-family: monospace;
 }
 
 @media screen and (max-width: 450px){
     .back_color{
-    
+
     padding: 9px;
     }
     .input{

@@ -13,6 +13,7 @@
 <script>
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Cookie from 'js-cookie';
 
 export default {
   name: 'App',
@@ -26,6 +27,12 @@ export default {
         ? this.$route.name + +new Date()
         : this.$route + +new Date();
     },
+  },
+  async created() {
+    const referrer = this.$route.query.ref;
+    if (this.$store.state.me !== referrer && referrer) {
+      Cookie.set('referrer', referrer, { expires: 356 });
+    }
   },
 };
 </script>
