@@ -78,7 +78,7 @@ export default {
       const website = 'https://cryptohero-nas.etherfen.com/#';
       this.getuserinvitelist();
       if (this.me) {
-        return `${website}/draw/${this.me}`;
+        return `${website}/draw?ref=${this.me}`;
       }
       return '请安装钱包插件再来';
     },
