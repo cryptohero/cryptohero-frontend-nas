@@ -1,7 +1,7 @@
 import Promise from 'bluebird';
 import Cookie from 'js-cookie';
 import { BigNumber } from 'bignumber.js';
-import web3 from '@/web3';
+// import web3 from '@/web3';
 import * as config from '@/config';
 import request from 'superagent';
 import timeout from 'timeout-then';
@@ -162,7 +162,7 @@ export const getNextPrice = async (id, time = 0) => {
 
   if (item && item.nextPrice) {
     // Convert nextPrice from 'ether' to 'wei'
-    return web3.toWei(item.nextPrice, 'ether');
+    // return web3.toWei(item.nextPrice, 'ether');
   }
 
   return 0;
@@ -171,7 +171,7 @@ export const getNextPrice = async (id, time = 0) => {
 // price为用户成功发起交易的交易价格，调用setNextPrice后，nextPrice会变为此价格的1.1倍
 export const setNextPrice = async (id, priceInWei) => {
   // Convert price(Wei) to a number instance (ether)
-  const price = Number(web3.fromWei(priceInWei, 'ether').toString());
+  const price = 0; //Number(web3.fromWei(priceInWei, 'ether').toString());
   const response = await request
     .get('https://api.leancloud.cn/1.1/classes/ad')
     .set({

@@ -3,7 +3,6 @@ const PRIVACY_CONTENT = require('raw-loader!./privacy.html');
 const TERMS_CONTENT = require('raw-loader!./terms.html');
 
 module.exports = {
-<<<<<<< HEAD
   CryptoHero: 'ホームページ',
   'My Cards': 'カード',
   'Sign In': 'コレクション',
@@ -23,27 +22,6 @@ module.exports = {
   time:'合成時間',
   Owner: '所有者',
   'Current Price': '価格',
-=======
-  CryptoHero: '暗号化英雄',
-  'My Cards': '私のコレクション',
-  'Sign In': 'サインイン',
-  Home: 'ホーム',
-  FAQs: '友たちを誘う',
-  Ranking: 'ランキング',
-  firendLink: '友たちのリンク',
-  Linkcpy: 'リンクをコッピーする',
-  shareapp: '友たちにシェアする',
-  inviteFirend: '友たちを誘う',
-  luckydraw:'幸運くじ',
-  title:'友達が星雲水滸に誘いましょう、5 %の消費金をもらえますよ！',
-  ranking:'順位',
-  key:'財布コード：',
-  KeyAddress: '財布コード',
-  Collect: 'のコレクション',
-  time:'組合時間',
-  Owner: '所有者：',
-  'Current Price': '今の価格',
->>>>>>> testing
   Buy: '購入',
   BirthdayGift: '智取生辰纲(HOT)',
   'Terms of Service': '利用規約',
