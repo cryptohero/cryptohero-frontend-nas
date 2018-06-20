@@ -50,7 +50,6 @@
               <li>
                 <div class="text"><p>{{$t('Nature4')}}</p></div>
               </li>
-              
               <li>
                 <div class="text"><p>{{$t('Nature5')}}</p></div>
               </li>
@@ -63,7 +62,7 @@
               <li>
                 <div class="text">{{$t('NoId')}}</div>
               </li>
-              
+
               <li>
                 <div class="text">{{$t('Owner')}}</div>
               </li>
@@ -76,7 +75,9 @@
             </ul>
             <ul style="margin-top: 32px;">
               <li>
-                <div class="text1"><p>{{item.attack}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p></div>
+                <div class="text1">
+                  <p>{{item.attack}}</p>
+                  <p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p></div>
               </li>
               <li>
                 <div class="text1"><p>{{item.range}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #62d1ae , #5db23b)', border: '2px', width: item.range + 'px',  height: '10px',margin: '6px'}" ></p></div>
@@ -106,12 +107,12 @@
                   <router-link :to="{ name: 'User', params:{address: carOwner}}">
                     {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
                   </router-link>
-        
+
                 </div>
               </li>
                <li>
                 <div class="text">
-                    {{isTokenClaimed}}                  
+                    {{isTokenClaimed}}
                 </div>
               </li>
 
@@ -157,7 +158,7 @@ export default {
 
   data() {
     return {
-      lightisShow: [false,false],
+      lightisShow: [false, false],
       owner: '',
       price: '',
       editFlag: false,
@@ -194,9 +195,9 @@ export default {
     async isTokenClaimed() {
       const idol = new Contract();
       const heroId = this.$route.params.id;
-      const result = await idol.isTokenClaimed(heroId);      
-      return result ? true : false;
-    },      
+      const result = await idol.isTokenClaimed(heroId);
+      return !!result;
+    },
     async carOwner() {
       const idol = new Contract();
       const heroId = this.$route.params.id;
@@ -331,20 +332,20 @@ export default {
       const readable = toReadablePrice(priceInWei);
       return `${readable.price} ${readable.unit}`;
     },
-    lightShow: function(id) {
+    lightShow(id) {
       // console.log(id+"qwwwww"+this.lightisShow[id])
       this.lightisShow[id] = true;
       this.$forceUpdate();
     },
-    lightunShow: function(id) {
+    lightunShow(id) {
       // console.log(id+"qwwwww"+this.lightisShow[id])
       this.lightisShow[id] = false;
       this.$forceUpdate();
     },
-    getCardBack(){
+    getCardBack() {
       return `http://test.cdn.hackx.org/cardback/cardback_light.png`;
     },
-    getCardLightBack(){
+    getCardLightBack() {
       return `http://test.cdn.hackx.org/cardback/cardback.png`;
     },
     async onUpdateAd() {
@@ -381,7 +382,7 @@ export default {
     background: url(/static/assets/card_profile_top.png) no-repeat top, url(/static/assets/card_profile_end.png) no-repeat bottom, url(/static/assets/card_profile.png) repeat-y;
     background-size: 100%;
     padding: 3% 4% 4%;
-    
+
   }
 
   .back_color {
@@ -429,7 +430,7 @@ export default {
     width: 266px;
     height: 340px;
     margin: 2px;
-    
+
   }
 
   .big_img {
@@ -482,7 +483,7 @@ export default {
   }
   .smallcardcharas {
     position: absolute;
-  
+
   }
  .butt{
     background-color: #f7260b;
