@@ -72,7 +72,7 @@ export default {
       const d = new BigNumber(0.0001);
       const a0 = new BigNumber(this.getPrice);
       const n = new BigNumber(this.count);
-      return a0.times(n) + (n.minus(1)).times(n).times(d).div(2);
+      return a0.times(n).plus((n.minus(1)).times(n).times(d).div(2));
     },
   },
   methods: {
