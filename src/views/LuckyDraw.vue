@@ -69,7 +69,7 @@ export default {
     },
     getDisplayTotal() {
       // return new BigNumber(this.getPrice).times(this.count).toNumber();
-      const d = new BigNumber(0.0001);
+      const d = new BigNumber(0.00001);
       const a0 = new BigNumber(this.getPrice);
       const n = new BigNumber(this.count);
       return a0.times(n).plus((n.minus(1)).times(n).times(d).div(2));
