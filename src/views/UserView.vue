@@ -73,7 +73,7 @@
         v-for="item in cardlist"  :key="item.id"
         @mouseover="lightShow(item.code)"
         @mouseout="lightunShow(item.code)"
-        @click="gotoCoinProfile(item.tokenId)" style="margin-top: 18px;">
+        @click="gotoCoinProfile(item)" style="margin-top: 18px;">
             <div class="smallcardcharas">
               <img class="charaimg" v-lazy="getCardBack()">
             </div>
@@ -282,9 +282,11 @@ export default {
         this.queryResult('code');
       }
     },
-    gotoCoinProfile(code) {
+    gotoCoinProfile(em) {
+      console.error(em);
+
       if(this.actionFlag){
-        this.$router.push({ path: `/item/${code}` });
+        this.$router.push({ path: `/item/${em.tokenId}/${em.code}`});
       } else {
         Message.warning({
           message: '请到首页购买，或抽牌，谢谢!',

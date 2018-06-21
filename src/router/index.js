@@ -39,7 +39,7 @@ export default new Router({
 
     {
       name: 'Item',
-      path: '/item/:id(\\d+)',
+      path: '/item/:id(\\d+)/:code',
       component: ItemView,
     },
     {
