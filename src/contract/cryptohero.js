@@ -147,7 +147,7 @@ export default class LinkIdolContract extends Contract {
       {
         functionName: 'buyToken',
         value,
-        data: [id],
+        data: [Number(id)],
       });
     return JSON.parse(result);
   }
