@@ -210,6 +210,10 @@ export default {
       });
     },
    async claim() {
+    if(this.total < 108) {
+      alert("尚未集满108种卡牌，无法进行兑换。");
+      return
+    }
      const contract = new LinkIdol();
      const result = await contract.claim();
      console.error("claimres:"+result);
