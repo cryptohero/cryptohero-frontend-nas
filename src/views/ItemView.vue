@@ -111,7 +111,7 @@
               </li>
               <li>
                 <div class="text">
-                  <router-link :to="{ name: 'User', params:{address: carOwner}}">
+                  <router-link :to="{ name: 'User', params:{address: me}}">
                     {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
                   </router-link>
 
@@ -129,7 +129,7 @@
                     <el-popover
                   placement="top-start"
                   title="微信扫描分享"
-                  width="200"
+                  width="180"
                   trigger="hover">
                       <img id="imgId" :src="uri"/>
                   <el-button slot="reference">微信分享</el-button>
@@ -180,6 +180,8 @@ export default {
       editFlag: false,
       loading: true,
       uri: '',
+      tkId: '',
+      heroNum: ''
     };
   },
   components: {
@@ -187,9 +189,33 @@ export default {
     PulseLoader,
   },
   async created() {
-    console.log(this.$route.params.tokenId);
+    this.tkId = this.$route.params.tokenId;
+    const contract = new Contract();
+    const result = await contract.getCardsByAddress(this.me);
+    console.error(result)
+    let num = 0;
+    let tkLength = this.$route.params.id;
+    for(var i in result){
+      if(result[i].tokenId <= tkLength ){
+        num = num + 1;
+      }
+    }
+    this.createMark(num);
   },
   asyncComputed: {
+    async getCardNum() {
+      const contract = new Contract();
+      const result = await contract.getCardsByAddress(this.me);
+      console.error(result)
+      var num = 0;
+      let tkLength = this.$route.params.tokenId;
+      for(var em in result){
+        if(em.tokenId <= tkLength ){
+          num = num + 1;
+        }
+      }
+      return num;
+    },
     async getCardsLeft() {
       const contract = new Contract();
       const result = await contract.getDrawCardsLeft();
@@ -305,19 +331,19 @@ export default {
         } */
     },
   },
-  mounted() {
-    var QRCode = require('qrcode')
-    var thiz = this;
-    const links = 'http://test.cdn.hackx.org/heros_new/' + this.$route.params.code + '.jpeg';
-    QRCode.toDataURL(links, function (err, url) {
-      console.error(url)
-      thiz.uri = url;
-      return url;
-    })
-    console.error(thiz.uri)
-//    document.getElementById('imgId').src = uri;
+ async mounted() {
+
   },
   methods: {
+    createMark(num){
+      var QRCode = require('qrcode')
+      var thiz = this;
+      const links =window.location.host+'/#/Recommend/'+ this.$route.params.code + '/'+ num  ;
+      QRCode.toDataURL(links, function (err, url) {
+        thiz.uri = url;
+        return url;
+      })
+    },
     async updatePrice() {
       const contract = new Contract();
       const result = await contract.setTokenPrice({ tokenId: this.itemId, value: this.heroPrice });

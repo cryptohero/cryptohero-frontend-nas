@@ -1,32 +1,49 @@
 <template>
-<div class="back">  
+<div class="back">
     <!-- <img src="/static/assets/recommend.png"> -->
-<div class="name">  
-    <b>某某某・某某某</b>
+<div class="name">
+    <b>{{hero.name}}・{{hero.nickname}}</b>
 </div>
-<div class="card22">  
-    <div class="card1"> 
-        <img class="img1"  src="/static/assets/heros/1.jpg">    
+<div class="card22">
+    <div class="card1">
+        <img class="img1"  :src="imgUrl">
 　　</div>
 </div>
 　　<div class="text22">
-   <i class="text11"> <b >是我拥有的第<i class="big_img">111</i>张牌</b> </i> 　
+   <i class="text11"> <b >是我拥有的第<i class="big_img">{{num}}</i>张牌</b> </i> 　
 　　</div>
 </div>
 </template>
 <script>
+  import heroProfile from '../config/cards.json';
 export default {
     name: 'RecommendView',
+  data() {
+      return {
+        name: '',
+        linkname: '',
+        num: '',
+        imgUrl: '',
+        hero:[]
+      }
+  },
+  created(){
+      this.name =  this.$route.params.name;
+      this.linkname = this.$route.params.linkname;
+      this.imgUrl ="http://test.cdn.hackx.org/heros_new/"+ this.$route.params.heroId+".jpeg";
+      this.num = this.$route.params.num;
+    this.hero = heroProfile[this.$route.params.heroId];
+  }
 }
 </script>
 
 <style  scoped>
-.back{ 
-    
+.back{
+
     background: url(/static/assets/recommend.png) no-repeat center;
     width: 100%;
     height: 600px;
-  
+
 
 }
 .name{

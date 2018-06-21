@@ -41,7 +41,6 @@
           <div class="transform"> {{$t('faq')}} </div>
         </router-link>
 
-
         <!-- <router-link class="navbar-item"
                      :to="{ name: 'BirthdayGift'}">
           {{$t('BirthdayGift')}}

@@ -12,7 +12,7 @@
                 <div class="input">
                     <input type="search" :value="myRefferalLink" disabled>
                 </div>
-                <div class="btn" :data-clipboard-text="myRefferalLink">{{$t('Linkcpy')}}</div>
+                <div class="btn" :data-clipboard-text="myRefferalLink" @click.native="copyFun">{{$t('Linkcpy')}}</div>
             </div>
 
             <div class="invitelist">
@@ -97,12 +97,27 @@ export default {
     },
   },
   methods: {
+    copyFun(){
+      var clipboard = new Clipboard('.btn')
+      clipboard.on('success', e => {
+        console.log('复制成功')
+        // 释放内存
+        clipboard.destroy()
+      })
+      clipboard.on('error', e => {
+        // 不支持复制
+        console.log('该浏览器不支持自动复制')
+        // 释放内存
+        clipboard.destroy()
+      })
+    },
     async fetchInviteData() {
       const contract = new Contract();
       const result = await contract.call({
         functionName: 'getReferralHistory',
         args: [this.me],
       });
+      console.log(result)
       this.items = JSON.parse(result);
       console.log(`fetch ok ${this.items}`);
     },

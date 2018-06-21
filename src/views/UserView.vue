@@ -58,6 +58,7 @@
      </div>
      <div class="btn-item"><el-button type="error" plain @click.native="NotClection()">{{$t('UnCollected')}}</el-button></div>
      <div class="btn-item"><el-button type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button></div>
+     <div class="btn-item"><el-button type="info" plain @click.native="test()">测试</el-button></div>
   </div>
   </section>
   <section>
@@ -332,7 +333,7 @@ export default {
       }, 30000);
     }
   },
-  async created() {
+  created() {
    /* for(var i=0;i<cardsInfo().length;i++){
       this.lightisShow[i] = false;
     }*/
