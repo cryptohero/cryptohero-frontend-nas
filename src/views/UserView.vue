@@ -35,8 +35,8 @@
                 <option value="price">{{$t('Sort3')}}</option>
               </select>
             </div>
-            <el-button  style="margin: 5px" type="error" plain @click.native="NotClection()">未集卡牌</el-button>
-            <el-button  style="margin: 5px" type="info" plain @click.native="HadClection()">已集卡牌</el-button>
+            <el-button  style="margin: 5px" type="error" plain @click.native="NotClection()">{{$t('UnCollected')}}</el-button>
+            <el-button  style="margin: 5px" type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button>
             </div>
             <div class="btn-item" style="display: flex">
             <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
@@ -56,8 +56,8 @@
        <el-input :placeholder="$t('Reminder')" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
     <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
      </div>
-     <div class="btn-item"><el-button type="error" plain @click.native="NotClection()">未集卡牌</el-button></div>
-     <div class="btn-item"><el-button type="info" plain @click.native="HadClection()">已集卡牌</el-button></div>
+     <div class="btn-item"><el-button type="error" plain @click.native="NotClection()">{{$t('UnCollected')}}</el-button></div>
+     <div class="btn-item"><el-button type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button></div>
   </div>
   </section>
   <section>
@@ -314,7 +314,7 @@ export default {
     rankAfterClaim(snres) {
       // 0 failed, 1 success, 2 pending
       const contract = new LinkIdol();
-      setTimeout(async () => {  
+      setTimeout(async () => {
         const result1 = await contract.checkSerialNumber(snres);
         console.error("claimres:"+result1)
         if (JSON.parse(result1)["data"]["status"] == 1) {
