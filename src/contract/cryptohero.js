@@ -32,9 +32,9 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1zfZWjMWzW43JFYthPuCmZWcZ21Hg4EGQi',
       // contractAddress: 'n1maHwrheEGvU9KBDssVnFGKQ9HrX2fTt7n',
       // contractAddress: 'n1phe2rcC1yAzRg3tiAxmPc3ZcxebZNKetw',
-      // contractAddress: 'n21Rp5D8VHr8n759zUMVBVAW1ec3UFuoZfM',
-      // Mainnet
-      contractAddress: 'n1esuPkNpiTVWyc8UJxtpgGHFPy9bZrqxjY',
+      // contractAddress: 'n21Rp5D8VHr8n759zUMVBVAW1ec3UFuoZfM',n1vxH1wU3pkx4LiMoiUZ9pzftnQpQEYSYER
+      // Testnet now
+      contractAddress: 'n1osVH7f1XdnEc8nQx1Z4RXRdE92vQuuM1Z',
       network: 'testnet',
     });
   }
@@ -147,7 +147,7 @@ export default class LinkIdolContract extends Contract {
       {
         functionName: 'buyToken',
         value,
-        data: [id],
+        data: [Number(id)],
       });
     return JSON.parse(result);
   }
@@ -155,7 +155,7 @@ export default class LinkIdolContract extends Contract {
     const result = await this.send(
       {
         functionName: 'setTokenPrice',
-        data: [tokenId, value],
+        data: [tokenId, Number(value)],
       });
     return JSON.parse(result);
   }

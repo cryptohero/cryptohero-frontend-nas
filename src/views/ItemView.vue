@@ -124,10 +124,18 @@
               </li>
 
               <li>
-                <div class="text"><input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas<div class="butt">推荐</div></div>
+                <div class="text"><input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas
+                  <div class="butt">
+                    <el-popover
+                  placement="top-start"
+                  title="微信扫描分享"
+                  width="200"
+                  trigger="hover">
+                      <img id="imgId" :src="uri"/>
+                  <el-button slot="reference">微信分享</el-button>
+                </el-popover></div></div>
               </li>
             </ul>
-
             <a>
             <div class="price" @click="buyHero()" v-show="!editFlag">
               <div class="price1">
@@ -159,6 +167,7 @@ import Contract from '@/contract/cryptohero';
 import { NasTool } from '@/api';
 import { toReadablePrice } from '@/util';
 import PulseLoader from 'vue-spinner/src/PulseLoader';
+import ElPopover from "../../node_modules/element-ui/packages/popover/src/main.vue";
 
 export default {
   name: 'item-view',
@@ -170,13 +179,15 @@ export default {
       price: '',
       editFlag: false,
       loading: true,
+      uri: '',
     };
   },
   components: {
+    ElPopover,
     PulseLoader,
   },
   async created() {
-    console.log(this.$route.params.id);
+    console.log(this.$route.params.tokenId);
   },
   asyncComputed: {
     async getCardsLeft() {
@@ -295,7 +306,16 @@ export default {
     },
   },
   mounted() {
-
+    var QRCode = require('qrcode')
+    var thiz = this;
+    const links = 'http://test.cdn.hackx.org/heros_new/' + this.$route.params.code + '.jpeg';
+    QRCode.toDataURL(links, function (err, url) {
+      console.error(url)
+      thiz.uri = url;
+      return url;
+    })
+    console.error(thiz.uri)
+//    document.getElementById('imgId').src = uri;
   },
   methods: {
     async updatePrice() {

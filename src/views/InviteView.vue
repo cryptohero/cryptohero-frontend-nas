@@ -12,26 +12,27 @@
                 <div class="input">
                     <input type="search" :value="myRefferalLink" disabled>
                 </div>
-                <div class="btn">{{$t('Linkcpy')}}</div>
+                <div class="btn" :data-clipboard-text="myRefferalLink">{{$t('Linkcpy')}}</div>
             </div>
 
             <div class="invitelist">
                 <ul>
                     <li class="ul1">被邀请人</li>
-                    <li class="ul2">抽卡数量</li>
-                    <li class="ul3">充值金额</li>
+                    <!-- <li class="ul2">抽卡数量</li> -->
+                    <li class="ul3">区块高度</li>
                     <li class="ul4">返利金额</li>
                 </ul>
             </div>
-            <div class="invitelist" v-for="( item, index ) in items" :key="item.id">
+                  <!-- <p> Display {{getReferralHistory}} </p> -->
+
+            <div class="invitelist" v-for="item in getReferralHistory" :key="item.id">
                   <ul>
-                    <router-link class="ul1 ul1addr" :to="{ name: 'User', params:{address: item.address}}"> 
-                        {{ item.address.slice(-6).toUpperCase() }}
-                    </router-link>
-                    <li class="ul2"> {{ item.cardcount }}</li>
-                    <li class="ul3"> {{ item.paid }}</li>
-                    <li class="ul4"> {{ item.rebate }}</li>
+                    <!-- <li class="ul2"> {{ item.referer }}</li> -->
+                    <li class="ul1"> {{ item.to }}</li>
+                    <li class="ul3"> {{ item.blockHeight }}</li>
+                    <li class="ul4"> {{ item.cut }}</li>
                   </ul>
+
             </div>
 
             <div  v-show="false">
@@ -58,20 +59,32 @@
 </template>
 <script>
 import Clipboard from 'clipboard';
+import Contract from '@/contract/cryptohero';
 import { mapState } from 'vuex';
 
 export default {
   created() {
-    const clipboard = new Clipboard('.button');
+    const clipboard = new Clipboard('.btn');
     clipboard.on('success', (e) => {
       e.clearSelection();
     });
+    this.fetchInviteData();
   },
   name: 'InviteView',
   data: () => ({
     title: '邀请好友',
-    items: []
+    items: [],
   }),
+  asyncComputed: {
+    async getReferralHistory() {
+      const contract = new Contract();
+      const result = await contract.call({
+        functionName: 'getReferralHistory',
+        args: [this.me],
+      });
+      return JSON.parse(result);
+    },
+  },
   computed: {
     ...mapState(['me']),
     myRefferalLink() {
@@ -84,191 +97,200 @@ export default {
     },
   },
   methods: {
+    async fetchInviteData() {
+      const contract = new Contract();
+      const result = await contract.call({
+        functionName: 'getReferralHistory',
+        args: [this.me],
+      });
+      this.items = JSON.parse(result);
+      console.log(`fetch ok ${this.items}`);
+    },
     invite(index) {
       return `Invite_${index}`;
     },
-  // },
-  // async mounted() {
+
+    // },
+    // async mounted() {
     async getuserinvitelist() {
-        this.$http.get(this.$store.getters.getServerURL+`inviteshuihulist.php?address=${this.me}&t=0&witchnet=${this.$store.getters.getContractNet}`)
+      this.$http.get(`${this.$store.getters.getServerURL}inviteshuihulist.php?address=${this.me}&t=0&witchnet=${this.$store.getters.getContractNet}`)
         .then((response) => {
-            var addresstypes = {}
-            response.body.map(async (addrinfo) => {
-                if (addresstypes[addrinfo["address"]]) {
-                    addresstypes[addrinfo["address"]]["cardcount"]+=parseInt(addrinfo["cardcount"]);
-                    addresstypes[addrinfo["address"]]["paid"]+=parseFloat(addrinfo["paid"]);
-                    addresstypes[addrinfo["address"]]["rebate"]+=parseFloat(addrinfo["rebate"]);
-                } else {
-                    addresstypes[addrinfo["address"]] = {};
-                    addresstypes[addrinfo["address"]]["cardcount"]=parseInt(addrinfo["cardcount"]);
-                    addresstypes[addrinfo["address"]]["paid"]=parseFloat(addrinfo["paid"]);
-                    addresstypes[addrinfo["address"]]["rebate"]=parseFloat(addrinfo["rebate"]);
-                }
-            });
-
-            const keys = Object.keys(addresstypes);
-            const thisself = this;
-              keys.forEach((addr) => {
-                var info = addresstypes[addr];
-                console.log(info);
-                info["address"] = addr;
-                thisself.items.push(info);
-              });
-
-            // this.items = response.body;
-            // this.updatetx();
+          const addresstypes = {};
+          response.body.map(async (addrinfo) => {
+            if (addresstypes[addrinfo.address]) {
+              addresstypes[addrinfo.address].cardcount += parseInt(addrinfo.cardcount);
+              addresstypes[addrinfo.address].paid += parseFloat(addrinfo.paid);
+              addresstypes[addrinfo.address].rebate += parseFloat(addrinfo.rebate);
+            } else {
+              addresstypes[addrinfo.address] = {};
+              addresstypes[addrinfo.address].cardcount = parseInt(addrinfo.cardcount);
+              addresstypes[addrinfo.address].paid = parseFloat(addrinfo.paid);
+              addresstypes[addrinfo.address].rebate = parseFloat(addrinfo.rebate);
+            }
           });
-    }
-  }
+
+          const keys = Object.keys(addresstypes);
+          const thisself = this;
+          keys.forEach((addr) => {
+            const info = addresstypes[addr];
+            console.log(info);
+            info.address = addr;
+            thisself.items.push(info);
+          });
+
+          // this.items = response.body;
+          // this.updatetx();
+        });
+    },
+  },
 };
 </script>
 
 <style scoped>
-.back_img{
-    background: url(/static/assets/card_profile_top.png) no-repeat top ,
-     url(/static/assets/card_profile_end.png) no-repeat bottom,
-     url(/static/assets/card_profile.png) repeat-y ;
-    background-size: 100%;
-    padding:3% 4% 4%;
+.back_img {
+  background: url(/static/assets/card_profile_top.png) no-repeat top,
+    url(/static/assets/card_profile_end.png) no-repeat bottom,
+    url(/static/assets/card_profile.png) repeat-y;
+  background-size: 100%;
+  padding: 3% 4% 4%;
 }
-.back_color{
-    width: 100%;
-    padding: 40px;
-    background-color: #ecdaa8;
+.back_color {
+  width: 100%;
+  padding: 40px;
+  background-color: #ecdaa8;
 }
-.title11{
-     width: 100%;
-     height: 50px;
-     display: flex;
-    justify-content: center
+.title11 {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
 }
-.line1{
-     width: 30%;
-     height: 42px;
-     float: left;
-     color:#f8d195;
-     font-size: 24px;
-     text-align: center;
+.line1 {
+  width: 30%;
+  height: 42px;
+  float: left;
+  color: #f8d195;
+  font-size: 24px;
+  text-align: center;
 }
-.title_1{
-    margin: 0px auto;
-    width: 90%;
-    height: 50px;
-    border: 3px solid #a48554;
-    border-radius: 40px;
-    background-color: #e8cc97;
+.title_1 {
+  margin: 0px auto;
+  width: 90%;
+  height: 50px;
+  border: 3px solid #a48554;
+  border-radius: 40px;
+  background-color: #e8cc97;
 }
-.input1{
-    margin: 30px 0px 30px 0px;
-    display: flex;
-    align-content: space-between;
-    justify-content: center;
-    flex-wrap: wrap;
+.input1 {
+  margin: 30px 0px 30px 0px;
+  display: flex;
+  align-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.title_2{
-    padding: 5px;
-    text-align: center;
-    font-size: 20px;
-    color: #5c3000;
+.title_2 {
+  padding: 5px;
+  text-align: center;
+  font-size: 20px;
+  color: #5c3000;
 }
-.title3{
-    margin-top: 8px;
-    width: 130px;
+.title3 {
+  margin-top: 8px;
+  width: 130px;
 }
-.btn{
-    margin-left: 10px;
-    width: 111px;
-    height: 35px;
-    background-color: #90dc5c;
-    border: 3px solid #dcf4cc;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 28px;
+.btn {
+  margin-left: 10px;
+  width: 111px;
+  height: 35px;
+  background-color: #90dc5c;
+  border: 3px solid #dcf4cc;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 28px;
 }
-.input{
-    width: 60%;
-    background-color: #d9b473;
-    border-radius: 8px;
+.input {
+  width: 60%;
+  background-color: #d9b473;
+  border-radius: 8px;
 }
-input{
-    width: 100%;
-    background:none;
-    outline:none;
-    border:0px;
-    color: #906718;
+input {
+  width: 100%;
+  background: none;
+  outline: none;
+  border: 0px;
+  color: #906718;
 }
-.invite{
-    margin-top: 30px;
-    width: 100%;
-    display: flex;
-    align-content: space-between;
-    justify-content: center;
+.invite {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  align-content: space-between;
+  justify-content: center;
 }
-.line{
-    width: 20%;
-    height: 2px;
-    margin-top: 3px;
-    background-color: #5c3000;
+.line {
+  width: 20%;
+  height: 2px;
+  margin-top: 3px;
+  background-color: #5c3000;
 }
-.app_list{
-    width: 300px;
-    height: 50px;
-    border: 0px;
-    border-radius: 40px;
-    background-color: #e0c48f;
-    margin: 0px auto;
+.app_list {
+  width: 300px;
+  height: 50px;
+  border: 0px;
+  border-radius: 40px;
+  background-color: #e0c48f;
+  margin: 0px auto;
 }
-.app_list ul li{
-    float: left;
+.app_list ul li {
+  float: left;
 }
-.app_list ul li img{
-    width: 30px;
-    height: 30px;
-    margin-top: 11px;
-    margin-left: 6px;
+.app_list ul li img {
+  width: 30px;
+  height: 30px;
+  margin-top: 11px;
+  margin-left: 6px;
 }
 
 .invitelist ul {
-    display: flex;
-    height: 30px;
-    text-align: center;
+  display: flex;
+  height: 30px;
+  text-align: center;
 }
 .ul1 {
-    flex: 20%;
+  flex: 20%;
 }
 .ul2 {
-    flex: 10%;
+  flex: 10%;
 }
 .ul3 {
-    flex: 25%;
+  flex: 25%;
 }
 .ul4 {
-    flex: 25%;
+  flex: 25%;
 }
 .ul1addr {
-    font-family: monospace;
+  font-family: monospace;
 }
 
-@media screen and (max-width: 450px){
-    .back_color{
-
+@media screen and (max-width: 450px) {
+  .back_color {
     padding: 9px;
-    }
-    .input{
+  }
+  .input {
     width: 90%;
-    }
-    .title_2{
+  }
+  .title_2 {
     font-size: 13px;
-}
- .btn{
+  }
+  .btn {
     margin-top: 20px;
-}
-.line1{
+  }
+  .line1 {
     font-size: 19px;
-}
-.app_list ul li img[data-v-7bd60c08] {
+  }
+  .app_list ul li img[data-v-7bd60c08] {
     margin-top: 10px;
     margin-left: 6px;
-}
+  }
 }
 </style>
