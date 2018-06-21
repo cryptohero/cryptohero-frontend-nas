@@ -33,8 +33,8 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1maHwrheEGvU9KBDssVnFGKQ9HrX2fTt7n',
       // contractAddress: 'n1phe2rcC1yAzRg3tiAxmPc3ZcxebZNKetw',
       // contractAddress: 'n21Rp5D8VHr8n759zUMVBVAW1ec3UFuoZfM',
-      // Mainnet
-      contractAddress: 'n1esuPkNpiTVWyc8UJxtpgGHFPy9bZrqxjY',
+      // Testnet now
+      contractAddress: 'n1mfJCqWKpMTZw4VGPaHeQ91jPNf8xpimeG',
       network: 'testnet',
     });
   }
