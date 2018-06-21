@@ -76,14 +76,21 @@
             <ul style="margin-top: 32px;">
               <li>
                 <div class="text1">
+                  <p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p>
                   <p>{{item.attack}}</p>
-                  <p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p></div>
+                </div>
               </li>
               <li>
-                <div class="text1"><p>{{item.range}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #62d1ae , #5db23b)', border: '2px', width: item.range + 'px',  height: '10px',margin: '6px'}" ></p></div>
+                <div class="text1">
+                  <p v-bind:style="{ background: 'linear-gradient(to right, #62d1ae , #5db23b)', border: '2px', width: item.range + 'px',  height: '10px',margin: '6px'}" ></p>
+                  <p>{{item.range}}</p>
+                </div>
               </li>
               <li>
-                <div class="text1"><p>{{item.defence}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #96789a , #7a86ae)', border: '2px', width: item.defence + 'px',  height: '10px',margin: '6px'}" ></p></div>
+                <div class="text1">
+                  <p v-bind:style="{ background: 'linear-gradient(to right, #96789a , #7a86ae)', border: '2px', width: item.defence + 'px',  height: '10px',margin: '6px'}" ></p>
+                  <p>{{item.defence}}</p>
+                </div>
               </li>
 
               <li>
