@@ -17,7 +17,7 @@
     </div>
       <div class="usercontent">
         <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
-        <p class="useraddress">{{$t('Content4')}}{{total}} /108 {{$t('CardUnit')}} <el-button id="btn" type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
+        <p class="useraddress">{{$t('Content4')}}{{total}} / 108 {{$t('CardUnit')}} <el-button id="btn" type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
@@ -210,18 +210,17 @@ export default {
         return arr2.contains(0) ? null : o;
       });
     },
-   async claim() {
-    if(this.total == 108) {
-      $("#btn").attr("disabled",true);
-    }else{
-      $("#btn").attr("disabled",false);
-    }
-     const contract = new LinkIdol();
-     const result = await contract.claim();
-     console.error("claimres:"+result);
-     if(result != "cancel") {
-       this.rankAfterClaim(result);
-     }
+    async claim() {
+      if (this.total < 108) {
+        alert("尚未集满108种卡牌，无法进行兑换。");
+        return
+      }
+      const contract = new LinkIdol();
+      const result = await contract.claim();
+      console.error("claimres:"+result);
+      if (result != "cancel") {
+        this.rankAfterClaim(result);
+      }
     },
     fun() {
       this.ObjecSort(this.typeFlag);
