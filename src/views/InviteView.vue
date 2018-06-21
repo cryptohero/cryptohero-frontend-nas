@@ -12,7 +12,7 @@
                 <div class="input">
                     <input type="search" :value="myRefferalLink" disabled>
                 </div>
-                <div class="btn">{{$t('Linkcpy')}}</div>
+                <div class="btn" :data-clipboard-text="myRefferalLink">{{$t('Linkcpy')}}</div>
             </div>
 
             <div class="invitelist">
@@ -25,7 +25,7 @@
             </div>
             <div class="invitelist" v-for="( item, index ) in items" :key="item.id">
                   <ul>
-                    <router-link class="ul1 ul1addr" :to="{ name: 'User', params:{address: item.address}}"> 
+                    <router-link class="ul1 ul1addr" :to="{ name: 'User', params:{address: item.address}}">
                         {{ item.address.slice(-6).toUpperCase() }}
                     </router-link>
                     <li class="ul2"> {{ item.cardcount }}</li>
@@ -62,7 +62,7 @@ import { mapState } from 'vuex';
 
 export default {
   created() {
-    const clipboard = new Clipboard('.button');
+    const clipboard = new Clipboard('.btn');
     clipboard.on('success', (e) => {
       e.clearSelection();
     });
@@ -70,7 +70,7 @@ export default {
   name: 'InviteView',
   data: () => ({
     title: '邀请好友',
-    items: []
+    items: [],
   }),
   computed: {
     ...mapState(['me']),
@@ -87,39 +87,39 @@ export default {
     invite(index) {
       return `Invite_${index}`;
     },
-  // },
-  // async mounted() {
+    // },
+    // async mounted() {
     async getuserinvitelist() {
-        this.$http.get(this.$store.getters.getServerURL+`inviteshuihulist.php?address=${this.me}&t=0&witchnet=${this.$store.getters.getContractNet}`)
+      this.$http.get(`${this.$store.getters.getServerURL}inviteshuihulist.php?address=${this.me}&t=0&witchnet=${this.$store.getters.getContractNet}`)
         .then((response) => {
-            var addresstypes = {}
-            response.body.map(async (addrinfo) => {
-                if (addresstypes[addrinfo["address"]]) {
-                    addresstypes[addrinfo["address"]]["cardcount"]+=parseInt(addrinfo["cardcount"]);
-                    addresstypes[addrinfo["address"]]["paid"]+=parseFloat(addrinfo["paid"]);
-                    addresstypes[addrinfo["address"]]["rebate"]+=parseFloat(addrinfo["rebate"]);
-                } else {
-                    addresstypes[addrinfo["address"]] = {};
-                    addresstypes[addrinfo["address"]]["cardcount"]=parseInt(addrinfo["cardcount"]);
-                    addresstypes[addrinfo["address"]]["paid"]=parseFloat(addrinfo["paid"]);
-                    addresstypes[addrinfo["address"]]["rebate"]=parseFloat(addrinfo["rebate"]);
-                }
-            });
-
-            const keys = Object.keys(addresstypes);
-            const thisself = this;
-              keys.forEach((addr) => {
-                var info = addresstypes[addr];
-                console.log(info);
-                info["address"] = addr;
-                thisself.items.push(info);
-              });
-
-            // this.items = response.body;
-            // this.updatetx();
+          const addresstypes = {};
+          response.body.map(async (addrinfo) => {
+            if (addresstypes[addrinfo.address]) {
+              addresstypes[addrinfo.address].cardcount += parseInt(addrinfo.cardcount);
+              addresstypes[addrinfo.address].paid += parseFloat(addrinfo.paid);
+              addresstypes[addrinfo.address].rebate += parseFloat(addrinfo.rebate);
+            } else {
+              addresstypes[addrinfo.address] = {};
+              addresstypes[addrinfo.address].cardcount = parseInt(addrinfo.cardcount);
+              addresstypes[addrinfo.address].paid = parseFloat(addrinfo.paid);
+              addresstypes[addrinfo.address].rebate = parseFloat(addrinfo.rebate);
+            }
           });
-    }
-  }
+
+          const keys = Object.keys(addresstypes);
+          const thisself = this;
+          keys.forEach((addr) => {
+            const info = addresstypes[addr];
+            console.log(info);
+            info.address = addr;
+            thisself.items.push(info);
+          });
+
+          // this.items = response.body;
+          // this.updatetx();
+        });
+    },
+  },
 };
 </script>
 
