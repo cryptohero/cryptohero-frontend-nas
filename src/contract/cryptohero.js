@@ -253,10 +253,8 @@ export default class LinkIdolContract extends Contract {
   }
 
   async getHoldersStat() {
-    const res = Promise.all({
-      return await this.call({
+    const res = await this.call({
       functionName: 'getHoldersStat',
-    });
     });
     if(res !== null) {
       return JSON.parse(res);
