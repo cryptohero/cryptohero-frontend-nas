@@ -33,9 +33,9 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1maHwrheEGvU9KBDssVnFGKQ9HrX2fTt7n',
       // contractAddress: 'n1phe2rcC1yAzRg3tiAxmPc3ZcxebZNKetw',
       // contractAddress: 'n21Rp5D8VHr8n759zUMVBVAW1ec3UFuoZfM',n1vxH1wU3pkx4LiMoiUZ9pzftnQpQEYSYER
-      // Testnet now
+      // Testnet now n1kkgRzJ6fRRAP6GfrxcS6aktHXKUddvqcK
       // contractAddress: 'n1yWYJNPmMbaZyu9ciFTQp45CvXFefy5N9Z',n1pnCYeqEtTF1YWTL1z17PFvrQX5imdp3pT n22DKPhXbDgv59nA72cwG9N9Q5G11FNkiwT
-      contractAddress: 'n1kkgRzJ6fRRAP6GfrxcS6aktHXKUddvqcK',
+      contractAddress: 'n1jJkHQqce9e9Hp2qTQDXE32gN8UNKc3h4C',
       network: 'testnet',
     });
   }
@@ -267,7 +267,7 @@ export default class LinkIdolContract extends Contract {
       parms: [user],
     });
     if(res !== null) {
-      return JSON.parse(res);
+      return JSON.parse(res)  //new BigNumber(res).dividedBy(100000000);
     }
     return 0;
   }
@@ -276,8 +276,9 @@ export default class LinkIdolContract extends Contract {
       functionName: 'getTotalEarnByShare',
       parms: [user],
     });
-    if(res !== null) {
-      return JSON.parse(res);
+    console.error(res)
+    if(res !== 'null') {
+      return  NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
   }
@@ -287,8 +288,8 @@ export default class LinkIdolContract extends Contract {
       functionName: 'getTotalEarnByReference',
       parms: [user],
     });
-    if(res !== null) {
-      return JSON.parse(res);
+    if(res !== 'null') {
+      return  NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
   }
@@ -298,7 +299,7 @@ export default class LinkIdolContract extends Contract {
       functionName: 'getBalance',
     });
     if(res !== null) {
-      return JSON.parse(res);
+      return NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
   }
@@ -306,8 +307,8 @@ export default class LinkIdolContract extends Contract {
     const res = await this.call({
       functionName: 'getTotalEarnByShareAllUser',
     });
-    if(res !== null) {
-      return JSON.parse(res);
+    if(res !== 'null') {
+      return  NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
   }
@@ -316,7 +317,7 @@ export default class LinkIdolContract extends Contract {
       functionName: 'getTotalEarnByReferenceAllUser',
     });
     if(res !== null) {
-      return JSON.parse(res);
+      return NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
   }

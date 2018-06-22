@@ -62,17 +62,17 @@ export default {
     async getBalance() {
       const idol = new Contract();
       const result = await idol.getBalance();
-      return result||0;
+      return JSON.parse(result)||0;
     },
     async getTotalEarnByShareAllUser() {
       const idol = new Contract();
       const result = await idol.getTotalEarnByShareAllUser();
-      return result||0;
+      return JSON.parse(result)||0;
     },
     async getTotalEarnByReferenceAllUser() {
       const idol = new Contract();
       const result = await idol.getTotalEarnByReferenceAllUser();
-      return result||0;
+      return JSON.parse(result)||0;
     }
 
   },
@@ -185,7 +185,7 @@ export default {
 }
 .price1{
   border-radius: 8px;
-  width: 200px;
+  width: 400px;
   height: 50px;
   background-color: rgba(249, 137, 137, 0.55);
   margin: 20px;
