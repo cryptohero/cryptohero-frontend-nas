@@ -14,8 +14,19 @@
 				 <div class="cardbtn">
 				  	<a> <img class="btnimg" @click="drawClicked()" width="150" alt="" srcset="/static/assets/btn.png"/> </a>
          </div>
-         <div class="txt">
-        <span>{{$t('Recomment')}}</span>  
+        <div class="price">
+          <div class="price1">
+            <b>当前合约余额(nas)：{{this.getBalance}}</b>
+          </div>
+          <div class="price1">
+            <b>总分红金额(nas)：{{this.getTotalEarnByShareAllUser}}</b>
+          </div>
+          <div class="price1">
+            <b>总推荐返利(nas)：{{this.getTotalEarnByReferenceAllUser}}</b>
+          </div>
+        </div>
+          <div class="txt">
+        <span>{{$t('Recomment')}}</span>
         </div>
       </div>
 		  </div>
@@ -47,7 +58,24 @@ export default {
   },
 
   computed: {},
+  asyncComputed: {
+    async getBalance() {
+      const idol = new Contract();
+      const result = await idol.getBalance();
+      return result||0;
+    },
+    async getTotalEarnByShareAllUser() {
+      const idol = new Contract();
+      const result = await idol.getTotalEarnByShareAllUser();
+      return result||0;
+    },
+    async getTotalEarnByReferenceAllUser() {
+      const idol = new Contract();
+      const result = await idol.getTotalEarnByReferenceAllUser();
+      return result||0;
+    }
 
+  },
   async created() {
 //    this.total = await getTotal();这里去监听了eth合约
 //    const itemIds = await getItemIds(0, this.total);
@@ -144,7 +172,29 @@ export default {
   height: 100vh;
 }
 .columns.is-gapless:last-child {
-    
+
     margin-top: 180px;
+}
+
+.price{
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.price1{
+  border-radius: 8px;
+  width: 200px;
+  height: 50px;
+  background-color: rgba(249, 137, 137, 0.55);
+  margin: 20px;
+  text-align: center;
+  border: 1px solid #ffd67a;
+}
+.price1 b{
+  color: #f7ad89;
+  line-height: 50px;
+  font-size: 18px;
 }
 </style>

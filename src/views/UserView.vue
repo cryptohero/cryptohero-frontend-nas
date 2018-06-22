@@ -62,13 +62,13 @@
 
   <div class="price">
     <div class="price1">
-  <b>总额：0.0000001</b>
+  <b>水浒币(个)：{{this.getShareOfHolder}}</b>
     </div>
     <div class="price1">
-  <b>余额：0.0000001</b>
+  <b>分红(nas)：{{this.getTotalEarnByShare}}</b>
    </div>
    <div class="price1">
-  <b>分红：0.0000001</b>
+  <b>推荐(nas)：{{this.getTotalEarnByReference}}</b>
   </div>
 </div>
   </section>
@@ -150,13 +150,13 @@ export default {
     unCollectData: [],
     actionFlag: true,
   }),
-  asyncComputed: {
+  /*asyncComputed: {
     async profile() {
       const nasId = new NasId();
       const result = await nasId.fetchAccountDetail(this.address);
       return result;
     },
-  },
+  },*/
   components: {
     Message,
     ElInput,
@@ -166,6 +166,21 @@ export default {
     Paginate,
   },
   asyncComputed: {
+    async getShareOfHolder() {
+      const idol = new LinkIdol();
+      const result = await idol.getShareOfHolder(this.address);
+      return result||0;
+    },
+    async getTotalEarnByShare() {
+      const idol = new LinkIdol();
+      const result = await idol.getTotalEarnByShare(this.address);
+      return result||0;
+    },
+    async getTotalEarnByReference() {
+      const idol = new LinkIdol();
+      const result = await idol.getTotalEarnByReference(this.address);
+      return result||0;
+    },
     async profile() {
       const nasId = new NasId();
       const result = await nasId.fetchAccountDetail(this.address);

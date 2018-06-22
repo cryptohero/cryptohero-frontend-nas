@@ -261,4 +261,63 @@ export default class LinkIdolContract extends Contract {
     }
     return null;
   }
+  async getShareOfHolder(user) {
+    const res = await this.call({
+      functionName: 'getShareOfHolder',
+      parms: [user],
+    });
+    if(res !== null) {
+      return JSON.parse(res);
+    }
+    return 0;
+  }
+  async getTotalEarnByShare(user) {
+    const res = await this.call({
+      functionName: 'getTotalEarnByShare',
+      parms: [user],
+    });
+    if(res !== null) {
+      return JSON.parse(res);
+    }
+    return 0;
+  }
+
+  async getTotalEarnByReference(user) {
+    const res = await this.call({
+      functionName: 'getTotalEarnByReference',
+      parms: [user],
+    });
+    if(res !== null) {
+      return JSON.parse(res);
+    }
+    return 0;
+  }
+
+  async getBalance() {
+    const res = await this.call({
+      functionName: 'getBalance',
+    });
+    if(res !== null) {
+      return JSON.parse(res);
+    }
+    return 0;
+  }
+  async getTotalEarnByShareAllUser() {
+    const res = await this.call({
+      functionName: 'getTotalEarnByShareAllUser',
+    });
+    if(res !== null) {
+      return JSON.parse(res);
+    }
+    return 0;
+  }
+  async getTotalEarnByReferenceAllUser() {
+    const res = await this.call({
+      functionName: 'getTotalEarnByReferenceAllUser',
+    });
+    if(res !== null) {
+      return JSON.parse(res);
+    }
+    return 0;
+  }
 }
