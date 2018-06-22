@@ -69,7 +69,7 @@ export default {
     },
     getDisplayTotal() {
       // return new BigNumber(this.getPrice).times(this.count).toNumber();
-      const d = new BigNumber(0.000001); // for mainnet
+      const d = new BigNumber(0.00001); // for mainnet
       // const d = new BigNumber(0.00000000000000001); // for testnet
       const a0 = new BigNumber(this.getPrice);
       const n = new BigNumber(this.count);
