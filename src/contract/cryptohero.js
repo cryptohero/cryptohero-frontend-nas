@@ -34,7 +34,7 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1phe2rcC1yAzRg3tiAxmPc3ZcxebZNKetw',
       // contractAddress: 'n21Rp5D8VHr8n759zUMVBVAW1ec3UFuoZfM',n1vxH1wU3pkx4LiMoiUZ9pzftnQpQEYSYER
       // Testnet now
-      contractAddress: 'n1iEzA2nzA9yaLz7oyLJFctT5Q2NmDSoiFf',
+      contractAddress: 'n1tiM3qpaB1NMSHEeUeh1dpzfmbexdbDHWb',
       network: 'testnet',
     });
   }
@@ -45,7 +45,7 @@ export default class LinkIdolContract extends Contract {
       value: new BigNumber(value).times(1000000000000000000).toString(),
       args: [referrer],
     }).then(console.info);
-    console.log(`call return:${t}`);
+    // console.log(`call return:${t}`);
     // const result = await this.send(
     //   {
     //     functionName: 'multiDraw',
