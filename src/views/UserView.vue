@@ -1,6 +1,6 @@
 <template>
 <div>
-<section>
+<section onload="init1()">
   <div class="userContainer" v-if="!profile">
     <div class="">
       <h2 class="title"  style="color: aliceblue">
@@ -11,9 +11,7 @@
   <div class="userContainer" v-else>
     <div class="" >
       <a href="http://nasid.pro">
-        <figure>
           <img :src="profile.avatar" alt="Identicon" style="border-radius: 50%;  width: 100px;">
-        </figure>
       </a>
     </div><br>
       <div class="">
@@ -140,15 +138,6 @@ export default {
     unCollectData: [],
     actionFlag: true,
   }),
-  watch: {
-    claim: function(){
-      this.$nextTick(function () {
-        if(this.total < 108){
-          $("btn").attr("disabled","true");
-        }
-      });
-    }
-  },
   asyncComputed: {
     async profile() {
       const nasId = new NasId();
@@ -202,10 +191,13 @@ export default {
       return result;
     },
   },
+beforeMount: function(){
+  this.$nextTick(function() {
+    alert("xxx");
+    $("#btn").attr("disabled", "true");
+  });
+},
   methods: {
-    fun() {
-      window.location.href="http://nasid.pro";
-    },
     NotClection() {
       this.allCardsInfo = this.unCollectData.sort(this.compare('code'));
       this.cardlist = this.allCardsInfo.slice(0,8);
