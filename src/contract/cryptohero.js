@@ -264,7 +264,7 @@ export default class LinkIdolContract extends Contract {
   async getShareOfHolder(user) {
     const res = await this.call({
       functionName: 'getShareOfHolder',
-      parms: [user],
+      args: [user],
     });
     if(res !== null) {
       return JSON.parse(res)  //new BigNumber(res).dividedBy(100000000);
@@ -274,9 +274,8 @@ export default class LinkIdolContract extends Contract {
   async getTotalEarnByShare(user) {
     const res = await this.call({
       functionName: 'getTotalEarnByShare',
-      parms: [user],
+      args: [user],
     });
-    console.error(res)
     if(res !== 'null') {
       return  NasTool.fromWeiToNas(JSON.parse(res));
     }
@@ -286,8 +285,9 @@ export default class LinkIdolContract extends Contract {
   async getTotalEarnByReference(user) {
     const res = await this.call({
       functionName: 'getTotalEarnByReference',
-      parms: [user],
+      args: [user],
     });
+    console.error(res)
     if(res !== 'null') {
       return  NasTool.fromWeiToNas(JSON.parse(res));
     }
@@ -298,7 +298,7 @@ export default class LinkIdolContract extends Contract {
     const res = await this.call({
       functionName: 'getBalance',
     });
-    if(res !== null) {
+    if(res !== 'null') {
       return NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
