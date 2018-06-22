@@ -17,10 +17,10 @@
 
             <div class="invitelist">
                 <ul>
-                    <li class="ul1">被邀请人</li>
+                    <li class="ul1">{{$t('InvitedMan')}}</li>
                     <!-- <li class="ul2">抽卡数量</li> -->
-                    <li class="ul3">区块高度</li>
-                    <li class="ul4">返利金额</li>
+                    <li class="ul3">{{$t('BlockHight')}}</li>
+                    <li class="ul4">{{$t('RebateAmount')}}</li>
                 </ul>
             </div>
                   <!-- <p> Display {{getReferralHistory}} </p> -->
