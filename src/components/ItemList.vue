@@ -3,7 +3,7 @@
     <router-link v-for="item in itemIds"
                  v-if="item"
                  :to="{ name: 'Item', params:{id: item.tokenId,code: item.code}}"
-                 :key=item.code.toString()
+                 :key=item.tokenId.toString()
                  class="column
            is-full-mobile
            is-one-quarter-tablet
