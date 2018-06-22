@@ -59,6 +59,18 @@
      <div class="btn-item"><el-button type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button></div>
 
   </div>
+
+  <div class="price">
+    <div class="price1">
+  <b>总额：0.0000001</b>
+    </div>
+    <div class="price1">
+  <b>余额：0.0000001</b>
+   </div>
+   <div class="price1">
+  <b>分红：0.0000001</b>
+  </div>
+</div>
   </section>
   <section>
       <div class="columns is-multiline is-mobile section2div">
@@ -524,13 +536,34 @@ export default {
     width: 90vw;
   }
 }
+.price{
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.price1{
+ border-radius: 8px;
+    width: 200px;
+    height: 50px;
+    background-color: rgba(249, 137, 137, 0.55);
+    margin: 20px;
+    text-align: center;
+    border: 1px solid #ffd67a;
+}
+.price1 b{
+  color: #f7ad89;
+    line-height: 50px;
+    font-size: 18px;
+}
 @media (max-width: 420px) {
   .select select {
     background-color: #fff1ba;
     color: #606266;
 }
   .navbar-item{
-  margin-top: 200px;
+      margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
