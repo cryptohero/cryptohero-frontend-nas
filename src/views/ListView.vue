@@ -126,10 +126,7 @@ export default {
   top: 0;
   left: 0;
 	width: 100%;
-
 }
-
-
 .charaimg{
   width: 80%;
     display: block;
@@ -151,29 +148,20 @@ export default {
         display: block;
     margin-bottom: 30px;
 }
+.columns.is-gapless {
+    margin-top: 290px;
+}
 .txt{
   border:  5px solid darkgoldenrod;
   padding: 10px;
   background-color: blanchedalmond;
-}
-@media screen and (max-width: 414px){
-  .cardcharas{
-    display: none;
-  }
-  .btnContainer {
-	padding-top: 17%;
-  /*background-color: #ccc;*/
-}
+  margin-top: 70px;
 }
 .loader-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-}
-.columns.is-gapless:last-child {
-
-    margin-top: 180px;
 }
 
 .price{
@@ -197,4 +185,25 @@ export default {
   line-height: 50px;
   font-size: 18px;
 }
+@media screen and (max-width: 500px){
+  .cardcharas{
+    display: none;
+  }
+  .btnContainer {
+	padding-top: 17%;
+  }
+  .price1 b{
+  line-height: normal;
+}
+.price1{
+   height: 80px;
+   padding: 10px;
+}
+.columns.is-gapless:last-child {
+
+   margin-top: 585px;
+}
+
+}
+
 </style>
