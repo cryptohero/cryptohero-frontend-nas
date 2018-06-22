@@ -1,6 +1,6 @@
 <template>
 <div>
-<section onload="init1()">
+<section>
   <div class="userContainer" v-if="!profile">
     <div class="">
       <h2 class="title"  style="color: aliceblue">
@@ -191,12 +191,6 @@ export default {
       return result;
     },
   },
-beforeMount: function(){
-  this.$nextTick(function() {
-    alert("xxx");
-    $("#btn").attr("disabled", "true");
-  });
-},
   methods: {
     NotClection() {
       this.allCardsInfo = this.unCollectData.sort(this.compare('code'));
@@ -217,6 +211,7 @@ beforeMount: function(){
     },
     async claim() {
       if (this.total < 108) {
+        alert("尚未集满108种卡牌，无法进行兑换。");
         $("#btn").attr("disabled","true");
       }
       const contract = new LinkIdol();
