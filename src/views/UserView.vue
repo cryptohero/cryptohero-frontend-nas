@@ -2,21 +2,22 @@
 <div>
 <section>
   <div class="userContainer" v-if="!profile">
-    <div class="usercontent">
-      <h2 class="title">Loading Profile, please wait
+    <div class="">
+      <h2 class="title"  style="color: aliceblue">
+        Loading Profile, please wait……
       </h2>
     </div>
   </div>
   <div class="userContainer" v-else>
-    <div class="usericon" >
+    <div class="" >
       <a href="http://nasid.pro">
         <figure>
           <img :src="profile.avatar" alt="Identicon" style="border-radius: 50%;  width: 100px;">
         </figure>
       </a>
-    </div>
-      <div class="usercontent">
-        <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
+    </div><br>
+      <div class="">
+        <h2 class="title" style="color: aliceblue"> {{profile.nickname}} {{$t('Collect')}} </h2>
         <p class="useraddress">{{$t('Content4')}}{{total}} / 108 {{$t('CardUnit')}} <el-button id="btn" type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
@@ -58,7 +59,7 @@
      </div>
      <div class="btn-item"><el-button type="error" plain @click.native="NotClection()">{{$t('UnCollected')}}</el-button></div>
      <div class="btn-item"><el-button type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button></div>
-     
+
   </div>
   </section>
   <section>
@@ -139,6 +140,15 @@ export default {
     unCollectData: [],
     actionFlag: true,
   }),
+  watch: {
+    claim: function(){
+      this.$nextTick(function () {
+        if(this.total < 108){
+          $("btn").attr("disabled","true");
+        }
+      });
+    }
+  },
   asyncComputed: {
     async profile() {
       const nasId = new NasId();
@@ -193,6 +203,9 @@ export default {
     },
   },
   methods: {
+    fun() {
+      window.location.href="http://nasid.pro";
+    },
     NotClection() {
       this.allCardsInfo = this.unCollectData.sort(this.compare('code'));
       this.cardlist = this.allCardsInfo.slice(0,8);
@@ -212,8 +225,7 @@ export default {
     },
     async claim() {
       if (this.total < 108) {
-        alert("尚未集满108种卡牌，无法进行兑换。");
-        return
+        $("#btn").attr("disabled","true");
       }
       const contract = new LinkIdol();
       const result = await contract.claim();
@@ -391,7 +403,7 @@ export default {
   background-repeat: no-repeat;
   width: 100%;
   /*padding-top: 43.5%;*/
-  padding-top: 28%;
+  padding-top: 3%;
   position: relative;
   text-align: center;
 }
@@ -430,7 +442,7 @@ export default {
 }
 .title11{
   width: 100%;
-  margin-top: 103px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   color: blanchedalmond;
