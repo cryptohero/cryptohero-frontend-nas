@@ -81,7 +81,7 @@ jobs:
             sudo npm i -g surge          
             cd ./dist/dist/
             # echo "testing.cryptohero.pro" >> CNAME # add custom domain
-            surge --project ./ --domain cryptohero-nas.etherfen.com
+            surge --project ./ --domain nas-test.cryptohero.pro
 
 
 workflows:

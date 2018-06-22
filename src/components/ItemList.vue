@@ -2,8 +2,8 @@
   <div class="columns is-multiline is-gapless is-mobile">
     <router-link v-for="item in itemIds"
                  v-if="item"
-                 :to="{ name: 'Item', params:{id: item.tokenId}}"
-                 :key=item.code.toString()
+                 :to="{ name: 'Item', params:{id: item.tokenId,code: item.code}}"
+                 :key=item.tokenId.toString()
                  class="column
            is-full-mobile
            is-one-quarter-tablet

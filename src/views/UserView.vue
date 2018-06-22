@@ -2,22 +2,21 @@
 <div>
 <section>
   <div class="userContainer" v-if="!profile">
-    <div class="usercontent">
-      <h2 class="title">Loading Profile, please wait
+    <div class="">
+      <h2 class="title"  style="color: aliceblue">
+        Loading Profile, please wait……
       </h2>
     </div>
   </div>
   <div class="userContainer" v-else>
-    <div class="usericon" >
+    <div class="" >
       <a href="http://nasid.pro">
-        <figure>
           <img :src="profile.avatar" alt="Identicon" style="border-radius: 50%;  width: 100px;">
-        </figure>
       </a>
-    </div>
-      <div class="usercontent">
-        <h2 class="title"> {{profile.nickname}} {{$t('Collect')}} </h2>
-        <p class="useraddress">{{$t('Content4')}}{{total}} /108 {{$t('CardUnit')}} <el-button type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
+    </div><br>
+      <div class="">
+        <h2 class="title" style="color: aliceblue"> {{profile.nickname}} {{$t('Collect')}} </h2>
+        <p class="useraddress">{{$t('Content4')}}{{total}} / 108 {{$t('CardUnit')}} <el-button id="btn" type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
@@ -35,8 +34,8 @@
                 <option value="price">{{$t('Sort3')}}</option>
               </select>
             </div>
-            <el-button  style="margin: 5px" type="error" plain @click.native="NotClection()">未集卡牌</el-button>
-            <el-button  style="margin: 5px" type="info" plain @click.native="HadClection()">已集卡牌</el-button>
+            <el-button  style="margin: 5px" type="error" plain @click.native="NotClection()">{{$t('UnCollected')}}</el-button>
+            <el-button  style="margin: 5px" type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button>
             </div>
             <div class="btn-item" style="display: flex">
             <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
@@ -56,9 +55,22 @@
        <el-input :placeholder="$t('Reminder')" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
     <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
      </div>
-     <div class="btn-item"><el-button type="error" plain @click.native="NotClection()">未集卡牌</el-button></div>
-     <div class="btn-item"><el-button type="info" plain @click.native="HadClection()">已集卡牌</el-button></div>
+     <div class="btn-item"><el-button type="error" plain @click.native="NotClection()">{{$t('UnCollected')}}</el-button></div>
+     <div class="btn-item"><el-button type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button></div>
+
   </div>
+
+  <div class="price">
+    <div class="price1">
+  <b>水浒币(个)：{{this.getShareOfHolder}}</b>
+    </div>
+    <div class="price1">
+  <b>分红(nas)：{{this.getTotalEarnByShare}}</b>
+   </div>
+   <div class="price1">
+  <b>推荐(nas)：{{this.getTotalEarnByReference}}</b>
+  </div>
+</div>
   </section>
   <section>
       <div class="columns is-multiline is-mobile section2div">
@@ -73,7 +85,7 @@
         v-for="item in cardlist"  :key="item.id"
         @mouseover="lightShow(item.code)"
         @mouseout="lightunShow(item.code)"
-        @click="gotoCoinProfile(item.tokenId)" style="margin-top: 18px;">
+        @click="gotoCoinProfile(item)" style="margin-top: 18px;">
             <div class="smallcardcharas">
               <img class="charaimg" v-lazy="getCardBack()">
             </div>
@@ -84,7 +96,7 @@
           <div class="imageborder3">
             <span>
             <a  class="name" :style="{ lineHeight: '10px', color: item.textcolor, paddingLeft: '30px' }">
-              {{item.name}} · {{item.nickname}}</a>
+              {{item.nickname}} · {{item.name}}</a>
           </span>
           </div>
           <!-- <CardItem :item='item' :hasMouseOver='true'></CardItem> -->
@@ -138,13 +150,13 @@ export default {
     unCollectData: [],
     actionFlag: true,
   }),
-  asyncComputed: {
+  /*asyncComputed: {
     async profile() {
       const nasId = new NasId();
       const result = await nasId.fetchAccountDetail(this.address);
       return result;
     },
-  },
+  },*/
   components: {
     Message,
     ElInput,
@@ -154,6 +166,21 @@ export default {
     Paginate,
   },
   asyncComputed: {
+    async getShareOfHolder() {
+      const idol = new LinkIdol();
+      const result = await idol.getShareOfHolder(this.address);
+      return result||0;
+    },
+    async getTotalEarnByShare() {
+      const idol = new LinkIdol();
+      const result = await idol.getTotalEarnByShare(this.address);
+      return JSON.parse(result)||0;
+    },
+    async getTotalEarnByReference() {
+      const idol = new LinkIdol();
+      const result = await idol.getTotalEarnByReference(this.address);
+      return JSON.parse(result)||0;
+    },
     async profile() {
       const nasId = new NasId();
       const result = await nasId.fetchAccountDetail(this.address);
@@ -209,13 +236,17 @@ export default {
         return arr2.contains(0) ? null : o;
       });
     },
-   async claim() {
-     const contract = new LinkIdol();
-     const result = await contract.claim();
-     console.error("claimres:"+result);
-     if(result != "cancel") {
-       this.rankAfterClaim(result);
-     }
+    async claim() {
+      if (this.total < 108) {
+        alert("尚未集满108种卡牌，无法进行兑换。");
+        $("#btn").attr("disabled","true");
+      }
+      const contract = new LinkIdol();
+      const result = await contract.claim();
+      console.error("claimres:"+result);
+      if (result != "cancel") {
+        this.rankAfterClaim(result);
+      }
     },
     fun() {
       this.ObjecSort(this.typeFlag);
@@ -278,9 +309,11 @@ export default {
         this.queryResult('code');
       }
     },
-    gotoCoinProfile(code) {
+    gotoCoinProfile(em) {
+      console.error(em);
+
       if(this.actionFlag){
-        this.$router.push({ path: `/item/${code}` });
+        this.$router.push({ path: `/item/${em.tokenId}/${em.code}`});
       } else {
         Message.warning({
           message: '请到首页购买，或抽牌，谢谢!',
@@ -309,12 +342,13 @@ export default {
     },
     rankAfterClaim(snres) {
       // 0 failed, 1 success, 2 pending
-      const contract = new LinkIdol();
-      setTimeout(async () => {  
-        const result1 = await contract.checkSerialNumber(snres);
-        console.error("claimres:"+result1)
-        if (JSON.parse(result1)["data"]["status"] == 1) {
-          console.error("claimres:"+JSON.parse(result1)["data"]["status"])
+      // const contract = new LinkIdol();
+      // setTimeout(async () => {
+      //   const result1 = await contract.checkSerialNumber(snres);
+      //   console.error("claimres:"+result1)
+      //   if (JSON.parse(result1)["data"]["status"] == 1) {
+        if (this.total >= 108) {
+          // console.error("claimres:"+JSON.parse(result1)["data"]["status"])
           const formData = new FormData();
           formData.append('address', this.address);
           this.$http.post(this.$store.getters.getServerURL+'addrankshuihunas.php', formData)
@@ -323,10 +357,10 @@ export default {
               console.log(res);
             });
         }
-      }, 30000);
+      // }, 30000);
     }
   },
-  async created() {
+  created() {
    /* for(var i=0;i<cardsInfo().length;i++){
       this.lightisShow[i] = false;
     }*/
@@ -384,7 +418,7 @@ export default {
   background-repeat: no-repeat;
   width: 100%;
   /*padding-top: 43.5%;*/
-  padding-top: 28%;
+  padding-top: 3%;
   position: relative;
   text-align: center;
 }
@@ -423,7 +457,7 @@ export default {
 }
 .title11{
   width: 100%;
-  margin-top: 103px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   color: blanchedalmond;
@@ -517,13 +551,34 @@ export default {
     width: 90vw;
   }
 }
+.price{
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.price1{
+ border-radius: 8px;
+    width: 200px;
+    height: 50px;
+    background-color: rgba(249, 137, 137, 0.55);
+    margin: 20px;
+    text-align: center;
+    border: 1px solid #ffd67a;
+}
+.price1 b{
+  color: #f7ad89;
+    line-height: 50px;
+    font-size: 18px;
+}
 @media (max-width: 420px) {
   .select select {
     background-color: #fff1ba;
     color: #606266;
 }
   .navbar-item{
-  margin-top: 200px;
+      margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

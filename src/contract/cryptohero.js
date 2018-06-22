@@ -8,7 +8,7 @@ import NebPay from 'nebpay.js';
 
 const nebPay = new NebPay();
 
-function getCardInfoByHeroId(id, tokenId, prices) {
+function getCardInfoByHeroId(id, tkId, prices) {
   const basic = heroProfile[id];
   const status = heroStatus[id];
   if (!basic) {
@@ -18,9 +18,11 @@ function getCardInfoByHeroId(id, tokenId, prices) {
     code: id,
     front: `http://test.cdn.hackx.org/heros_new/${id}.jpeg`,
     back: `http://test.cdn.hackx.org/backs_new/${id}.jpeg`,
-    tokenId,
   };
-  return Object.assign(basic, cardImage, status, prices);
+
+  const res = Object.assign(basic, cardImage, status, prices);
+  const result = Object.assign({ tokenId: tkId }, res);
+  return result;
   // return basic;
 }
 
@@ -30,10 +32,14 @@ export default class LinkIdolContract extends Contract {
       // contractAddress: 'n1zfZWjMWzW43JFYthPuCmZWcZ21Hg4EGQi',
       // contractAddress: 'n1maHwrheEGvU9KBDssVnFGKQ9HrX2fTt7n',
       // contractAddress: 'n1phe2rcC1yAzRg3tiAxmPc3ZcxebZNKetw',
-      // contractAddress: 'n21Rp5D8VHr8n759zUMVBVAW1ec3UFuoZfM',
-      // Mainnet
-      contractAddress: 'n22HKqrwEz12HEBPrvKcYCPUZxihsYCBLop',
+      // contractAddress: 'n21Rp5D8VHr8n759zUMVBVAW1ec3UFuoZfM',n1vxH1wU3pkx4LiMoiUZ9pzftnQpQEYSYER
+      // Testnet now n1kkgRzJ6fRRAP6GfrxcS6aktHXKUddvqcK
+      // contractAddress: 'n1yWYJNPmMbaZyu9ciFTQp45CvXFefy5N9Z',n1pnCYeqEtTF1YWTL1z17PFvrQX5imdp3pT n22DKPhXbDgv59nA72cwG9N9Q5G11FNkiwT
+      contractAddress: 'n1gDfiiQLEBu95xDWHGxNi4qToyXjD2vE4D',
       network: 'mainnet',
+
+      // contractAddress: 'n1gDfiiQLEBu95xDWHGxNi4qToyXjD2vE4D',
+      // network: 'testnet',
     });
   }
 
@@ -43,7 +49,7 @@ export default class LinkIdolContract extends Contract {
       value: new BigNumber(value).times(1000000000000000000).toString(),
       args: [referrer],
     }).then(console.info);
-    console.log(`call return:${t}`);
+    // console.log(`call return:${t}`);
     // const result = await this.send(
     //   {
     //     functionName: 'multiDraw',
@@ -145,7 +151,7 @@ export default class LinkIdolContract extends Contract {
       {
         functionName: 'buyToken',
         value,
-        data: [id],
+        data: [Number(id)],
       });
     return JSON.parse(result);
   }
@@ -153,7 +159,7 @@ export default class LinkIdolContract extends Contract {
     const result = await this.send(
       {
         functionName: 'setTokenPrice',
-        data: [tokenId, value],
+        data: [tokenId, Number(value)],
       });
     return JSON.parse(result);
   }
@@ -247,5 +253,75 @@ export default class LinkIdolContract extends Contract {
       functionName: 'cheat',
     });
     return res;
+  }
+
+  async getHoldersStat() {
+    const res = await this.call({
+      functionName: 'getHoldersStat',
+    });
+    if(res !== null) {
+      return JSON.parse(res);
+    }
+    return null;
+  }
+  async getShareOfHolder(user) {
+    const res = await this.call({
+      functionName: 'getShareOfHolder',
+      args: [user],
+    });
+    if(res !== null) {
+      return JSON.parse(res)  //new BigNumber(res).dividedBy(100000000);
+    }
+    return 0;
+  }
+  async getTotalEarnByShare(user) {
+    const res = await this.call({
+      functionName: 'getTotalEarnByShare',
+      args: [user],
+    });
+    if(res !== 'null') {
+      return  NasTool.fromWeiToNas(JSON.parse(res));
+    }
+    return 0;
+  }
+
+  async getTotalEarnByReference(user) {
+    const res = await this.call({
+      functionName: 'getTotalEarnByReference',
+      args: [user],
+    });
+    console.error(res)
+    if(res !== 'null') {
+      return  NasTool.fromWeiToNas(JSON.parse(res));
+    }
+    return 0;
+  }
+
+  async getBalance() {
+    const res = await this.call({
+      functionName: 'getBalance',
+    });
+    if(res !== 'null') {
+      return NasTool.fromWeiToNas(JSON.parse(res));
+    }
+    return 0;
+  }
+  async getTotalEarnByShareAllUser() {
+    const res = await this.call({
+      functionName: 'getTotalEarnByShareAllUser',
+    });
+    if(res !== 'null') {
+      return  NasTool.fromWeiToNas(JSON.parse(res));
+    }
+    return 0;
+  }
+  async getTotalEarnByReferenceAllUser() {
+    const res = await this.call({
+      functionName: 'getTotalEarnByReferenceAllUser',
+    });
+    if(res !== null) {
+      return NasTool.fromWeiToNas(JSON.parse(res));
+    }
+    return 0;
   }
 }

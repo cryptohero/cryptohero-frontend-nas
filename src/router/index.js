@@ -10,6 +10,7 @@ import PrivacyView from '@/views/PrivacyView';
 import InviteVie from '@/views/InviteView';
 import RankingList from '@/views/RankingList';
 import LuckyDraw from '@/views/LuckyDraw';
+import Recommend from '@/views/RecommendView';
 
 Vue.use(Router);
 
@@ -39,7 +40,7 @@ export default new Router({
 
     {
       name: 'Item',
-      path: '/item/:id(\\d+)',
+      path: '/item/:id(\\d+)/:code',
       component: ItemView,
     },
     {
@@ -72,5 +73,10 @@ export default new Router({
       path: '/RankingList',
       component: RankingList,
     },
+    {
+      name: 'Recommend',
+      path: '/Recommend/:heroId/:num',
+      component: Recommend,
+    }
   ],
 });

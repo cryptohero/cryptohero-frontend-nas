@@ -50,7 +50,6 @@
               <li>
                 <div class="text"><p>{{$t('Nature4')}}</p></div>
               </li>
-              
               <li>
                 <div class="text"><p>{{$t('Nature5')}}</p></div>
               </li>
@@ -63,7 +62,7 @@
               <li>
                 <div class="text">{{$t('NoId')}}</div>
               </li>
-              
+
               <li>
                 <div class="text">{{$t('Owner')}}</div>
               </li>
@@ -76,13 +75,22 @@
             </ul>
             <ul style="margin-top: 32px;">
               <li>
-                <div class="text1"><p>{{item.attack}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p></div>
+                <div class="text1">
+                  <p v-bind:style="{ background: 'linear-gradient(to right, #e83016 , #f8a050) ', border: '2px', width: item.attack + 'px',  height: '10px',margin: '6px'}" ></p>
+                  <p>{{item.attack}}</p>
+                </div>
               </li>
               <li>
-                <div class="text1"><p>{{item.range}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #62d1ae , #5db23b)', border: '2px', width: item.range + 'px',  height: '10px',margin: '6px'}" ></p></div>
+                <div class="text1">
+                  <p v-bind:style="{ background: 'linear-gradient(to right, #62d1ae , #5db23b)', border: '2px', width: item.range + 'px',  height: '10px',margin: '6px'}" ></p>
+                  <p>{{item.range}}</p>
+                </div>
               </li>
               <li>
-                <div class="text1"><p>{{item.defence}}</p><p v-bind:style="{ background: 'linear-gradient(to right, #96789a , #7a86ae)', border: '2px', width: item.defence + 'px',  height: '10px',margin: '6px'}" ></p></div>
+                <div class="text1">
+                  <p v-bind:style="{ background: 'linear-gradient(to right, #96789a , #7a86ae)', border: '2px', width: item.defence + 'px',  height: '10px',margin: '6px'}" ></p>
+                  <p>{{item.defence}}</p>
+                </div>
               </li>
 
               <li>
@@ -103,23 +111,31 @@
               </li>
               <li>
                 <div class="text">
-                  <router-link :to="{ name: 'User', params:{address: carOwner}}">
+                  <router-link :to="{ name: 'User', params:{address: me}}">
                     {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
                   </router-link>
-        
+
                 </div>
               </li>
                <li>
                 <div class="text">
-                    {{isTokenClaimed}}                  
+                    {{isTokenClaimed}}
                 </div>
               </li>
 
               <li>
-                <div class="text"><input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas<div class="butt">推荐</div></div>
+                <div class="text"><input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas
+                  <div class="butt">
+                    <el-popover
+                  placement="top-start"
+                  title="微信扫描分享"
+                  width="180"
+                  trigger="hover">
+                      <img id="imgId" :src="uri"/>
+                  <el-button slot="reference">微信分享</el-button>
+                </el-popover></div></div>
               </li>
             </ul>
-
             <a>
             <div class="price" @click="buyHero()" v-show="!editFlag">
               <div class="price1">
@@ -151,26 +167,55 @@ import Contract from '@/contract/cryptohero';
 import { NasTool } from '@/api';
 import { toReadablePrice } from '@/util';
 import PulseLoader from 'vue-spinner/src/PulseLoader';
+import ElPopover from "../../node_modules/element-ui/packages/popover/src/main.vue";
 
 export default {
   name: 'item-view',
 
   data() {
     return {
-      lightisShow: [false,false],
+      lightisShow: [false, false],
       owner: '',
       price: '',
       editFlag: false,
       loading: true,
+      uri: '',
+      tkId: '',
+      heroNum: ''
     };
   },
   components: {
+    ElPopover,
     PulseLoader,
   },
   async created() {
-    console.log(this.$route.params.id);
+    this.tkId = this.$route.params.tokenId;
+    const contract = new Contract();
+    const result = await contract.getCardsByAddress(this.me);
+    console.error(result)
+    let num = 0;
+    let tkLength = this.$route.params.id;
+    for(var i in result){
+      if(result[i].tokenId <= tkLength ){
+        num = num + 1;
+      }
+    }
+    this.createMark(num);
   },
   asyncComputed: {
+    async getCardNum() {
+      const contract = new Contract();
+      const result = await contract.getCardsByAddress(this.me);
+      console.error(result)
+      var num = 0;
+      let tkLength = this.$route.params.tokenId;
+      for(var em in result){
+        if(em.tokenId <= tkLength ){
+          num = num + 1;
+        }
+      }
+      return num;
+    },
     async getCardsLeft() {
       const contract = new Contract();
       const result = await contract.getDrawCardsLeft();
@@ -194,9 +239,9 @@ export default {
     async isTokenClaimed() {
       const idol = new Contract();
       const heroId = this.$route.params.id;
-      const result = await idol.isTokenClaimed(heroId);      
-      return result ? true : false;
-    },      
+      const result = await idol.isTokenClaimed(heroId);
+      return !!result;
+    },
     async carOwner() {
       const idol = new Contract();
       const heroId = this.$route.params.id;
@@ -286,10 +331,20 @@ export default {
         } */
     },
   },
-  mounted() {
+ async mounted() {
 
   },
   methods: {
+    createMark(num){
+      var QRCode = require('qrcode')
+      var thiz = this;
+//      const links =window.location.host+'/#/Recommend/'+ this.$route.params.code + '/'+ num  ; 待完善
+      const links = `http://test.cdn.hackx.org/heros_new/${this.$route.params.code}.jpeg`
+      QRCode.toDataURL(links, function (err, url) {
+        thiz.uri = url;
+        return url;
+      })
+    },
     async updatePrice() {
       const contract = new Contract();
       const result = await contract.setTokenPrice({ tokenId: this.itemId, value: this.heroPrice });
@@ -331,20 +386,20 @@ export default {
       const readable = toReadablePrice(priceInWei);
       return `${readable.price} ${readable.unit}`;
     },
-    lightShow: function(id) {
+    lightShow(id) {
       // console.log(id+"qwwwww"+this.lightisShow[id])
       this.lightisShow[id] = true;
       this.$forceUpdate();
     },
-    lightunShow: function(id) {
+    lightunShow(id) {
       // console.log(id+"qwwwww"+this.lightisShow[id])
       this.lightisShow[id] = false;
       this.$forceUpdate();
     },
-    getCardBack(){
+    getCardBack() {
       return `http://test.cdn.hackx.org/cardback/cardback_light.png`;
     },
-    getCardLightBack(){
+    getCardLightBack() {
       return `http://test.cdn.hackx.org/cardback/cardback.png`;
     },
     async onUpdateAd() {
@@ -381,7 +436,7 @@ export default {
     background: url(/static/assets/card_profile_top.png) no-repeat top, url(/static/assets/card_profile_end.png) no-repeat bottom, url(/static/assets/card_profile.png) repeat-y;
     background-size: 100%;
     padding: 3% 4% 4%;
-    
+
   }
 
   .back_color {
@@ -429,7 +484,7 @@ export default {
     width: 266px;
     height: 340px;
     margin: 2px;
-    
+
   }
 
   .big_img {
@@ -482,7 +537,7 @@ export default {
   }
   .smallcardcharas {
     position: absolute;
-  
+
   }
  .butt{
     background-color: #f7260b;

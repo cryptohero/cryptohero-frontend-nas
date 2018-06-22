@@ -69,7 +69,8 @@ export default {
     },
     getDisplayTotal() {
       // return new BigNumber(this.getPrice).times(this.count).toNumber();
-      const d = new BigNumber(0.0001);
+      const d = new BigNumber(0.000001); // for mainnet
+      // const d = new BigNumber(0.00000000000000001); // for testnet
       const a0 = new BigNumber(this.getPrice);
       const n = new BigNumber(this.count);
       return a0.times(n).plus((n.minus(1)).times(n).times(d).div(2));
@@ -96,31 +97,32 @@ export default {
       const result = await contract.draw(referrer, this.getDisplayTotal);
       // console.log("crytpresp00:"+result);
 
-      if(result != "cancel") {
-        setTimeout(async () => {  
-                    const result1 = await contract.checkSerialNumber(result);
-                    if (JSON.parse(result1)["data"]["status"] == 1) {
-                      if(referrer) {
-                        const formData = new FormData();
-                        formData.append('address', referrer);
-                        formData.append('inviteaddress', this.$route.params.address);
-                        formData.append('cardnum', this.count);
-                        formData.append('price', this.getPrice);
-                        formData.append('witchnet', this.$store.getters.getContractNet);//"test");
-                        formData.append('sn', result);
-                        this.$http
-                          .post(this.$store.getters.getServerURL+'inviteshuihuadd.php', formData)
-                          .then((response) => {
-                            const res = response.body;
-                            console.log(res);
-                            alert("抽卡成功，到我的收藏里看看吧");
-                          });
-                      }else{
-                        alert("抽卡成功，到我的收藏里看看吧");
-                      }
-                    }
-                    // console.log("crytpresp:"+JSON.parse(result1)["msg"]);  
-            }, 20000);  
+      if (result != 'cancel') {
+        setTimeout(async () => {
+          const result1 = await contract.checkSerialNumber(result);
+          if (JSON.parse(result1).data.status == 1) {
+            if (referrer) {
+              const formData = new FormData();
+              formData.append('address', this.$store.state.me);
+              // formData.append('address', referrer);
+              formData.append('inviteaddress', referrer);// this.$route.params.address);
+              formData.append('cardnum', this.count);
+              formData.append('price', this.getPrice);
+              formData.append('witchnet', this.$store.getters.getContractNet);// "test");
+              formData.append('sn', result);
+              this.$http
+                .post(`${this.$store.getters.getServerURL}inviteshuihuadd.php`, formData)
+                .then((response) => {
+                  const res = response.body;
+                  console.log(res);
+                  alert('抽卡成功，到我的收藏里看看吧');
+                });
+            } else {
+              alert('抽卡成功，到我的收藏里看看吧');
+            }
+          }
+          // console.log("crytpresp:"+JSON.parse(result1)["msg"]);
+        }, 20000);
       }
     },
   },

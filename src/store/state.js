@@ -16,6 +16,7 @@ export default () => ({
   signInError: null,
   items: cards,
   ads: {},
+  myCards: [],
   /* Example
   msg: 'HelloWord',
   todos: [

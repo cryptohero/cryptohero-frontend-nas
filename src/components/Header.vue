@@ -41,7 +41,6 @@
           <div class="transform"> {{$t('faq')}} </div>
         </router-link>
 
-
         <!-- <router-link class="navbar-item"
                      :to="{ name: 'BirthdayGift'}">
           {{$t('BirthdayGift')}}
@@ -82,8 +81,6 @@
 </template>
 
 <script>
-import { getNetwork, getAnnouncements } from '@/api';
-
 export default {
   name: 'Header',
   data() {
@@ -95,23 +92,6 @@ export default {
   async created() {
     this.$store.dispatch('initLocale');
     this.$store.dispatch('FETCH_ME');
-    const network = await getNetwork();
-    if (!network) {
-      alert('Unknown network!');
-      return;
-    }
-    this.network = network;
-    if (!network.contract) {
-      alert(`Unsupported ${network.name}`);
-    }
-    const infos = [];
-    const announcements = await getAnnouncements();
-    announcements.forEach(({ type, content }) => {
-      if (type === 'info') {
-        infos.push(content);
-      }
-    });
-    this.infos = infos;
   },
   computed: {
     locale: {

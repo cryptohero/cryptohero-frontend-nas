@@ -1,4 +1,78 @@
 <template>
+  <div class="back_img">
+    <div class="title">
+      <div class="line1">{{$t('Ranking')}}</div>
+    </div>
+    <div class="back">
+      <div class="title-line">
+
+      </div>
+      <div class="ranking-ul">
+        <ul style=" background-color:#97ceea; height: 50px; border: 3px solid #a48554;border-radius: 40px;background-color: #e8cc97;">
+          <li class="rank1" style=" line-height: 25px;">{{$t('ranking')}}</li>
+          <li class="key1" > {{$t('KeyAddress')}}</li>
+          <li class="time1" >水浒币</li>
+        </ul>
+      </div>
+      <div  v-for="( item, index ) in items" :key="item.holder" class="ranking-ul">
+        <ul>
+          <li v-bind:id="'ranking'+index" class="rank"> <b>{{ index+1 }}</b></li>
+          <li class="key"> {{ item.holder}}</li>
+          <li class="time"> {{ item.balance }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import Contract from '../contract/cryptohero';
+  export default {
+    name: 'RankingList',
+    data(){
+      return{
+        title:"排行榜",
+        methods :{
+          ranking: function(index){
+            return "rank_"+ index
+          }
+        },
+        items: []
+      }
+    },
+
+    async mounted() {
+      const  contract = new Contract();
+      const  res = await contract.getHoldersStat();
+      if(res !== null){
+        this.items = res.sort(this.compare('balance'));
+      }
+    },
+    methods: {
+      compare(prop) {
+        return function (obj1, obj2) {
+          var val1 = obj1[prop];
+          var val2 = obj2[prop];
+          if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+            val1 = Number(val1);
+            val2 = Number(val2);
+          }
+          if (val1 < val2) {
+            return 1;
+          } else if (val1 > val2) {
+            return -1;
+          } else {
+            return 0;
+          }
+        }
+      }
+    }
+  }
+
+</script>
+
+
+
+<!--<template>
 <div class="back_img">
     <div class="title">
          <div class="line1">{{$t('Ranking')}}</div>
@@ -47,7 +121,7 @@ export default {
   }
 }
 
-</script>
+</script>-->
 <style scoped>
 *{
      list-style: none;
