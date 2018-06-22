@@ -315,12 +315,13 @@ export default {
     },
     rankAfterClaim(snres) {
       // 0 failed, 1 success, 2 pending
-      const contract = new LinkIdol();
-      setTimeout(async () => {
-        const result1 = await contract.checkSerialNumber(snres);
-        console.error("claimres:"+result1)
-        if (JSON.parse(result1)["data"]["status"] == 1) {
-          console.error("claimres:"+JSON.parse(result1)["data"]["status"])
+      // const contract = new LinkIdol();
+      // setTimeout(async () => {
+      //   const result1 = await contract.checkSerialNumber(snres);
+      //   console.error("claimres:"+result1)
+      //   if (JSON.parse(result1)["data"]["status"] == 1) {
+        if (this.total >= 108) {
+          // console.error("claimres:"+JSON.parse(result1)["data"]["status"])
           const formData = new FormData();
           formData.append('address', this.address);
           this.$http.post(this.$store.getters.getServerURL+'addrankshuihunas.php', formData)
@@ -329,7 +330,7 @@ export default {
               console.log(res);
             });
         }
-      }, 30000);
+      // }, 30000);
     }
   },
   created() {
