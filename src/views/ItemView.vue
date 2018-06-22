@@ -111,7 +111,7 @@
               </li>
               <li>
                 <div class="text">
-                  <router-link :to="{ name: 'User', params:{address: me}}">
+                  <router-link :to="{ name: 'User', params:{address: carOwner}}">
                     {{carOwner? carOwner.slice(-6).toUpperCase() : ""}}
                   </router-link>
 
