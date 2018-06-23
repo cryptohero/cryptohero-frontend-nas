@@ -62,13 +62,13 @@
 
   <div class="price">
     <div class="price1">
-  <b>水浒币(个)：{{this.getShareOfHolder}}</b>
+  <b>{{$t('HeroCoin')}}{{this.getShareOfHolder}}</b>
     </div>
     <div class="price1">
-  <b>分红(nas)：{{this.getTotalEarnByShare}}</b>
+  <b>{{$t('Bonus')}}{{this.getTotalEarnByShare}}</b>
    </div>
    <div class="price1">
-  <b>推荐(nas)：{{this.getTotalEarnByReference}}</b>
+  <b>{{$t('RecommendNas')}}{{this.getTotalEarnByReference}}</b>
   </div>
 </div>
   </section>

@@ -16,13 +16,13 @@
          </div>
         <div class="price">
           <div class="price1">
-            <b>当前合约余额(nas)：{{this.getBalance}}</b>
+            <b>{{$t('CurrentContractBalance')}}{{this.getBalance}}</b>
           </div>
           <div class="price1">
-            <b>总分红金额(nas)：{{this.getTotalEarnByShareAllUser}}</b>
+            <b>{{$t('TotalBonus')}}{{this.getTotalEarnByShareAllUser}}</b>
           </div>
           <div class="price1">
-            <b>总推荐返利(nas)：{{this.getTotalEarnByReferenceAllUser}}</b>
+            <b>{{$t('TotalRecommendRebate')}}{{this.getTotalEarnByReferenceAllUser}}</b>
           </div>
         </div>
           <div class="txt">
