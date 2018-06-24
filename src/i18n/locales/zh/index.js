@@ -11,6 +11,7 @@ module.exports = {
   Ranking: '排行榜',
   luckydraw:'幸运抽奖',
   airdrop:'赠送',
+  Gift:'送',
   shareapp: '分享到社交媒体',
   inviteFirend: '邀请好友',
   title:'推荐好友玩 星云水浒 可获得 5 % 消费额的奖励!',
