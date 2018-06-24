@@ -119,7 +119,7 @@
               </li>
                <li>
                 <div class="text">
-                    {{isTokenClaimed}}
+                    {{item.claimed}}
                 </div>
               </li>
 
@@ -189,12 +189,19 @@ export default {
     PulseLoader,
   },
   async created() {
-    this.tkId = this.$route.params.tokenId;
+//    this.tkId = this.$route.params.id;
     const contract = new Contract();
     const result = await contract.getCardsByAddress(this.me);
-    console.error(result)
     let num = 0;
     let tkLength = this.$route.params.id;
+
+    if (typeof tkLength === "undefined") {
+      var arr = window.location.href.split('/');
+      if(arr.length > 5){
+        tkLength = arr[5]
+        this.tkId = arr[5]
+      }
+    }
     for(var i in result){
       if(result[i].tokenId <= tkLength ){
         num = num + 1;

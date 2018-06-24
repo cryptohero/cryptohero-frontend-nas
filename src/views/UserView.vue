@@ -16,7 +16,7 @@
     </div><br>
       <div class="">
         <h2 class="title" style="color: aliceblue"> {{profile.nickname}} {{$t('Collect')}} </h2>
-        <p class="useraddress">{{$t('Content4')}}{{total}} / 108 {{$t('CardUnit')}} <el-button id="btn" type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
+        <p class="useraddress">{{$t('Content4')}}{{total}} / 108 {{$t('CardUnit')}} | 抽卡总数：{{allCardsCount}} {{$t('CardUnit')}}<el-button id="btn" type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>
@@ -36,6 +36,7 @@
             </div>
             <el-button  style="margin: 5px" type="error" plain @click.native="NotClection()">{{$t('UnCollected')}}</el-button>
             <el-button  style="margin: 5px" type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button>
+              <div class="btn-item"><el-button type="primary" plain @click.native="AllClection()">所有卡集</el-button></div>
             </div>
             <div class="btn-item" style="display: flex">
             <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
@@ -57,18 +58,19 @@
      </div>
      <div class="btn-item"><el-button type="error" plain @click.native="NotClection()">{{$t('UnCollected')}}</el-button></div>
      <div class="btn-item"><el-button type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button></div>
+     <div class="btn-item"><el-button type="primary" plain @click.native="AllClection()">所有卡集</el-button></div>
 
   </div>
 
   <div class="price">
     <div class="price1">
-  <b>水浒币(个)：{{this.getShareOfHolder}}</b>
+  <b>{{$t('HeroCoin')}}{{this.getShareOfHolder}}</b>
     </div>
     <div class="price1">
-  <b>分红(nas)：{{this.getTotalEarnByShare}}</b>
+  <b>{{$t('Bonus')}}{{this.getTotalEarnByShare}}</b>
    </div>
    <div class="price1">
-  <b>推荐(nas)：{{this.getTotalEarnByReference}}</b>
+  <b>{{$t('RecommendNas')}}{{this.getTotalEarnByReference}}</b>
   </div>
 </div>
   </section>
@@ -142,13 +144,17 @@ export default {
     cardlist: [],
     pagecount: 0,
     heroName: '',
+    allMyCards: [],
+    allCardsCount: '',
     saveData: [],
     total: '',
     typeFlag: '',
     uniqueNum: [],
     notNum: [],
+    finalNums: [],
     unCollectData: [],
     actionFlag: true,
+
   }),
   /*asyncComputed: {
     async profile() {
@@ -189,22 +195,50 @@ export default {
     async cardsInfo() {
       const idol = new LinkIdol();
       const result = await idol.getUserCards(this.address);
+      console.error(result)
       this.loading = false;
+      //是否兑换
       this.allCardsInfo = result.sort(this.compare('code'));
-      this.saveData = this.allCardsInfo;
+      this.allMyCards = this.allCardsInfo;
+      this.allCardsCount = this.allCardsInfo.length;
+     /* this.saveData = this.allCardsInfo;
       this.cardlist = result.slice(0,8);
-      this.pagecount = Math.ceil(result.length/8);
-      var rsp = []
+      this.pagecount = Math.ceil(result.length/8);*/
+      var rsp = [];
+      var rt = [];
+      var rnum =[];
       for(let i = 0; i < this.allCardsInfo.length ; i++){
-         rsp.push(this.allCardsInfo[i].code);
+        rsp.push(this.allCardsInfo[i].code);
+         if(!this.allCardsInfo[i].claimed){
+           rt.push(this.allCardsInfo[i]);
+           rnum.push(this.allCardsInfo[i].code)
+         }
       }
       this.uniqueNum = this.unique(rsp);
      this.total =  this.uniqueNum.length;
-      return result;
+     var final = []
+      console.error(rnum)
+      console.error(rt)
+      const finalNum = this.unique(rnum);
+      this.finalNums = finalNum;
+
+      for(var i in finalNum){
+       for(var em in rt){
+          if(rt[em].code === finalNum[i]){
+            final.push(rt[em])
+            break;
+          }
+       }
+     }
+     console.error(final)
+      this.saveData = final;
+      this.cardlist = final.slice(0,8);
+      this.pagecount = Math.ceil(final.length/8);
+      return final;
     },
     async NotClectionCards() {
       const arr = []
-      const clNum = this.uniqueNum;
+      const clNum = this.finalNums;
       for(let i = 0; i < 115; i++) {
         if(clNum.indexOf(i) === -1) {
           arr.push(i);
@@ -219,6 +253,11 @@ export default {
     },
   },
   methods: {
+    AllClection(){
+      this.allCardsInfo = this.allMyCards.sort(this.compare('code'));
+      this.cardlist = this.allMyCards.slice(0,8);
+      this.pagecount = Math.ceil(this.allMyCards.length/8);
+    },
     NotClection() {
       this.allCardsInfo = this.unCollectData.sort(this.compare('code'));
       this.cardlist = this.allCardsInfo.slice(0,8);
@@ -560,7 +599,7 @@ export default {
 }
 .price1{
  border-radius: 8px;
-    width: 200px;
+    width: 300px;
     height: 50px;
     background-color: rgba(249, 137, 137, 0.55);
     margin: 20px;

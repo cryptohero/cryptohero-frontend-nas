@@ -77,5 +77,11 @@ module.exports = {
   InvitedMan: 'Invitee',
   BlockHight: 'Block Hight',
   RebateAmount: 'Rebate Amount',
+  HeroCoin: 'HeroCoin(s)：',
+  Bonus: 'Bonus(nas)：',
+  RecommendNas: 'Recommend(nas)：',
+  CurrentContractBalance: 'Current Contract Balance(nas)：',
+  TotalBonus: 'Total Bonus(nas)：',
+  TotalRecommendRebate: 'Total Recommend Rebate(nas)：',
   Recomment: '"NebulasHero" is a block chain game with card collection based on "The Water Margin" which is one of China\'s four famous books. The total number of cards is 21,000,000, which has been written into smart contract. Every card is unique and every transaction can be checked in the chain. When the player purchases the card, he or she will owns the card and can freely trade and resell it. The player who collects 108 heroes of NebulasHero will win a rich award.',
 };
