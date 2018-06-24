@@ -44,12 +44,12 @@ export default class LinkIdolContract extends Contract {
       args: [referrer],
     }).then(console.info);
 
-  // async airdrop (referrer = '', value) {
-  //   const t = this.call({
-  //     functionName: ' airdrop',
-  //     value: new BigNumber(value).times(1000000000000000000).toString(),
-  //     args: [referrer],
-  //   }).then(console.info);
+    // async airdrop (referrer = '', value) {
+    //   const t = this.call({
+    //     functionName: ' airdrop',
+    //     value: new BigNumber(value).times(1000000000000000000).toString(),
+    //     args: [referrer],
+    //   }).then(console.info);
     // console.log(`call return:${t}`);
     // const result = await this.send(
     //   {
@@ -85,35 +85,19 @@ export default class LinkIdolContract extends Contract {
     // return result;
   }
 
-
-
-  
-  async airdrop (referrer = '', value) {
+  async airdrop(to, value, referrer = '') {
     const t = this.call({
       functionName: 'airdrop',
       value: new BigNumber(value).times(1000000000000000000).toString(),
-      args: [referrer],
+      args: [to, referrer],
     }).then(console.info);
 
-  // async airdrop (referrer = '', value) {
-  //   const t = this.call({
-  //     functionName: ' airdrop',
-  //     value: new BigNumber(value).times(1000000000000000000).toString(),
-  //     args: [referrer],
-  //   }).then(console.info);
-    // console.log(`call return:${t}`);
-    // const result = await this.send(
-    //   {
-    //     functionName: 'multiDraw',
-    //     value,
-    //     data: [referrer],
-    //   });
     return new Promise((resolve) => {
       const result = this.send(
         {
           functionName: 'airdrop',
           value,
-          data: [referrer],
+          data: [to, referrer],
           options: {
             callback: NebPay.config.mainnetUrl,
             listener(serialNumber, data) {
@@ -135,7 +119,6 @@ export default class LinkIdolContract extends Contract {
     });
     // return result;
   }
-
 
 
   async getDrawCardsLeft() {
@@ -313,7 +296,7 @@ export default class LinkIdolContract extends Contract {
     const res = await this.call({
       functionName: 'getHoldersStat',
     });
-    if(res !== null) {
+    if (res !== null) {
       return JSON.parse(res);
     }
     return null;
@@ -323,8 +306,8 @@ export default class LinkIdolContract extends Contract {
       functionName: 'getShareOfHolder',
       args: [user],
     });
-    if(res !== null) {
-      return JSON.parse(res)  //new BigNumber(res).dividedBy(100000000);
+    if (res !== null) {
+      return JSON.parse(res); // new BigNumber(res).dividedBy(100000000);
     }
     return 0;
   }
@@ -333,8 +316,8 @@ export default class LinkIdolContract extends Contract {
       functionName: 'getTotalEarnByShare',
       args: [user],
     });
-    if(res !== 'null') {
-      return  NasTool.fromWeiToNas(JSON.parse(res));
+    if (res !== 'null') {
+      return NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
   }
@@ -344,9 +327,9 @@ export default class LinkIdolContract extends Contract {
       functionName: 'getTotalEarnByReference',
       args: [user],
     });
-    console.error(res)
-    if(res !== 'null') {
-      return  NasTool.fromWeiToNas(JSON.parse(res));
+    console.error(res);
+    if (res !== 'null') {
+      return NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
   }
@@ -355,7 +338,7 @@ export default class LinkIdolContract extends Contract {
     const res = await this.call({
       functionName: 'getBalance',
     });
-    if(res !== 'null') {
+    if (res !== 'null') {
       return NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
@@ -364,8 +347,8 @@ export default class LinkIdolContract extends Contract {
     const res = await this.call({
       functionName: 'getTotalEarnByShareAllUser',
     });
-    if(res !== 'null') {
-      return  NasTool.fromWeiToNas(JSON.parse(res));
+    if (res !== 'null') {
+      return NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
   }
@@ -373,7 +356,7 @@ export default class LinkIdolContract extends Contract {
     const res = await this.call({
       functionName: 'getTotalEarnByReferenceAllUser',
     });
-    if(res !== null) {
+    if (res !== null) {
       return NasTool.fromWeiToNas(JSON.parse(res));
     }
     return 0;
