@@ -8,7 +8,7 @@ import NebPay from 'nebpay.js';
 
 const nebPay = new NebPay();
 
-function getCardInfoByHeroId(id, tkId, prices) {
+function getCardInfoByHeroId(id, tkId, prices, claim) {
   const basic = heroProfile[id];
   const status = heroStatus[id];
   if (!basic) {
@@ -21,7 +21,7 @@ function getCardInfoByHeroId(id, tkId, prices) {
   };
 
   const res = Object.assign(basic, cardImage, status, prices);
-  const result = Object.assign({ tokenId: tkId }, res);
+  const result = Object.assign({ tokenId: tkId, claimed: claim }, res);
   return result;
   // return basic;
 }
@@ -132,7 +132,7 @@ export default class LinkIdolContract extends Contract {
     // return result;
 
     const tokenIds = await this.getCardsByAddress(address);
-    const result = await Promise.all(tokenIds.map(async info => getCardInfoByHeroId(info.heroId, info.tokenId, info.price)));
+    const result = await Promise.all(tokenIds.map(async info => getCardInfoByHeroId(info.heroId, info.tokenId, info.price, info.claimed)));
     return result;
   }
 
