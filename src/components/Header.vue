@@ -13,11 +13,6 @@
                      :to="{ name: 'LuckyDraw'}">
           <div class="transform"> {{$t('luckydraw')}} </div>
         </router-link>
-         <router-link class="navbar-item"
-                     :to="{ name: 'AirDrop'}">
-          <div class="transform"> {{$t('AirDrop')}} </div>
-        </router-link>
-
         <router-link v-if="!me"
                      class="navbar-item"
                      :to="{ name: 'Login'}">
@@ -29,7 +24,10 @@
                      :to="{ name: 'User', params:{address: me}}">
           <div class="transform">{{$t('My Cards')}}</div>
         </router-link>
-
+         <router-link class="navbar-item"
+                     :to="{ name: 'AirDrop'}">
+          <div class="transform"> {{$t('airdrop')}} </div>
+        </router-link>
         <router-link class="navbar-item"
                      :to="{ name: 'InviteVie'}">
           <div class="transform">{{$t('FAQs')}}</div>
