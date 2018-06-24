@@ -13,6 +13,10 @@
                      :to="{ name: 'LuckyDraw'}">
           <div class="transform"> {{$t('luckydraw')}} </div>
         </router-link>
+         <router-link class="navbar-item"
+                     :to="{ name: 'AirDrop'}">
+          <div class="transform"> {{$t('AirDrop')}} </div>
+        </router-link>
 
         <router-link v-if="!me"
                      class="navbar-item"

@@ -24,7 +24,7 @@
                   a.button.is-primary(@click="setQty(128)")|{{$t('Draw')}} 128 {{$t('CardUnit')}}
                   a.button.is-primary(@click="setQty(1024)")|{{$t('Draw')}} 1024 {{$t('CardUnit')}}
                   <br>
-                  //  a.button.is-primary(@click="airdrop")|{{$t('赠送')}}
+                   a.button.is-primary(@click="airdrop")|{{$t('赠送')}}
 
             //- .container
               .columns
