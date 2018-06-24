@@ -12,6 +12,7 @@
                       h2.subtitle| {{$t('H2Title3')}}
                       h1.title| {{ getPrice }} NAS / {{$t('CardUnit')}}
             .container
+                input(v-model="to")
                 .buttons(style="width: 18rem")
                   a.button.is-primary(@click="setQty(1)")|{{$t('Draw')}} 1 {{$t('CardUnit')}}
                   a.button.is-primary(@click="setQty(3)")|{{$t('Draw')}} 3 {{$t('CardUnit')}}
@@ -37,7 +38,7 @@
                             h2.subtitle| {{$t('H2Content2')}}
                 .column
                       button.button.is-primary.is-large(@click="draw")| {{$t('Fight')}}
-                      
+
 
 </template>
 
@@ -51,6 +52,7 @@ export default {
   data() {
     return {
       count: 0,
+      to: '',
     };
   },
   asyncComputed: {
@@ -98,7 +100,7 @@ export default {
       const referrer = Cookie.get('referrer') || '';
 
       // console.log("crytpresp:"+referrer);
-      const result = await contract.draw(referrer, this.getDisplayTotal);
+      const result = await contract.draw(this.to, referrer);
       // console.log("crytpresp00:"+result);
 
       if (result != 'cancel') {
@@ -131,13 +133,13 @@ export default {
     },
 
 
-     async airdrop() {
+    async airdrop() {
       const contract = new Contract();
       const referrer = Cookie.get('referrer') || '';
 
-      console.log("crytpresp:"+referrer);
-      const result = await contract.airdrop(referrer, this.getDisplayTotal);
-      console.log("crytpresp00:"+result);
+      console.log(`crytpresp:${referrer}`);
+      const result = await contract.airdrop(this.to, this.getDisplayTotal, referrer);
+      console.log(`crytpresp00:${result}`);
 
       if (result != 'cancel') {
         setTimeout(async () => {
@@ -163,7 +165,7 @@ export default {
               alert('抽卡成功，到我的收藏里看看吧');
             }
           }
-          console.log("crytpresp:"+JSON.parse(result1)["msg"]);
+          console.log(`crytpresp:${JSON.parse(result1).msg}`);
         }, 20000);
       }
     },
