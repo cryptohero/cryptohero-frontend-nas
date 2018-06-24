@@ -12,7 +12,7 @@
                       h2.subtitle| {{$t('H2Title3')}}
                       h1.title| {{ getPrice }} NAS / {{$t('CardUnit')}}
             .container
-                input(v-model="to")
+                input(v-model="to" placeholder="你要送给的地址")
                 .buttons(style="width: 18rem")
                   a.button.is-primary(@click="setQty(1)")|{{$t('Draw')}} 1 {{$t('CardUnit')}}
                   a.button.is-primary(@click="setQty(3)")|{{$t('Draw')}} 3 {{$t('CardUnit')}}
@@ -79,13 +79,19 @@ export default {
       // const d = new BigNumber(0.00000000000000001); // for testnet
       const a0 = new BigNumber(this.getPrice);
       const n = new BigNumber(this.count);
-      return a0.times(n).plus((n.minus(1)).times(n).times(d).div(2));
+      return a0.times(n).plus(
+        n
+          .minus(1)
+          .times(n)
+          .times(d)
+          .div(2),
+      ).toString(10);
     },
   },
   methods: {
     setQty(qty) {
       this.count = qty;
-      this.draw();
+      this.airdrop();
     },
     add(time = 1) {
       this.count += time;
@@ -111,13 +117,16 @@ export default {
               const formData = new FormData();
               formData.append('address', this.$store.state.me);
               // formData.append('address', referrer);
-              formData.append('inviteaddress', referrer);// this.$route.params.address);
+              formData.append('inviteaddress', referrer); // this.$route.params.address);
               formData.append('cardnum', this.count);
               formData.append('price', this.getPrice);
-              formData.append('witchnet', this.$store.getters.getContractNet);// "test");
+              formData.append('witchnet', this.$store.getters.getContractNet); // "test");
               formData.append('sn', result);
               this.$http
-                .post(`${this.$store.getters.getServerURL}inviteshuihuadd.php`, formData)
+                .post(
+                  `${this.$store.getters.getServerURL}inviteshuihuadd.php`,
+                  formData,
+                )
                 .then((response) => {
                   const res = response.body;
                   console.log(res);
@@ -132,13 +141,16 @@ export default {
       }
     },
 
-
     async airdrop() {
       const contract = new Contract();
       const referrer = Cookie.get('referrer') || '';
 
       console.log(`crytpresp:${referrer}`);
-      const result = await contract.airdrop(this.to, this.getDisplayTotal, referrer);
+      const result = await contract.airdrop(
+        this.to,
+        this.getDisplayTotal,
+        referrer,
+      );
       console.log(`crytpresp00:${result}`);
 
       if (result != 'cancel') {
@@ -149,13 +161,16 @@ export default {
               const formData = new FormData();
               formData.append('address', this.$store.state.me);
               // formData.append('address', referrer);
-              formData.append('inviteaddress', referrer);// this.$route.params.address);
+              formData.append('inviteaddress', referrer); // this.$route.params.address);
               formData.append('cardnum', this.count);
               formData.append('price', this.getPrice);
-              formData.append('witchnet', this.$store.getters.getContractNet);// "test");
+              formData.append('witchnet', this.$store.getters.getContractNet); // "test");
               formData.append('sn', result);
               this.$http
-                .post(`${this.$store.getters.getServerURL}inviteshuihuadd.php`, formData)
+                .post(
+                  `${this.$store.getters.getServerURL}inviteshuihuadd.php`,
+                  formData,
+                )
                 .then((response) => {
                   const res = response.body;
                   console.log(res);
@@ -169,17 +184,15 @@ export default {
         }, 20000);
       }
     },
-
-
   },
 };
 </script>
 
 <style scoped>
-#draw{
-    background: #ecdaa8;
+#draw {
+  background: #ecdaa8;
 }
 .buttons {
-    margin: 1rem;
+  margin: 1rem;
 }
 </style>
