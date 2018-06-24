@@ -14,6 +14,7 @@ module.exports = {
   shareapp: 'ソーシャルに共有',
   inviteFirend: '友達を誘う',
   luckydraw:'ラッキ宝くじ',
+  airdrop:'他人におくる',
   title:'Nebulas Heroを友達に勧めてプレイすると3%の消費リワードがもらえる！',
   ranking:'ランキング',
   key:'ワーレットキー',

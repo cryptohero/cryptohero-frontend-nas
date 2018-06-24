@@ -11,6 +11,7 @@ import InviteVie from '@/views/InviteView';
 import RankingList from '@/views/RankingList';
 import LuckyDraw from '@/views/LuckyDraw';
 import Recommend from '@/views/RecommendView';
+import AirDrop from '@/views/AirDrop';
 
 Vue.use(Router);
 
@@ -32,6 +33,12 @@ export default new Router({
       path: '/draw/:address',
       component: LuckyDraw,
     },
+    {
+      name: 'AirDrop',
+      path: 'airdrop',
+      component: AirDrop,
+    },
+
     {
       name: 'Login',
       path: '/Login',
