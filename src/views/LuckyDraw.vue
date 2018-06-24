@@ -23,6 +23,9 @@
                   a.button.is-primary(@click="setQty(64)")|{{$t('Draw')}} 64 {{$t('CardUnit')}}
                   a.button.is-primary(@click="setQty(128)")|{{$t('Draw')}} 128 {{$t('CardUnit')}}
                   a.button.is-primary(@click="setQty(1024)")|{{$t('Draw')}} 1024 {{$t('CardUnit')}}
+                  <br>
+                   a.button.is-primary(@click="airdrop")|{{$t('赠送')}}
+
             //- .container
               .columns
                 .column
@@ -34,6 +37,7 @@
                             h2.subtitle| {{$t('H2Content2')}}
                 .column
                       button.button.is-primary.is-large(@click="draw")| {{$t('Fight')}}
+                      
 
 </template>
 
@@ -125,6 +129,46 @@ export default {
         }, 20000);
       }
     },
+
+
+     async airdrop() {
+      const contract = new Contract();
+      const referrer = Cookie.get('referrer') || '';
+
+      console.log("crytpresp:"+referrer);
+      const result = await contract.airdrop(referrer, this.getDisplayTotal);
+      console.log("crytpresp00:"+result);
+
+      if (result != 'cancel') {
+        setTimeout(async () => {
+          const result1 = await contract.checkSerialNumber(result);
+          if (JSON.parse(result1).data.status == 1) {
+            if (referrer) {
+              const formData = new FormData();
+              formData.append('address', this.$store.state.me);
+              // formData.append('address', referrer);
+              formData.append('inviteaddress', referrer);// this.$route.params.address);
+              formData.append('cardnum', this.count);
+              formData.append('price', this.getPrice);
+              formData.append('witchnet', this.$store.getters.getContractNet);// "test");
+              formData.append('sn', result);
+              this.$http
+                .post(`${this.$store.getters.getServerURL}inviteshuihuadd.php`, formData)
+                .then((response) => {
+                  const res = response.body;
+                  console.log(res);
+                  alert('抽卡成功，到我的收藏里看看吧');
+                });
+            } else {
+              alert('抽卡成功，到我的收藏里看看吧');
+            }
+          }
+          console.log("crytpresp:"+JSON.parse(result1)["msg"]);
+        }, 20000);
+      }
+    },
+
+
   },
 };
 </script>
