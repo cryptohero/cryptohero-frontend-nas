@@ -36,7 +36,7 @@
             </div>
             <el-button  style="margin: 5px" type="error" plain @click.native="NotClection()">{{$t('UnCollected')}}</el-button>
             <el-button  style="margin: 5px" type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button>
-              <div class="btn-item"><el-button type="primary" plain @click.native="AllClection()">所有卡集</el-button></div>
+              <div class="btn-item"><el-button type="primary" plain @click.native="AllClection()">{{$t('AllSet')}}</el-button></div>
             </div>
             <div class="btn-item" style="display: flex">
             <el-input placeholder="请输入卡牌名称" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
@@ -58,7 +58,7 @@
      </div>
      <div class="btn-item"><el-button type="error" plain @click.native="NotClection()">{{$t('UnCollected')}}</el-button></div>
      <div class="btn-item"><el-button type="info" plain @click.native="HadClection()">{{$t('Collected')}}</el-button></div>
-     <div class="btn-item"><el-button type="primary" plain @click.native="AllClection()">所有卡集</el-button></div>
+     <div class="btn-item"><el-button type="primary" plain @click.native="AllClection()">{{$t('AllSet')}}</el-button></div>
 
   </div>
 

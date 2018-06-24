@@ -19,6 +19,7 @@ module.exports = {
   ranking:'名次',
   key:'钱包地址：',
   KeyAddress:'钱包地址',
+  Herocoin: '水浒币',
   Collect: '的收藏',
   time:'合成时间',
   Owner: '拥有者：',
@@ -94,5 +95,6 @@ module.exports = {
   CurrentContractBalance: '当前合约余额(nas)：',
   TotalBonus: '总分红金额(nas)：',
   TotalRecommendRebate: '总推荐返利(nas)：',
+  AllSet: '所有卡集',
   Recomment: '《星云水浒》是一款以中国四大名著之一《水浒传》为题材的集卡类区块链游戏，卡牌总量恒定 2100 万张，已写进智能合约。每一张卡牌都有唯一的编号，每一笔交易都在链上可查。当玩家购买了该卡牌，就拥有了对这张卡牌的所有权，可以自由交易、转卖，集齐 108 位水浒英雄的玩家将会赢得丰厚大奖。'
 };
