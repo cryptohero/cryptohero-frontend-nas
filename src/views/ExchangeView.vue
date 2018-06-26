@@ -26,8 +26,7 @@
 		  </div>
      </section>
     </div>
-    <!-- <ItemList :itemIds='itemIds' /> -->
-     <div class="columns is-multiline is-gapless is-mobile">
+    <div class="columns is-multiline is-gapless is-mobile">
     <router-link v-for="item in itemIds"
                  v-if="item"
                  :to="{ name: 'Item', params:{id: item.tokenId,code: item.code}}"
@@ -56,30 +55,16 @@
               <img v-lazy="getCardImage(item.code)">
             </figure>
             </div>
-
-
           </div>
           <div class="card-content">
             <div class="content is-small">
               <h4 :style="{paddingLeft: '10px', paddingRight: '15px'}">{{item.nickname}} · {{item.name}}
-                <div>拥有者：333</div>
-                <div>序号：333</div>
-                <div>价钱：333</div>
+                <div>序号：{{item.tokenId}}</div>
+                <div>价钱：{{item.value}}</div>
                 <div class="btnn">购买</div>
               </h4>
-              <!-- <ul>
-                <li>{{$t('Owner')}}：
-                  <router-link v-if="item.owner"
-                               :to="{ name: 'User', params:{address: item.owner}}">
-                    {{item.owner.slice(-6).toUpperCase()}}
-                  </router-link>
-                </li>
-                <li>{{$t('Current Price')}}: {{toDisplayedPrice(item.price)}}</li>
-              </ul>
-              <p class="item-slogan">{{$t('Slogan')}}: {{toDisplayedAd(item.id)}}</p>-->
             </div>
           </div>
-        <!-- </div> -->
       </template>
     </router-link>
   </div>
@@ -91,6 +76,7 @@ import PulseLoader from 'vue-spinner/src/PulseLoader';
 import ItemList from '@/components/ItemList';
 import { toReadablePrice } from '@/util';
 import Contract from '@/contract/cryptohero';
+import superagent from 'superagent';
 
 export default {
   name: 'Exchange',
@@ -110,43 +96,48 @@ export default {
 
   computed: {},
   asyncComputed: {
-    // async getBalance() {
-    //   const idol = new Contract();
-    //   const result = await idol.getBalance();
-    //   return JSON.parse(result)||0;
-    // },
-    // async getTotalEarnByShareAllUser() {
-    //   const idol = new Contract();
-    //   const result = await idol.getTotalEarnByShareAllUser();
-    //   return JSON.parse(result)||0;
-    // },
-    // async getTotalEarnByReferenceAllUser() {
-    //   const idol = new Contract();
-    //   const result = await idol.getTotalEarnByReferenceAllUser();
-    //   return JSON.parse(result)||0;
-    // }
 
   },
   async created() {
-//    this.total = await getTotal();这里去监听了eth合约
-//    const itemIds = await getItemIds(0, this.total);
-//    const itemIds = await getItemIds(0, 0);
     const contrat = new Contract();
-    const  total = await contrat.getTotalSupply();
-    if(total === 0 ){
+
+    // const  total = await contrat.getTotalSupply();
+    // if(total === 0 ){
+    //   this.loading = false;
+    //   return ;
+    // }
+
+    var ids = [];
+
+    superagent.get("https://togetthere.cn/nasapi/hero").end(async (err, res) => {
+      var heros = JSON.parse(res.text);
+      console.log(heros);
+      var herodata = heros.data;
+      var i2 = 0; //control
+      
+      for (let i = 0; i < herodata.length ; i++) {
+        ids.push(parseInt(herodata[i].tokenId));
+        i2 += 1;
+        if(i2 > 12) break;
+      }
+
+      const result = await contrat.getCarInfoByTokenId(ids);
+      console.log(result);
+      for (let i = 0; i < ids.length ; i++) {
+        result[i].value = herodata[i].price;
+      }
+
+      this.itemIds = result;
       this.loading = false;
-      return ;
-    }
-    let ids = [];
-    let start = total - 12;
-    for (let i = total; i >= start ; --i) {
-      ids.push(i);
-    }
-    //通过tokenId图片相关信息
-//    const result = await contrat.getCarInfoByTokenId(itemIds);
-    const result = await contrat.getCarInfoByTokenId(ids);
-    this.itemIds = result;
-    this.loading = false;
+
+    });
+
+    // let start = total - 12;
+    // for (let i = total; i >= start ; --i) {
+    //   ids.push(i);
+    // }
+
+    
   },
 
   methods: {
@@ -179,24 +170,14 @@ export default {
       return `http://test.cdn.hackx.org/cardback/cardback.png`;
     },
     lightShow: function(id) {
-      // console.log(id+"qwwwww"+this.lightisShow[id])
       this.lightisShow[id] = true;
       this.$forceUpdate();
     },
     lightunShow: function(id) {
-      // console.log(id+"qwwwww"+this.lightisShow[id])
       this.lightisShow[id] = false;
       this.$forceUpdate();
     }
   },
-  watch: { watch: {
-    itemIds(newItemIds) {
-      newItemIds.forEach((itemId) => {
-        // this.$store.dispatch('FETCH_ITEM', itemId);
-        // this.$store.dispatch('FETCH_AD', itemId);
-      });
-    },
-  },},
 };
 </script>
 <style scoped>
