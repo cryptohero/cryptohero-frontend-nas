@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div v-if="loading"
+    <!-- <div v-if="loading"
          class="loader-wrapper">
       <pulse-loader></pulse-loader>
     </div>
@@ -25,9 +25,9 @@
       </div>
 		  </div>
      </section>
-    </div>
+    </div> -->
     <div class="columns is-multiline is-gapless is-mobile">
-    <router-link v-for="item in itemIds"
+    <router-link v-for="item in showitemIds"
                  v-if="item"
                  :to="{ name: 'Item', params:{id: item.tokenId,code: item.code}}"
                  :key=item.tokenId.toString()
@@ -68,6 +68,19 @@
       </template>
     </router-link>
   </div>
+    <paginate
+    :page-count="pagecount"
+    :page-range="3"
+    :margin-pages="2"
+    :click-handler="clickCallback"
+    :prev-text="'Prev'"
+    :next-text="'Next'"
+    :container-class="'pagination'"
+    :page-class="'pageitem'"
+    :page-link-class="'pageitema'"
+    :next-link-class="'pageitema'"
+    :prev-link-class="'pageitema'">
+  </paginate>
   </div>
 </template>
 
@@ -77,12 +90,14 @@ import ItemList from '@/components/ItemList';
 import { toReadablePrice } from '@/util';
 import Contract from '@/contract/cryptohero';
 import superagent from 'superagent';
+import Paginate from 'vuejs-paginate';
 
 export default {
   name: 'Exchange',
   components: {
     PulseLoader,
     ItemList,
+    Paginate,
   },
 
   data() {
@@ -91,6 +106,8 @@ export default {
       loading: true,
       itemIds: [],
       total: null,
+      pagecount: 0,
+      showitemIds: [],
     };
   },
 
@@ -113,12 +130,12 @@ export default {
       var heros = JSON.parse(res.text);
       console.log(heros);
       var herodata = heros.data;
-      var i2 = 0; //control
+      // var i2 = 0; //control
       
       for (let i = 0; i < herodata.length ; i++) {
         ids.push(parseInt(herodata[i].tokenId));
-        i2 += 1;
-        if(i2 > 12) break;
+        // i2 += 1; //control
+        // if(i2 > 12) break; //control
       }
 
       const result = await contrat.getCarInfoByTokenId(ids);
@@ -130,6 +147,8 @@ export default {
       this.itemIds = result;
       this.loading = false;
 
+      this.pagecount = Math.ceil(this.itemIds.length/8);
+      this.showitemIds = this.itemIds.slice(0,8);
     });
 
     // let start = total - 12;
@@ -176,11 +195,26 @@ export default {
     lightunShow: function(id) {
       this.lightisShow[id] = false;
       this.$forceUpdate();
-    }
+    },
+    clickCallback: function(pageNum) {
+      this.showitemIds = this.itemIds.slice((pageNum-1)*8,pageNum*8);
+    },
   },
 };
 </script>
 <style scoped>
+.pagination {
+  width: 50vw;
+  background-color: #fdefac;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border-radius: 30px;
+  border: 3px #9a7039 solid;
+}
  .image {
     background : "";
      padding: 16%
@@ -307,7 +341,20 @@ flex-wrap: wrap;
 
    margin-top: 585px;
 }
-
 }
+</style>
 
+<style type="text/css">
+@media (max-width: 800px) {
+  .pageitem {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .pagination {
+    width: 90vw;
+  }
+}
+.pageitema {
+  color: #9a7039;
+}
 </style>
