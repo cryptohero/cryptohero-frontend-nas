@@ -7,24 +7,18 @@
     <div class="logo_btn">
   	 <section>
 		  <div class="cardContainer">
-			 <div class="cardcharas">
-				 <img class="charaimg" alt="" srcset="/static/assets/big_logo.png"/>
-			 </div>
-		 	<div class="btnContainer">
-				 <div class="cardbtn">
-				  	<a> <img class="btnimg" @click="drawClicked()" width="150" alt="" srcset="/static/assets/btn.png"/> </a>
-         </div>
-        <div class="price">
-          <div class="price1">
-            <b>{{$t('CurrentContractBalance')}}{{this.getBalance}}</b>
+              <div class="price">
+          <div class="price1" id="animated-number-demo">
+            <b></b>
           </div>
           <div class="price1">
-            <b>{{$t('TotalBonus')}}{{this.getTotalEarnByShareAllUser}}</b>
+            <b></b>
           </div>
           <div class="price1">
-            <b>{{$t('TotalRecommendRebate')}}{{this.getTotalEarnByReferenceAllUser}}</b>
+            <b></b>
           </div>
         </div>
+		 	<div class="btnContainer">
           <div class="txt">
         <span>{{$t('Recomment')}}</span>
         </div>
@@ -59,21 +53,21 @@ export default {
 
   computed: {},
   asyncComputed: {
-    async getBalance() {
-      const idol = new Contract();
-      const result = await idol.getBalance();
-      return JSON.parse(result)||0;
-    },
-    async getTotalEarnByShareAllUser() {
-      const idol = new Contract();
-      const result = await idol.getTotalEarnByShareAllUser();
-      return JSON.parse(result)||0;
-    },
-    async getTotalEarnByReferenceAllUser() {
-      const idol = new Contract();
-      const result = await idol.getTotalEarnByReferenceAllUser();
-      return JSON.parse(result)||0;
-    }
+    // async getBalance() {
+    //   const idol = new Contract();
+    //   const result = await idol.getBalance();
+    //   return JSON.parse(result)||0;
+    // },
+    // async getTotalEarnByShareAllUser() {
+    //   const idol = new Contract();
+    //   const result = await idol.getTotalEarnByShareAllUser();
+    //   return JSON.parse(result)||0;
+    // },
+    // async getTotalEarnByReferenceAllUser() {
+    //   const idol = new Contract();
+    //   const result = await idol.getTotalEarnByReferenceAllUser();
+    //   return JSON.parse(result)||0;
+    // }
 
   },
   async created() {
@@ -117,7 +111,7 @@ export default {
 	background-repeat: no-repeat;
 	width: 100%;
 	/*padding-top: 43.5%;*/
-	padding-top: 50%;
+	padding-top: 20%;
 	position: relative;
 	text-align: center;
 }
@@ -138,7 +132,6 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-	padding-top: 33%;
   /*background-color: #ccc;*/
 }
 .cardbtn {
@@ -148,9 +141,7 @@ export default {
         display: block;
     margin-bottom: 30px;
 }
-.columns.is-gapless {
-    margin-top: 290px;
-}
+
 .txt{
   border:  5px solid darkgoldenrod;
   padding: 10px;
@@ -173,7 +164,7 @@ export default {
 }
 .price1{
   border-radius: 8px;
-  width: 400px;
+  width: 300px;
   height: 50px;
   background-color: rgba(249, 137, 137, 0.55);
   margin: 20px;
