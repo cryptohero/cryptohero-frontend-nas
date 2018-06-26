@@ -11,6 +11,7 @@ import InviteVie from '@/views/InviteView';
 import RankingList from '@/views/RankingList';
 import LuckyDraw from '@/views/LuckyDraw';
 import Recommend from '@/views/RecommendView';
+import ExchangeView from '@/views/ExchangeView';
 import AirDrop from '@/views/AirDrop';
 
 Vue.use(Router);
@@ -60,6 +61,12 @@ export default new Router({
       path: '/faq',
       component: FaqView,
     },
+    {
+      name: 'Exchange',
+      path: '/exchange',
+      component: ExchangeView,
+    },
+
     {
       name: 'Privacy',
       path: '/privacy-policy',
