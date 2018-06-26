@@ -43,6 +43,11 @@
           <div class="transform"> {{$t('faq')}} </div>
         </router-link>
 
+        <router-link class="navbar-item"
+                     :to="{ name: 'Exchange'}">
+          <div class="transform"> <!--{{$t('Exchange')}} -->交易所</div>
+        </router-link>
+
         <!-- <router-link class="navbar-item"
                      :to="{ name: 'BirthdayGift'}">
           {{$t('BirthdayGift')}}
