@@ -62,9 +62,9 @@
           <div class="card-content">
             <div class="content is-small">
               <h4 :style="{paddingLeft: '10px', paddingRight: '15px'}">{{item.nickname}} · {{item.name}}
-                <div class="tokenId">拥有者：333</div>
-                <div class="herold">序号：333</div>
-                <div class="price">价钱：333</div>
+                <div>拥有者：333</div>
+                <div>序号：333</div>
+                <div>价钱：333</div>
                 <div class="btnn">购买</div>
               </h4>
               <!-- <ul>
@@ -200,6 +200,38 @@ export default {
 };
 </script>
 <style scoped>
+ .image {
+    background : "";
+     padding: 16%
+    /* border: 8px solid #ecdaa8;
+    border-radius: 8px; */
+}
+.opacitycolumn{
+  fill-opacity: 0;
+}
+.card{
+  font-size: 1.2em;
+  background-color: initial;
+}
+.cardcount {
+	color: #5495c6;
+	font-size: 20px;
+}
+.item-slogan {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.smallcardcharas {
+  position: absolute;
+}
+.btnn{
+padding: 3px;
+float: right;
+background-color: red;
+flex-wrap: wrap;
+
+}
 .cardContainer {
 	background-size: 100%;
 	background-repeat: no-repeat;
@@ -215,6 +247,11 @@ export default {
   left: 0;
 	width: 100%;
 }
+.content h4 {
+  color: #ffc627;
+  font-size: 13px;
+}
+.imageborder8
 .charaimg{
   width: 80%;
     display: block;
@@ -270,48 +307,7 @@ export default {
   line-height: 50px;
   font-size: 18px;
 }
- .image {
-    background : "";
-     padding: 16%
-    /* border: 8px solid #ecdaa8;
-    border-radius: 8px; */
-}
-.opacitycolumn{
-  fill-opacity: 0;
-}
-.content h4 {
-  color: #ffc627;
-  font-size: 13px;
-}
-.imageborder8{
-  border-top: 34px solid #00000000;
-  border-left: 32px solid #00000000;
-  border-bottom: 34px solid #00000000;
-  border-right: 32px solid #00000000;
-}
-.card{
-  font-size: 1.2em;
-  background-color: initial;
-}
-.cardcount {
-	color: #5495c6;
-	font-size: 20px;
-}
-.btnn{
-padding: 3px;
-float: right;
-background-color: red;
-flex-wrap: wrap;
 
-}
-.item-slogan {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-all;
-}
-.smallcardcharas {
-  position: absolute;
-}
 @media screen and (max-width: 500px){
   .cardcharas{
     display: none;
