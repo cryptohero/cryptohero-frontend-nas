@@ -6,9 +6,10 @@
     </div>
     <div v-if="item">
       <div class="back_img">
-        <div class="title">
+        <div class="title11">
           <div class="line1">{{$t('CardDetails')}}</div>
         </div>
+      <div class="back_img2">
         <div class="back_color">
           <div class="title_1">
             <div class="title_2"><b>{{item.nickname}} · {{item.name}}</b></div>
@@ -152,6 +153,7 @@
             </a>
           </div>
         </div>
+       </div>
       </div>
     </div>
     <div v-else>
@@ -440,12 +442,17 @@ export default {
 </script>
 <style scoped>
   .back_img {
-    background: url(/static/assets/card_profile_top.png) no-repeat top, url(/static/assets/card_profile_end.png) no-repeat bottom, url(/static/assets/card_profile.png) repeat-y;
+    background: url(/static/assets/card_profile_top.png) no-repeat top;
     background-size: 100%;
-    padding: 3% 4% 4%;
+    padding: 3% 0% 4%;
 
   }
-
+.back_img2 {
+background: url(/static/assets/card_profile.png) repeat-y ;
+  background-size: 100%;
+  padding-left:4%;
+  padding-right: 4%;
+}
   .back_color {
     padding: 20px;
     display: flex;
@@ -455,7 +462,7 @@ export default {
     justify-content: center;
   }
 
-  .title {
+  .title11{
     width: 100%;
     height: 50px;
     display: flex;
@@ -463,12 +470,13 @@ export default {
   }
 
   .line1 {
-    width: 30%;
+     width: 30%;
     height: 40px;
     float: left;
     color: #f8d195;
-    font-size: 37px;
+    font-size: 32px;
     text-align: center;
+    line-height: 40px;
   }
 
   .title_1 {
@@ -563,10 +571,15 @@ export default {
   }
   @media screen and (max-width: 574px) {
     .line1 {
-      font-size: 27px
+      font-size: 19px;
+    line-height: 20px;
     }
   }
-
+  @media screen and (max-width: 414px) {
+    .title11{
+    height: 23px;
+  }
+}
   @media screen and (max-width: 350px) {
     .line1 {
       font-size: 19px
