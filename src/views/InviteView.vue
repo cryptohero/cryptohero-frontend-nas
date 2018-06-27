@@ -370,6 +370,7 @@ li{
   }
   .line1{
      font-size: 16px;
+     line-height: 14px;
  }
 }
 </style>

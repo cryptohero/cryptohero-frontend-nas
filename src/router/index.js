@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import ItemView from '@/views/ItemView';
 import ListView from '@/views/ListView';
-import LoginView from '@/views/LoginView';
+// import LoginView from '@/views/LoginView';
 import FaqView from '@/views/FaqView';
 import UserView from '@/views/UserView';
 import TermView from '@/views/TermView';
@@ -40,11 +40,11 @@ export default new Router({
       component: AirDrop,
     },
 
-    {
-      name: 'Login',
-      path: '/Login',
-      component: LoginView,
-    },
+    // {
+    //   name: 'Login',
+    //   path: '/Login',
+    //   component: LoginView,
+    // },
 
     {
       name: 'Item',
