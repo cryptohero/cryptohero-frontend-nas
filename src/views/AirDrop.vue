@@ -207,7 +207,7 @@ input{
     border-radius: 5px;
 }
 @media screen and (max-width: 500px) {
-  .display_mobile{
+  #login{
     display: none;
   }
 }

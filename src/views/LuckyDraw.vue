@@ -181,7 +181,7 @@ export default {
     margin: 1rem;
 }
 @media screen and (max-width: 500px) {
-  .display_mobile{
+#login{
     display: none;
   }
 }
