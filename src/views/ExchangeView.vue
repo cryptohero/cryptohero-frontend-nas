@@ -26,16 +26,6 @@
 		  </div>
      </section>
     </div> -->
-       <div class="button-search">
-     <div class="btn-item Btn_Item"  v-show="actionFlag"><el-button type="primary" plain @click.native="ObjecSort('code')">{{$t('Sort1')}}</el-button></div>
-     <div class="btn-item Btn_Item"  v-show="actionFlag"><el-button type="success" plain @click.native="ObjecSort('tokenId')">{{$t('Sort2')}}</el-button></div>
-     <div class="btn-item Btn_Item"  v-show="actionFlag"><el-button type="warning" plain @click.native="ObjecSort('price')">{{$t('Sort3')}}</el-button> </div>
-     <div class="btn-item " style="display: flex; margin-left: 10px;">
-       <el-input :placeholder="$t('Reminder')" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
-    <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
-     </div>
-
-  </div>
     <div class="columns is-multiline is-gapless is-mobile">
     <router-link v-for="item in showitemIds"
                  v-if="item"
@@ -101,10 +91,6 @@ import { toReadablePrice } from '@/util';
 import Contract from '@/contract/cryptohero';
 import superagent from 'superagent';
 import Paginate from 'vuejs-paginate';
-import ElButton from "../../node_modules/element-ui/packages/button/src/button.vue";
-import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
-import '../../node_modules/element-ui/lib/theme-chalk/index.css';
-import { Message } from 'element-ui';
 
 export default {
   name: 'Exchange',
@@ -112,7 +98,6 @@ export default {
     PulseLoader,
     ItemList,
     Paginate,
-    
   },
 
   data() {
@@ -123,17 +108,10 @@ export default {
       total: null,
       pagecount: 0,
       showitemIds: [],
-      actionFlag: true,
     };
   },
 
- components: {
-    Message,
-    ElInput,
-    ElButton,
-    PulseLoader,
-    Paginate,
-  },
+  computed: {},
   asyncComputed: {
 
   },
@@ -173,7 +151,6 @@ export default {
   },
 
   methods: {
-    
     toDisplayedPrice(priceInWei) {
       const readable = toReadablePrice(priceInWei);
       return `${readable.price} ${readable.unit}`;
@@ -236,15 +213,6 @@ export default {
 };
 </script>
 <style scoped>
-.button-search{
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.Btn_Item{
-  float: left;
-  margin-left: 10px;
-}
 .pagination {
   width: 50vw;
   background-color: #fdefac;
