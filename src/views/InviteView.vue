@@ -96,6 +96,13 @@ export default {
       return '请安装钱包插件再来';
     },
   },
+async mounted() {
+  const  contract = new Contract();
+  const  res = await contract.getTotalEarnByReference();
+  if(res !== null){
+    this.items = res.sort(this.compare('balance'));
+  }
+},
   methods: {
     copyFun(){
       var clipboard = new Clipboard('.btn')
