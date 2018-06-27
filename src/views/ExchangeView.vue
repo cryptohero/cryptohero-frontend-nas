@@ -29,7 +29,7 @@
        <div class="button-search">
      <div class="btn-item Btn_Item"  v-show="actionFlag"><el-button type="primary" plain @click.native="ObjecSort('code')">{{$t('Sort1')}}</el-button></div>
      <div class="btn-item Btn_Item"  v-show="actionFlag"><el-button type="success" plain @click.native="ObjecSort('tokenId')">{{$t('Sort2')}}</el-button></div>
-     <div class="btn-item Btn_Item"  v-show="actionFlag"><el-button type="warning" plain @click.native="ObjecSort('price')">{{$t('Sort3')}}</el-button> </div>
+     <div class="btn-item Btn_Item"  v-show="actionFlag"><el-button type="warning" plain @click.native="ObjecSort('value')">{{$t('Sort3')}}</el-button> </div>
      <div class="btn-item " style="display: flex; margin-left: 10px;">
        <el-input :placeholder="$t('Reminder')" prefix-icon="el-icon-search" v-model="heroName" @keyup.enter.native="search()"></el-input>
     <!--<el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>-->
@@ -112,7 +112,6 @@ export default {
     PulseLoader,
     ItemList,
     Paginate,
-    
   },
 
   data() {
@@ -124,6 +123,8 @@ export default {
       pagecount: 0,
       showitemIds: [],
       actionFlag: true,
+      heroName: '',
+      saveitemIds: [],
     };
   },
 
@@ -143,7 +144,7 @@ export default {
 
     superagent.get("https://togetthere.cn/nasapi/hero").end(async (err, res) => {
       var heros = JSON.parse(res.text);
-      console.log(heros);
+
       var herodata = heros.data;
       // var i2 = 0; //control
       
@@ -162,8 +163,9 @@ export default {
         result[i] = contract.getCardInfoByHeroId(herodata[i].heroId, herodata[i].tokenId, herodata[i].price);
         result[i].value = herodata[i].price;
       }
-
+      console.log(result);
       this.itemIds = result;
+      this.saveitemIds = result;
       this.loading = false;
 
       this.pagecount = Math.ceil(this.itemIds.length/8);
@@ -213,24 +215,55 @@ export default {
     clickCallback: function(pageNum) {
       this.showitemIds = this.itemIds.slice((pageNum-1)*8,pageNum*8);
     },
+    queryAll() {
+      this.itemIds = this.saveitemIds;
+      this.showitemIds = this.saveitemIds.slice(0, 8);
+      this.pagecount = Math.ceil(this.saveitemIds.length / 8);
+    },
+    search() {
+      if(!this.heroName) {
+        this.queryAll();
+      } else {
+        this.queryResult('code');
+      }
+    },
     queryResult(name) {
-      // var res = [];
-      // for(let i = 0; i < this.itemIds.length ; i++) {
-      //   if(this.heroName === this.allCardsInfo[i].name) {
-      //     res.push(this.allCardsInfo[i]);
-      //   }
-      // }
-      // this.allCardsInfo = res.sort(this.compare(name));
-      // this.cardlist = this.allCardsInfo.slice(0,8);
-      // this.pagecount = Math.ceil(this.allCardsInfo.length/8);
+      var res = [];
+      for(let i = 0; i < this.itemIds.length ; i++) {
+        console.log(this.heroName + "," + this.itemIds[i].name);
+        if(this.heroName === this.itemIds[i].name) {
+          res.push(this.itemIds[i]);
+        }
+      }
+      this.itemIds = res.sort(this.compare(name));
+      this.showitemIds = this.itemIds.slice(0,8);
+      this.pagecount = Math.ceil(this.itemIds.length/8);
     },
     ObjecSort(name) {
-      // if(!this.heroName) {
-      //   this.allCardsInfo = this.saveData;
-      // }
-      // this.allCardsInfo.sort(this.compare(name));
-      // this.cardlist = this.allCardsInfo.slice(0,8);
-      // this.pagecount = Math.ceil(this.allCardsInfo.length/8);
+      if(!this.heroName) {
+        this.itemIds = this.saveitemIds;
+      }
+      console.log("objectsorting");
+      this.itemIds.sort(this.compare(name));
+      this.showitemIds = this.itemIds.slice(0,8);
+      this.pagecount = Math.ceil(this.itemIds.length/8);
+    },
+    compare(prop) {
+      return function (obj1, obj2) {
+        var val1 = obj1[prop];
+        var val2 = obj2[prop];
+        if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+          val1 = Number(val1);
+          val2 = Number(val2);
+        }
+        if (val1 < val2) {
+          return -1;
+        } else if (val1 > val2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
     },
   },
 };
