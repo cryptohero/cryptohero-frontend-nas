@@ -3,15 +3,14 @@
     <img class="logo_big" src="/static/assets/big_logo.png">
     <nav class="navbar is-light">
       <div class="navbar-brand">
-        <img  class="logo" src="/static/assets/logo.png">
-         <router-link class="navbar-item"
-                     :to="{ name: 'LuckyDraw'}">
-          <div class="transform"> {{$t('luckydraw')}} </div>
-        </router-link>
-         
+        <img  class="logo" src="/static/assets/logo.png"> 
         <router-link class="navbar-item ff" style={opacity:0.5}
                      :to="{ name: 'Home'}">
          <div class="transform">{{$t('CryptoHero')}}</div>
+        </router-link>
+         <router-link class="navbar-item"
+                     :to="{ name: 'LuckyDraw'}">
+          <div class="transform"> {{$t('luckydraw')}} </div>
         </router-link>
         <router-link v-if="!me"
                      class="navbar-item"
@@ -37,15 +36,13 @@
                      :to="{ name: 'RankingList'}">
           <div class="transform">{{$t('Ranking')}}</div>
         </router-link>
-
-        <router-link class="navbar-item"
-                     :to="{ name: 'FAQ'}">
-          <div class="transform"> {{$t('faq')}} </div>
-        </router-link>
-
         <router-link class="navbar-item"
                      :to="{ name: 'Exchange'}">
           <div class="transform"> <!--{{$t('Exchange')}} -->交易所</div>
+        </router-link>
+         <router-link class="navbar-item"
+                     :to="{ name: 'FAQ'}">
+          <div class="transform"> {{$t('faq')}} </div>
         </router-link>
 
         <!-- <router-link class="navbar-item"
