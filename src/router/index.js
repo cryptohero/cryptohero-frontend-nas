@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import ItemView from '@/views/ItemView';
 import ListView from '@/views/ListView';
-import LoginView from '@/views/LoginView';
+// import LoginView from '@/views/LoginView';
 import FaqView from '@/views/FaqView';
 import UserView from '@/views/UserView';
 import TermView from '@/views/TermView';
@@ -11,6 +11,7 @@ import InviteVie from '@/views/InviteView';
 import RankingList from '@/views/RankingList';
 import LuckyDraw from '@/views/LuckyDraw';
 import Recommend from '@/views/RecommendView';
+import ExchangeView from '@/views/ExchangeView';
 import AirDrop from '@/views/AirDrop';
 
 Vue.use(Router);
@@ -39,11 +40,11 @@ export default new Router({
       component: AirDrop,
     },
 
-    {
-      name: 'Login',
-      path: '/Login',
-      component: LoginView,
-    },
+    // {
+    //   name: 'Login',
+    //   path: '/Login',
+    //   component: LoginView,
+    // },
 
     {
       name: 'Item',
@@ -60,6 +61,12 @@ export default new Router({
       path: '/faq',
       component: FaqView,
     },
+    {
+      name: 'Exchange',
+      path: '/exchange',
+      component: ExchangeView,
+    },
+
     {
       name: 'Privacy',
       path: '/privacy-policy',

@@ -201,7 +201,7 @@ export default {
 }
 .columns.is-gapless:last-child {
 
-   margin-top: 585px;
+   margin-top: 655px;
 }
 
 }

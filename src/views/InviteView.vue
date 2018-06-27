@@ -2,7 +2,8 @@
     <div class="back_img">
         <div class="title11">
             <div class="line1">{{$t('inviteFirend')}}</div>
-        </div>
+      </div>
+       <div class="back_img2">
         <div class="back_color">
             <div class="title_1">
                 <div class="title_2"><b>{{$t('title')}}</b></div>
@@ -55,6 +56,9 @@
                 </div>
             </div>
         </div>
+
+       </div>
+
     </div>
 </template>
 <script>
@@ -171,10 +175,15 @@ async mounted() {
 <style scoped>
 .back_img {
   background: url(/static/assets/card_profile_top.png) no-repeat top,
-    url(/static/assets/card_profile_end.png) no-repeat bottom,
-    url(/static/assets/card_profile.png) repeat-y;
+    url(/static/assets/card_profile_end.png) no-repeat bottom;
   background-size: 100%;
-  padding: 3% 4% 4%;
+  padding: 3% 0% 4%;
+}
+.back_img2 {
+background: url(/static/assets/card_profile.png) repeat-y ;
+  background-size: 100%;
+  padding-left:4%;
+  padding-right: 4%;
 }
 .back_color {
   width: 100%;
@@ -361,5 +370,14 @@ li{
 }
 .time, .time1{
   width: 200px;
+}
+ @media screen and (max-width: 414px) {
+    .title11{
+    height: 23px;
+  }
+  .line1{
+     font-size: 16px;
+     line-height: 14px;
+ }
 }
 </style>
