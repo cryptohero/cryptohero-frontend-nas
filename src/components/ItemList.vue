@@ -34,7 +34,7 @@
           <div class="card-content">
             <div class="content is-small">
               <h4 :style="{paddingLeft: '10px', paddingRight: '15px'}">{{item.nickname}} · {{item.name}}
-                <div class="btnn">{{$t('Details')}}</div>
+                <div class="btnn">查看详情</div>
               </h4>
               <!-- <ul>
                 <li>{{$t('Owner')}}：

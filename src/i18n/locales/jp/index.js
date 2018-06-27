@@ -19,6 +19,7 @@ module.exports = {
   ranking:'ランキング',
   key:'ワーレットキー',
   KeyAddress: 'ワーレットアドレス',
+  Herocoin: '水滸貨',
   Collect: 'コレクション',
   time:'合成時間',
   Owner: '所有者',
@@ -93,5 +94,6 @@ module.exports = {
   CurrentContractBalance: '現在の契約残高(nas)：',
   TotalBonus: '総配当金(nas)：',
   TotalRecommendRebate: 'お勧めになる(nas)：',
+  AllSet: 'すべてのカード',
   Recomment: '「スターウォーターマージン」は、中国の有名な4つの小説「The Water Margin」をテーマにしたカード型のブロックチェーンゲームで、合計2100万枚のカードを持ち、スマートな契約書に書かれています。 各カードには固有の番号があり、各取引はチェーン上で利用できます。 プレイヤーがカードを購入するとカードを所有し、自由に交換して再販することができます。108ウォーター・マーシャル・ヒーローズを集めたプレイヤーは大賞を獲得します。',
 };

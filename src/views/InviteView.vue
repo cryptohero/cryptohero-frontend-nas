@@ -2,7 +2,8 @@
     <div class="back_img">
         <div class="title11">
             <div class="line1">{{$t('inviteFirend')}}</div>
-        </div>
+      </div>
+       <div class="back_img2">
         <div class="back_color">
             <div class="title_1">
                 <div class="title_2"><b>{{$t('title')}}</b></div>
@@ -15,22 +16,22 @@
                 <div class="btn" :data-clipboard-text="myRefferalLink" @click.native="copyFun">{{$t('Linkcpy')}}</div>
             </div>
 
-            <div class="invitelist">
-                <ul>
-                    <li class="ul1">{{$t('InvitedMan')}}</li>
+            <div class="ranking-ul">
+              <ul style=" background-color:#97ceea; height: 50px; border: 3px solid #a48554;border-radius: 40px;background-color: #e8cc97;">
+                    <li class="rank1" >{{$t('InvitedMan')}}</li>
                     <!-- <li class="ul2">抽卡数量</li> -->
-                    <li class="ul3">{{$t('BlockHight')}}</li>
-                    <li class="ul4">{{$t('RebateAmount')}}</li>
+                    <li class="key1" >{{$t('BlockHight')}}</li>
+                    <li class="time1">{{$t('RebateAmount')}}</li>
                 </ul>
             </div>
                   <!-- <p> Display {{getReferralHistory}} </p> -->
 
-            <div class="invitelist" v-for="item in getReferralHistory" :key="item.id">
+            <div class="ranking-ul" v-for="item in items" :key="item.id">
                   <ul>
                     <!-- <li class="ul2"> {{ item.referer }}</li> -->
-                    <li class="ul1"> {{ item.to }}</li>
-                    <li class="ul3"> {{ item.blockHeight }}</li>
-                    <li class="ul4"> {{ item.cut }}</li>
+                    <li class="rank"> {{ item.to }}</li>
+                    <li class="key"> {{ item.blockHeight }}</li>
+                    <li class="time"> {{ item.cut }}</li>
                   </ul>
 
             </div>
@@ -55,6 +56,9 @@
                 </div>
             </div>
         </div>
+
+       </div>
+
     </div>
 </template>
 <script>
@@ -164,10 +168,15 @@ export default {
 <style scoped>
 .back_img {
   background: url(/static/assets/card_profile_top.png) no-repeat top,
-    url(/static/assets/card_profile_end.png) no-repeat bottom,
-    url(/static/assets/card_profile.png) repeat-y;
+    url(/static/assets/card_profile_end.png) no-repeat bottom;
   background-size: 100%;
-  padding: 3% 4% 4%;
+  padding: 3% 0% 4%;
+}
+.back_img2 {
+background: url(/static/assets/card_profile.png) repeat-y ;
+  background-size: 100%;
+  padding-left:4%;
+  padding-right: 4%;
 }
 .back_color {
   width: 100%;
@@ -307,5 +316,61 @@ input {
     margin-top: 10px;
     margin-left: 6px;
   }
+}
+.ranking-ul{
+  width: 100%;
+  height: 60px;
+  display:flex;
+  justify-content: center
+}
+.ranking-ul ul{
+  height: 60px;
+  margin: 0px auto;
+  border-bottom: 1px solid #97ceea;
+}
+li{
+  text-align: center;
+  float:left ;
+  font-size: 18px;
+}
+.rank1, .id1, .key1, .time1{
+  margin-top: 16px;
+  height: 30px;
+}
+
+.rank, .id ,.key, .time{
+  height: 60px;
+}
+.id ,.key,.time{
+  margin-top: 17px;
+}
+
+.rank, .rank1{
+  width: 80px;
+  margin-left: 30px;
+}
+.rank{
+  line-height: 60px;
+}
+.id, .id1{
+  width: 150px;
+}
+.id{
+  margin-top: 25px;
+}
+.key, .key1{
+  width: 400px;
+}
+.time, .time1{
+  width: 200px;
+}
+ @media screen and (max-width: 414px) {
+    .title11{
+    height: 23px;
+  }
+  .line1{
+     font-size: 16px;
+     line-height: 14px;
+ }
 }
 </style>

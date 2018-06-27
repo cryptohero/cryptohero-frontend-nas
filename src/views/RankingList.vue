@@ -1,8 +1,9 @@
 <template>
   <div class="back_img">
-    <div class="title">
+    <div class="title11">
       <div class="line1">{{$t('Ranking')}}</div>
     </div>
+   <div class="back_img2">
     <div class="back">
       <div class="title-line">
 
@@ -11,17 +12,22 @@
         <ul style=" background-color:#97ceea; height: 50px; border: 3px solid #a48554;border-radius: 40px;background-color: #e8cc97;">
           <li class="rank1" style=" line-height: 25px;">{{$t('ranking')}}</li>
           <li class="key1" > {{$t('KeyAddress')}}</li>
-          <li class="time1" >水浒币</li>
+          <li class="time1" >{{$t('Herocoin')}}</li>
         </ul>
       </div>
       <div  v-for="( item, index ) in items" :key="item.holder" class="ranking-ul">
         <ul>
           <li v-bind:id="'ranking'+index" class="rank"> <b>{{ index+1 }}</b></li>
-          <li class="key"> {{ item.holder}}</li>
+          <li class="key">
+            <router-link :to="{ name: 'User', params:{address: item.owner}}">
+              {{ item.holder.slice(-6).toUpperCase()}}
+            </router-link>
+          </li>
           <li class="time"> {{ item.balance }}</li>
         </ul>
       </div>
     </div>
+   </div>
   </div>
 </template>
 <script>
@@ -129,10 +135,15 @@ export default {
  .back_img{
      /* height: 1200px; */
      background: url(/static/assets/card_profile_top.png) no-repeat top ,
-     url(/static/assets/card_profile_end.png) no-repeat bottom,
-     url(/static/assets/card_profile.png) repeat-y ;
+     url(/static/assets/card_profile_end.png) no-repeat bottom;
     background-size: 100%;
-    padding:4% 4% 4%;
+  padding: 3% 0% 4%;
+}
+.back_img2 {
+background: url(/static/assets/card_profile.png) repeat-y ;
+  background-size: 100%;
+  padding-left:4%;
+  padding-right: 4%;
 }
 .back{
     padding: 40px;
@@ -142,7 +153,7 @@ export default {
      display: flex;
      justify-content: center;
 }
-.title{
+.title11{
      width: 100%;
      height: 50px;
      display: flex;
@@ -303,7 +314,15 @@ export default {
     }
 
 }
-
+ @media screen and (max-width: 414px) {
+    .title11{
+    height: 23px;
+  }
+  .line1{
+     
+     font-size: 17px;
+}
+ }
 /* @media screen and (max-width: 1060px) {
      .time, .time1{
          display: none;

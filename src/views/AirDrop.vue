@@ -1,8 +1,8 @@
 <template lang="pug">
   .containera
     #login(v-if="!me")
-      h1| {{$t('Content1')}} （<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" style="color:#FFFF00" target="_blank">{{$t('Content2')}}</a>，<a href="https://nano.nebulas.io/index_cn.html" style="color:#FFFF00" target="_blank">Nas nano</a>）
-      h3| {{$t('Content3')}}
+      h1.display_mobile| {{$t('Content1')}} （<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" style="color:#FFFF00" target="_blank">{{$t('Content2')}}</a>，<a href="https://nano.nebulas.io/index_cn.html" style="color:#FFFF00" target="_blank">Nas nano</a>）
+      h3.display_mobile| {{$t('Content3')}}
     #draw(v-if="me")
             section.hero.head
               .hero-body
@@ -205,5 +205,10 @@ input{
     outline: none;
     border: 2px solid #fff8df;
     border-radius: 5px;
+}
+@media screen and (max-width: 500px) {
+  #login{
+    display: none;
+  }
 }
 </style>
