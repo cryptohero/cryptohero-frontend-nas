@@ -26,6 +26,11 @@
 		  </div>
      </section>
     </div> -->
+     <div class="button-search" style="margin-left: 30px; margin-bottom: 30px;">
+     <div class="btn-item Btn-Item"  v-show="actionFlag"><el-button type="primary" plain @click.native="ObjecSort('code')">{{$t('Sort1')}}</el-button></div>
+     <div class="btn-item Btn-Item"  v-show="actionFlag"><el-button type="success" plain @click.native="ObjecSort('tokenId')">{{$t('Sort2')}}</el-button></div>
+     <div class="btn-item"  v-show="actionFlag"><el-button type="warning" plain @click.native="ObjecSort('price')">{{$t('Sort3')}}</el-button> </div>
+  </div>
     <div class="columns is-multiline is-gapless is-mobile">
     <router-link v-for="item in showitemIds"
                  v-if="item"
@@ -91,6 +96,10 @@ import { toReadablePrice } from '@/util';
 import Contract from '@/contract/cryptohero';
 import superagent from 'superagent';
 import Paginate from 'vuejs-paginate';
+import ElButton from "../../node_modules/element-ui/packages/button/src/button.vue";
+import ElInput from "../../node_modules/element-ui/packages/input/src/input.vue";
+import '../../node_modules/element-ui/lib/theme-chalk/index.css';
+import { Message } from 'element-ui';
 
 export default {
   name: 'Exchange',
@@ -108,10 +117,17 @@ export default {
       total: null,
       pagecount: 0,
       showitemIds: [],
+      actionFlag: true,
     };
   },
 
-  computed: {},
+ components: {
+    Message,
+    ElInput,
+    ElButton,
+    PulseLoader,
+    Paginate,
+  },
   asyncComputed: {
 
   },
@@ -224,6 +240,10 @@ export default {
   padding-left: 20px;
   border-radius: 30px;
   border: 3px #9a7039 solid;
+}
+.Btn-Item{
+  margin-bottom: 30px;
+  float: left;
 }
  .image {
     background : "";
