@@ -367,12 +367,10 @@ export default {
       return `http://test.cdn.hackx.org/cardback/cardback.png`;
     },
     lightShow: function(id) {
-      // console.log(id+"qwwwww"+this.lightisShow[id])
       this.lightisShow[id] = true;
       this.$forceUpdate();
     },
     lightunShow: function(id) {
-      // console.log(id+"qwwwww"+this.lightisShow[id])
       this.lightisShow[id] = false;
       this.$forceUpdate();
     },
@@ -393,7 +391,6 @@ export default {
           this.$http.post(this.$store.getters.getServerURL+'addrankshuihunas.php', formData)
             .then((response) => {
               const res = response.body;
-              console.log(res);
             });
         }
       // }, 30000);
@@ -403,7 +400,7 @@ export default {
    /* for(var i=0;i<cardsInfo().length;i++){
       this.lightisShow[i] = false;
     }*/
-    console.log('created');
+    // console.log('created');
   },
   computed: {
     ...mapState({

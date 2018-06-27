@@ -163,7 +163,7 @@ export default {
         result[i] = contract.getCardInfoByHeroId(herodata[i].heroId, herodata[i].tokenId, herodata[i].price);
         result[i].value = herodata[i].price;
       }
-      console.log(result);
+
       this.itemIds = result;
       this.saveitemIds = result;
       this.loading = false;
@@ -230,7 +230,6 @@ export default {
     queryResult(name) {
       var res = [];
       for(let i = 0; i < this.itemIds.length ; i++) {
-        console.log(this.heroName + "," + this.itemIds[i].name);
         if(this.heroName === this.itemIds[i].name) {
           res.push(this.itemIds[i]);
         }
@@ -243,7 +242,6 @@ export default {
       if(!this.heroName) {
         this.itemIds = this.saveitemIds;
       }
-      console.log("objectsorting");
       this.itemIds.sort(this.compare(name));
       this.showitemIds = this.itemIds.slice(0,8);
       this.pagecount = Math.ceil(this.itemIds.length/8);
