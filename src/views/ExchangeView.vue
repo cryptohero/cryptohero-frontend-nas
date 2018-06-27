@@ -116,14 +116,7 @@ export default {
 
   },
   async created() {
-    const contrat = new Contract();
-
-    // const  total = await contrat.getTotalSupply();
-    // if(total === 0 ){
-    //   this.loading = false;
-    //   return ;
-    // }
-
+    const contract = new Contract();
     var ids = [];
 
     superagent.get("https://togetthere.cn/nasapi/hero").end(async (err, res) => {
@@ -138,9 +131,13 @@ export default {
         // if(i2 > 12) break; //control
       }
 
-      const result = await contrat.getCarInfoByTokenId(ids);
-      console.log(result);
-      for (let i = 0; i < ids.length ; i++) {
+      const result = [];
+      for (var i = 0; i < ids.length ; i++) {
+        result.push({});
+        result[i] = {};
+        // result[i].code = herodata[i].heroId;
+        // result[i].tokenId = herodata[i].tokenId;
+        result[i] = contract.getCardInfoByHeroId(herodata[i].heroId, herodata[i].tokenId, herodata[i].price);
         result[i].value = herodata[i].price;
       }
 
@@ -150,12 +147,6 @@ export default {
       this.pagecount = Math.ceil(this.itemIds.length/8);
       this.showitemIds = this.itemIds.slice(0,8);
     });
-
-    // let start = total - 12;
-    // for (let i = total; i >= start ; --i) {
-    //   ids.push(i);
-    // }
-
     
   },
 
@@ -198,6 +189,25 @@ export default {
     },
     clickCallback: function(pageNum) {
       this.showitemIds = this.itemIds.slice((pageNum-1)*8,pageNum*8);
+    },
+    queryResult(name) {
+      // var res = [];
+      // for(let i = 0; i < this.itemIds.length ; i++) {
+      //   if(this.heroName === this.allCardsInfo[i].name) {
+      //     res.push(this.allCardsInfo[i]);
+      //   }
+      // }
+      // this.allCardsInfo = res.sort(this.compare(name));
+      // this.cardlist = this.allCardsInfo.slice(0,8);
+      // this.pagecount = Math.ceil(this.allCardsInfo.length/8);
+    },
+    ObjecSort(name) {
+      // if(!this.heroName) {
+      //   this.allCardsInfo = this.saveData;
+      // }
+      // this.allCardsInfo.sort(this.compare(name));
+      // this.cardlist = this.allCardsInfo.slice(0,8);
+      // this.pagecount = Math.ceil(this.allCardsInfo.length/8);
     },
   },
 };
