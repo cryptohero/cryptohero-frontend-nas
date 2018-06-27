@@ -12,6 +12,8 @@
         <ul style=" background-color:#97ceea; height: 50px; border: 3px solid #a48554;border-radius: 40px;background-color: #e8cc97;">
           <li class="rank1" style=" line-height: 25px;">{{$t('ranking')}}</li>
           <li class="key1" > {{$t('KeyAddress')}}</li>
+          <li class="key1">{{$t('bonus')}}</li>
+          <li class="key1">{{$t('recommendNas')}}</li>
           <li class="time1" >{{$t('Herocoin')}}</li>
         </ul>
       </div>
@@ -23,6 +25,8 @@
               {{ item.holder.slice(-6).toUpperCase()}}
             </router-link>
           </li>
+          <li class="key"></li>
+          <li class="key"></li>
           <li class="time"> {{ item.balance }}</li>
         </ul>
       </div>
@@ -32,6 +36,8 @@
 </template>
 <script>
 import Contract from '../contract/cryptohero';
+import LinkIdol from '@/contract/cryptohero';
+
   export default {
     name: 'RankingList',
     data(){
@@ -53,6 +59,18 @@ import Contract from '../contract/cryptohero';
         this.items = res.sort(this.compare('balance'));
       }
     },
+
+  // async getTotalEarnByShare() {
+  //   const idol = new LinkIdol();
+  //   const result = await idol.getTotalEarnByShare(this.address);
+  //   return JSON.parse(result)||0;
+  // },
+  // async getTotalEarnByReference() {
+  //   const idol = new LinkIdol();
+  //   const result = await idol.getTotalEarnByReference(this.address);
+  //   return JSON.parse(result)||0;
+  // },
+
     methods: {
       compare(prop) {
         return function (obj1, obj2) {
@@ -71,7 +89,7 @@ import Contract from '../contract/cryptohero';
           }
         }
       }
-    }
+    },
   }
 
 </script>
@@ -202,8 +220,8 @@ background: url(/static/assets/card_profile.png) repeat-y ;
 }
 
 .rank, .rank1{
-     width: 60px;
-     margin-left: 30px;
+     width: 100px;
+     margin-left: 50px;
 }
 .rank{
      line-height: 60px;
@@ -215,10 +233,10 @@ background: url(/static/assets/card_profile.png) repeat-y ;
      margin-top: 25px;
 }
 .key, .key1{
-     width: 400px;
+     width: 180px;
 }
 .time, .time1{
-     width: 200px;
+     width: 150px;
 }
  #back2:nth-child(even){
      background-color: #ccecf8;

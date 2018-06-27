@@ -36,7 +36,23 @@ export default class LinkIdolContract extends Contract {
       // network: 'testnet',
     });
   }
-
+  getCardInfoByHeroId(id, tkId, prices, claim) {
+    const basic = heroProfile[id];
+    const status = heroStatus[id];
+    if (!basic) {
+      console.error(`error detected id is ${id}`);
+    }
+    const cardImage = {
+      code: id,
+      front: `http://test.cdn.hackx.org/heros_new/${id}.jpeg`,
+      back: `http://test.cdn.hackx.org/backs_new/${id}.jpeg`,
+    };
+  
+    const res = Object.assign(basic, cardImage, status, prices);
+    const result = Object.assign({ tokenId: tkId, claimed: claim }, res);
+    return result;
+    // return basic;
+  }
   async draw(referrer = '', value) {
     const t = this.call({
       functionName: 'draw',
