@@ -308,9 +308,17 @@ export default {
     queryResult(name) {
       var res = [];
       for(let i = 0; i < this.allCardsInfo.length ; i++) {
-        if(this.heroName === this.allCardsInfo[i].name) {
+        if(this.allCardsInfo[i].name.indexOf(this.heroName) != -1){
           res.push(this.allCardsInfo[i]);
+          continue;
         }
+        if(this.allCardsInfo[i].nickname.indexOf(this.heroName) != -1){
+          res.push(this.allCardsInfo[i]);
+          continue;
+        }
+        // if( === ) {
+        //   res.push(this.allCardsInfo[i]);
+        // }
       }
       this.allCardsInfo = res.sort(this.compare(name));
       this.cardlist = this.allCardsInfo.slice(0,8);

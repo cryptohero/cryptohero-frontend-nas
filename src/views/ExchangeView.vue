@@ -230,9 +230,17 @@ export default {
     queryResult(name) {
       var res = [];
       for(let i = 0; i < this.itemIds.length ; i++) {
-        if(this.heroName === this.itemIds[i].name) {
+        if(this.itemIds[i].name.indexOf(this.heroName) != -1){
           res.push(this.itemIds[i]);
+          continue;
         }
+        if(this.itemIds[i].nickname.indexOf(this.heroName) != -1){
+          res.push(this.itemIds[i]);
+          continue;
+        }
+        // if(this.heroName === this.itemIds[i].name) {
+        //   res.push(this.itemIds[i]);
+        // }
       }
       this.itemIds = res.sort(this.compare(name));
       this.showitemIds = this.itemIds.slice(0,8);
