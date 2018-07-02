@@ -1,7 +1,7 @@
 <template lang="pug">
   .containera
     #login(v-if="!me")
-      h1.display_mobile| {{$t('Content1')}} （<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" style="color:#FFFF00" target="_blank">{{$t('Content2')}}</a>，<a href="https://nano.nebulas.io/index_cn.html" style="color:#FFFF00" target="_blank">Nas nano</a>）
+      h1.display_mobile| {{$t('Content1')}} （<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" style="" target="_blank">{{$t('Content2')}}</a>，<a href="https://nano.nebulas.io/index_cn.html" style="" target="_blank">Nas nano</a>）
       h3.display_mobile| {{$t('Content3')}}
     #draw()
             section.hero.head
@@ -176,13 +176,22 @@ export default {
 <style scoped>
 #draw{
     background: #ecdaa8;
+    border-radius: 8px;
 }
 .buttons {
     margin: 1rem;
 }
-/* @media screen and (max-width: 500px) {
+
 #login{
-    display: none;
+    width: 100%;
+    height: 93px;
+    padding: 22px;
+    background-color: #ecdaa8;
+    font-size: 20px;
+    margin-bottom: 27px;
+    border-radius: 8px;
   }
-} */
+#login a{
+  color: brown;
+}
 </style>
