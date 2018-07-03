@@ -21,12 +21,12 @@ export default new Router({
   routes: [
     {
       name: 'Home',
-      path: '/',
+      path: '/home',
       component: ListView,
     },
     {
       name: 'LuckyDraw',
-      path: '/draw',
+      path: '/',
       component: LuckyDraw,
     },
     {

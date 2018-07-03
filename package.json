@@ -19,7 +19,7 @@
     "nebpay.js": "^0.2.0",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
-    "superagent": "^3.8.2",
+    "superagent": "^4.0.0-alpha.1",
     "timeout-then": "^1.1.0",
     "vue": "^2.5.2",
     "vue-async-computed": "^3.3.1",

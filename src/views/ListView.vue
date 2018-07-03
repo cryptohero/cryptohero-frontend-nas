@@ -91,6 +91,10 @@ export default {
     for (let i = total; i >= start ; --i) {
       ids.push(i);
     }
+ /*   let ids = [];
+    for (let i = 12; i > 0 ; --i) {
+      ids.push(i);
+    }*/
     //通过tokenId图片相关信息
 //    const result = await contrat.getCarInfoByTokenId(itemIds);
     const result = await contrat.getCarInfoByTokenId(ids);
