@@ -108,7 +108,7 @@ export default {
       return `${readable.price} ${readable.unit}`;
     },
     drawClicked() {
-      var href="/#/draw";
+      var href="/draw";
       window.location.href = href;
     }
   },
