@@ -7,6 +7,7 @@ module.exports = {
   'My Cards': 'My Collection',
   'Sign In': 'Sign In',
   Home: 'Home',
+  Exchange: 'Exchange',
   FAQs: 'FAQs',
   Owner: 'Owner:',
   isClaimed: 'Is Claimed:',

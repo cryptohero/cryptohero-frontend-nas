@@ -7,6 +7,7 @@ module.exports = {
   'My Cards': 'カード',
   'Sign In': 'コレクション',
   Home: 'ホームページ',
+  Exchange: 'Exchange',
   FAQs: '推薦計画',
   Ranking: 'ランキング',
   firendLink: '招待リンク',

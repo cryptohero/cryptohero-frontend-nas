@@ -40,7 +40,7 @@
         </router-link>
         <router-link class="navbar-item"
                      :to="{ name: 'Exchange'}">
-          <div class="transform"> <!--{{$t('Exchange')}} -->交易所</div>
+          <div class="transform"> {{$t('Exchange')}}</div>
         </router-link>
         <router-link class="navbar-item"
                      :to="{ name: 'FAQ'}">
