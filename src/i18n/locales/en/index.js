@@ -8,6 +8,8 @@ module.exports = {
   'Sign In': 'Sign In',
   Home: 'Home',
   Exchange: 'Exchange',
+  ownerCards: 'Total cards',
+  giveCards: 'Give Cards',
   FAQs: 'FAQs',
   Owner: 'Owner:',
   isClaimed: 'Is Claimed:',

@@ -21,7 +21,7 @@
         <ul>
           <li v-bind:id="'ranking'+index" class="rank"> <b>{{ index+1 }}</b></li>
           <li class="key">
-            <router-link :to="{ name: 'User', params:{address: item.owner}}">
+            <router-link :to="{ name: 'User', params:{address: item.holder}}">
               {{ item.holder.slice(-6).toUpperCase()}}
             </router-link>
           </li>
@@ -337,7 +337,7 @@ background: url(/static/assets/card_profile.png) repeat-y ;
     height: 23px;
   }
   .line1{
-     
+
      font-size: 17px;
 }
  }

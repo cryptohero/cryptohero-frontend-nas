@@ -16,7 +16,7 @@
     </div><br>
       <div class="">
         <h2 class="title" style="color: aliceblue"> {{profile.nickname}} {{$t('Collect')}} </h2>
-        <p class="useraddress">{{$t('Content4')}}{{total}} / 108 {{$t('CardUnit')}} | 抽卡总数：{{allCardsCount}} {{$t('CardUnit')}}<el-button id="btn" type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
+        <p class="useraddress">{{$t('Content4')}}{{total}} / 108 {{$t('CardUnit')}} | {{$t('ownerCards')}}：{{allCardsCount}} {{$t('CardUnit')}}<el-button id="btn" type="success" round @click.native="claim()">{{$t('Finished')}}</el-button> </p>
         <p class="useraddress"> {{$t('key')}} {{address}}</p>
       </div>
     </div>

@@ -8,6 +8,8 @@ module.exports = {
   'Sign In': 'コレクション',
   Home: 'ホームページ',
   Exchange: 'Exchange',
+  ownerCards: 'Total cards',
+  giveCards: 'Give Cards',
   FAQs: '推薦計画',
   Ranking: 'ランキング',
   firendLink: '招待リンク',
