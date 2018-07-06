@@ -37,7 +37,7 @@
                             h2.subtitle| {{$t('H2Content2')}}
                 .column
                       button.button.is-primary.is-large(@click="draw")| {{$t('Fight')}}
-                      
+
 
 </template>
 
@@ -74,7 +74,7 @@ export default {
     getDisplayTotal() {
       // return new BigNumber(this.getPrice).times(this.count).toNumber();
       const d = new BigNumber(0.00001); // for mainnet
-      // const d = new BigNumber(0.00000000000000001); // for testnet
+//       const d = new BigNumber(0.0000000000000000000000000000000000000001); // for testnet
       const a0 = new BigNumber(this.getPrice);
       const n = new BigNumber(this.count);
       return a0.times(n).plus((n.minus(1)).times(n).times(d).div(2));

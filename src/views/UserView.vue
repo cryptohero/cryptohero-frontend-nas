@@ -195,7 +195,6 @@ export default {
     async cardsInfo() {
       const idol = new LinkIdol();
       const result = await idol.getUserCards(this.address);
-      console.error(result)
       this.loading = false;
       //是否兑换
       this.allCardsInfo = result.sort(this.compare('code'));
@@ -217,8 +216,6 @@ export default {
       this.uniqueNum = this.unique(rsp);
      this.total =  this.uniqueNum.length;
      var final = []
-      console.error(rnum)
-      console.error(rt)
       const finalNum = this.unique(rnum);
       this.finalNums = finalNum;
 
@@ -230,7 +227,6 @@ export default {
           }
        }
      }
-     console.error(final)
       this.saveData = final;
       this.cardlist = final.slice(0,8);
       this.pagecount = Math.ceil(final.length/8);
@@ -282,7 +278,6 @@ export default {
       }
       const contract = new LinkIdol();
       const result = await contract.claim();
-      console.error("claimres:"+result);
       if (result != "cancel") {
         this.rankAfterClaim(result);
       }
@@ -357,7 +352,6 @@ export default {
       }
     },
     gotoCoinProfile(em) {
-      console.error(em);
 
       if(this.actionFlag){
         this.$router.push({ path: `/item/${em.tokenId}/${em.code}`});

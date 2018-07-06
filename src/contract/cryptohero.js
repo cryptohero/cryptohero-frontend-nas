@@ -29,11 +29,11 @@ function getCardInfoByHeroId(id, tkId, prices, claim) {
 export default class LinkIdolContract extends Contract {
   constructor() {
     super({
-      contractAddress: 'n1gDfiiQLEBu95xDWHGxNi4qToyXjD2vE4D',
-      network: 'mainnet',
-
-      // contractAddress: 'n1gDfiiQLEBu95xDWHGxNi4qToyXjD2vE4D',
-      // network: 'testnet',
+   /*   contractAddress: 'n1gDfiiQLEBu95xDWHGxNi4qToyXjD2vE4D',
+      network: 'mainnet',*/
+//n1xr5fRAuKVQ9ZQFj2LQ3yrd5V2NKWqj6hp n22RPbrx2HQLyz933nyFNWmrvKUvH8xesRy n1gwhEts7zLJhNQHawgZfkkygofhhX1vrZG
+      contractAddress: 'n1tMAfxPSuzvwANukUXdG5Rw98zPoS7HjKx',
+      network: 'testnet',
     });
   }
   getCardInfoByHeroId(id, tkId, prices, claim) {
@@ -47,7 +47,7 @@ export default class LinkIdolContract extends Contract {
       front: `http://test.cdn.hackx.org/heros_new/${id}.jpeg`,
       back: `http://test.cdn.hackx.org/backs_new/${id}.jpeg`,
     };
-  
+
     const res = Object.assign(basic, cardImage, status, prices);
     const result = Object.assign({ tokenId: tkId, claimed: claim }, res);
     return result;
@@ -211,7 +211,7 @@ export default class LinkIdolContract extends Contract {
   async setTokenPrice({ tokenId, value }) {
     const result = await this.send(
       {
-        functionName: 'setTokenPrice',
+        functionName: 'setTokenPriceOfCards', //modifed by Dawn
         data: [tokenId, Number(value)],
       });
     return JSON.parse(result);
