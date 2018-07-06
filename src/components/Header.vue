@@ -38,8 +38,6 @@
                      :to="{ name: 'RankingList'}">
           <div class="transform">{{$t('Ranking')}}</div>
         </router-link>
-
-
         <router-link class="navbar-item"
                      :to="{ name: 'Exchange'}">
           <div class="transform"> <!--{{$t('Exchange')}} -->交易所</div>
