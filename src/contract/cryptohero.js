@@ -3,10 +3,10 @@ import { NasTool } from '@/api';
 import heroProfile from '@/config/cards.json';// '@/heroProfile.json';
 import heroStatus from '../../static/herostatu.json';
 import Contract from './contract';
+import 'nasa.js/dist/nasa';
 
-import NebPay from 'nebpay.js';
 
-const nebPay = new NebPay();
+const nebPay = new Nasa.NebPay();
 
 function getCardInfoByHeroId(id, tkId, prices, claim) {
   const basic = heroProfile[id];
@@ -47,7 +47,7 @@ export default class LinkIdolContract extends Contract {
       front: `http://test.cdn.hackx.org/heros_new/${id}.jpeg`,
       back: `http://test.cdn.hackx.org/backs_new/${id}.jpeg`,
     };
-  
+
     const res = Object.assign(basic, cardImage, status, prices);
     const result = Object.assign({ tokenId: tkId, claimed: claim }, res);
     return result;
