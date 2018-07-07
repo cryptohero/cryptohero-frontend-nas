@@ -5,8 +5,8 @@ import heroStatus from '../../static/herostatu.json';
 import Contract from './contract';
 import 'nasa.js/dist/nasa';
 
-
-const nebPay = new Nasa.NebPay();
+const { NebPay } = Nasa;
+const nebPay = new NebPay();
 
 function getCardInfoByHeroId(id, tkId, prices, claim) {
   const basic = heroProfile[id];
@@ -29,11 +29,11 @@ function getCardInfoByHeroId(id, tkId, prices, claim) {
 export default class LinkIdolContract extends Contract {
   constructor() {
     super({
-      contractAddress: 'n1gDfiiQLEBu95xDWHGxNi4qToyXjD2vE4D',
-      network: 'mainnet',
-
-      // contractAddress: 'n1gDfiiQLEBu95xDWHGxNi4qToyXjD2vE4D',
-      // network: 'testnet',
+      /*   contractAddress: 'n1gDfiiQLEBu95xDWHGxNi4qToyXjD2vE4D',
+      network: 'mainnet', */
+      // n1xr5fRAuKVQ9ZQFj2LQ3yrd5V2NKWqj6hp n22RPbrx2HQLyz933nyFNWmrvKUvH8xesRy n1gwhEts7zLJhNQHawgZfkkygofhhX1vrZG
+      contractAddress: 'n1tMAfxPSuzvwANukUXdG5Rw98zPoS7HjKx',
+      network: 'testnet',
     });
   }
   getCardInfoByHeroId(id, tkId, prices, claim) {
@@ -211,7 +211,7 @@ export default class LinkIdolContract extends Contract {
   async setTokenPrice({ tokenId, value }) {
     const result = await this.send(
       {
-        functionName: 'setTokenPrice',
+        functionName: 'setTokenPriceOfCards', // modifed by Dawn
         data: [tokenId, Number(value)],
       });
     return JSON.parse(result);

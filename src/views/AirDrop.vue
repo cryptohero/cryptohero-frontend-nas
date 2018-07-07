@@ -12,7 +12,7 @@
                       h2.subtitle| {{$t('H2Title3')}}
                       h1.title| {{ getPrice }} NAS / {{$t('CardUnit')}}
             .container
-                h4.text|赠送卡牌
+                h4.text|{{$t('giveCards')}}
                   input(v-model="to" placeholder="你要送给的地址")
                 .buttons(style="width: 18rem")
                   a.button.is-primary(@click="setQty(1)")|{{$t('Gift')}} 1 {{$t('CardUnit')}}
