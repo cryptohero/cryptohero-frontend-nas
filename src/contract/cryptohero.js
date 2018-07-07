@@ -29,11 +29,11 @@ function getCardInfoByHeroId(id, tkId, prices, claim) {
 export default class LinkIdolContract extends Contract {
   constructor() {
     super({
-      /*   contractAddress: 'n1gDfiiQLEBu95xDWHGxNi4qToyXjD2vE4D',
-      network: 'mainnet', */
+      contractAddress: 'n1gDfiiQLEBu95xDWHGxNi4qToyXjD2vE4D',
+      network: 'mainnet',
       // n1xr5fRAuKVQ9ZQFj2LQ3yrd5V2NKWqj6hp n22RPbrx2HQLyz933nyFNWmrvKUvH8xesRy n1gwhEts7zLJhNQHawgZfkkygofhhX1vrZG
-      contractAddress: 'n1tMAfxPSuzvwANukUXdG5Rw98zPoS7HjKx',
-      network: 'testnet',
+      // contractAddress: 'n1tMAfxPSuzvwANukUXdG5Rw98zPoS7HjKx',
+      // network: 'testnet',
     });
   }
   getCardInfoByHeroId(id, tkId, prices, claim) {
