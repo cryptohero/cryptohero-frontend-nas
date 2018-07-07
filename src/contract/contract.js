@@ -1,5 +1,5 @@
 import request from 'superagent';
-import '../../node_modules/nasa.js/dist/nasa';
+import 'nasa.js/dist/nasa';
 // import NebPay from 'nebpay.js';
 
 const nebPay = new Nasa.NebPay();
