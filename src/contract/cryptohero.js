@@ -3,10 +3,10 @@ import { NasTool } from '@/api';
 import heroProfile from '@/config/cards.json';// '@/heroProfile.json';
 import heroStatus from '../../static/herostatu.json';
 import Contract from './contract';
+import 'nasa.js/dist/nasa';
 
-import NebPay from 'nebpay.js';
 
-const nebPay = new NebPay();
+const nebPay = new Nasa.NebPay();
 
 function getCardInfoByHeroId(id, tkId, prices, claim) {
   const basic = heroProfile[id];
