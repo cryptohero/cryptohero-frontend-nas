@@ -211,7 +211,7 @@ export default class LinkIdolContract extends Contract {
   async setTokenPrice({ tokenId, value }) {
     const result = await this.send(
       {
-        functionName: 'setTokenPriceOfCards', // modifed by Dawn
+        functionName: 'setTokenPrice',
         data: [tokenId, Number(value)],
       });
     return JSON.parse(result);
