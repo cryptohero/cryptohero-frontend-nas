@@ -27,7 +27,7 @@ module.exports = {
   Collect: '的收藏',
   time:'合成时间',
   Owner: '拥有者：',
-  isClaimed: '是否兑奖',
+  isClaimed: '是否兑奖：',
   'Current Price': '当前价格',
   Buy: '购买',
   BirthdayGift: '智取生辰纲(HOT)',
