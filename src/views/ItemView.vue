@@ -120,11 +120,11 @@
               </li>
                <li>
                 <div class="text">
-                    {{item.claimed}}
+                    {{item.claimed?'Yes':'No'}}
                 </div>
               </li>
 
-              <li>
+              <li style="top: 20px">
                 <div class="text"><input onkeyup="value=value.replace(/[^\d.]/g,'')" style="width: 50px" :disabled="!editFlag" v-model="heroPrice" >Nas
                   <div class="butt">
                     <el-popover
@@ -271,6 +271,7 @@ export default {
     async item() {
       const contract = new Contract();
       const result = await contract.getCardInfoByTokenId(this.$route.params.id);
+      console.error(result)
       this.loading = false;
       return result;
     },
