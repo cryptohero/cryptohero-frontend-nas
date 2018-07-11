@@ -1,6 +1,6 @@
 <template>
 <div class="back">
-    <!-- <img src="/static/assets/recommend.png"> -->
+     <!--<img src="/static/assets/recommend.png">-->
 <div class="name">
     <b>{{hero.name}}・{{hero.nickname}}</b>
 </div>
@@ -39,12 +39,9 @@ export default {
 
 <style  scoped>
 .back{
-
-    background: url(/static/assets/recommend.png) no-repeat center;
+    background: url(/static/assets/Recommend.png) no-repeat center;
     width: 100%;
     height: 600px;
-
-
 }
 .name{
     width: 100%;
@@ -84,7 +81,7 @@ b{
     justify-content: center;
 }
 .text11{
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .text11 b{
     font-size: 17px;

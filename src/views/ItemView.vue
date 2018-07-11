@@ -347,8 +347,11 @@ export default {
     createMark(num){
       var QRCode = require('qrcode')
       var thiz = this;
-//      const links =window.location.host+'/#/Recommend/'+ this.$route.params.code + '/'+ num  ; 待完善
-      const links = `http://test.cdn.hackx.org/heros_new/${this.$route.params.code}.jpeg`
+//      const links =window.location.host+'/#/Recommend/'+ this.$route.params.code + '/'+ num  ; //待完善
+      const links ='https://nas.cryptohero.pro/#/Recommend/'+ this.$route.params.code + '/'+ num  ;
+//      const links = `http://test.cdn.hackx.org/heros_new/${this.$route.params.code}.jpeg`
+//      const  links = `https://nas.cryptohero.pro/#/Recommend/42/0`;
+
       QRCode.toDataURL(links, function (err, url) {
         thiz.uri = url;
         return url;
